@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feira da Matemática - PIBID UFAL</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+
+    <style>
+        /* --- ESTILOS GERAIS E VARIÁVEIS --- */
+        :root {
+            --azul-escuro: #0f172a; 
+            --azul-principal: #1e40af; 
+            --azul-claro: #3b82f6; 
+            --azul-fundo: #eff6ff; 
+            --branco: #ffffff;
+            --cinza-texto: #333333;
+            --verde-sucesso: #10b981;
+            --vermelho-erro: #ef4444;
+            --amarelo-alerta: #f59e0b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        body { background-color: var(--azul-fundo); color: var(--cinza-texto); display: flex; flex-direction: column; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- MODAL DE ALERTA --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);
+            z-index: 2000; display: none; justify-content: center; align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-box {
+            background: white; width: 90%; max-width: 400px; padding: 30px;
+            border-radius: 15px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            transform: scale(0.9); animation: scaleUp 0.3s ease forwards;
+            position: relative; border-top: 6px solid var(--azul-principal);
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes scaleUp { to { transform: scale(1); } }
+
+        .modal-icon { font-size: 60px; margin-bottom: 15px; display: block; }
+        .modal-titulo { font-size: 1.4rem; font-weight: 700; color: var(--azul-escuro); margin-bottom: 10px; }
+        .modal-mensagem { font-size: 1rem; color: #666; margin-bottom: 25px; line-height: 1.5; }
+        
+        .modal-btn {
+            background: var(--azul-principal); color: white; border: none; padding: 12px 30px;
+            border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer;
+            transition: 0.2s; width: 100%; box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+        }
+        .modal-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(30, 64, 175, 0.4); }
+
+        .tipo-sucesso .modal-icon { color: var(--verde-sucesso); }
+        .tipo-sucesso { border-color: var(--verde-sucesso); }
+        .tipo-sucesso .modal-btn { background: var(--verde-sucesso); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+        
+        .tipo-erro .modal-icon { color: var(--vermelho-erro); }
+        .tipo-erro { border-color: var(--vermelho-erro); }
+        .tipo-erro .modal-btn { background: var(--vermelho-erro); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); }
+
+        .protocolo-box {
+            background: var(--azul-fundo); border: 2px dashed var(--azul-claro);
+            padding: 10px; margin: 10px 0 20px 0; border-radius: 8px;
+            font-family: monospace; font-size: 1.2rem; font-weight: bold; color: var(--azul-principal);
+        }
+
+        /* --- MODAL VISUALIZADOR DE FOTOS (LIGHTBOX) --- */
+        #modal-imagem-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 3000;
+            display: none; 
+            justify-content: center; align-items: center; flex-direction: column;
+            animation: fadeIn 0.3s ease;
+        }
+        .img-container-full {
+            position: relative;
+            max-width: 90%;
+            max-height: 85vh;
+        }
+        #img-ampliada {
+            width: auto; height: auto; max-width: 100%; max-height: 85vh;
+            border-radius: 5px; box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #caption-ampliada {
+            color: white; margin-top: 15px; font-size: 1.1rem; text-align: center; font-weight: 500;
+        }
+        .btn-fechar-img {
+            position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; cursor: pointer; user-select: none; transition: 0.2s;
+        }
+        .btn-fechar-img:hover { color: var(--amarelo-alerta); transform: scale(1.1); }
+        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* --- LÓGICA DE TROCA DE PÁGINAS --- */
+        .pagina-conteudo { display: none; animation: surgir 0.5s ease-out; padding-bottom: 40px; }
+        .pagina-conteudo.ativa { display: block; }
+        @keyframes surgir { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- LAYOUT GERAL --- */
+        .top-bar { background-color: var(--azul-escuro); color: var(--branco); padding: 8px 5%; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
+        header { background-color: var(--branco); padding: 15px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+        .logo-area { display: flex; align-items: center; gap: 25px; }
+        .header-logo { height: 75px; width: auto; object-fit: contain; transition: transform 0.2s; }
+        .header-logo:hover { transform: scale(1.05); }
+        .site-title { border-left: 2px solid #ccc; padding-left: 20px; margin-left: 10px; }
+        .site-title h1 { color: var(--azul-principal); font-size: 1.6rem; text-transform: uppercase; letter-spacing: 1px; line-height: 1.1; }
+        .site-title p { color: #666; font-size: 0.85rem; font-weight: 600; margin-top: 5px; }
+
+        nav { background-color: white; width: 100%; border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; padding: 10px 0; position: relative; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; justify-content: center; z-index: 100; }
+        nav ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 0; margin: 0; }
+        nav ul li a { cursor: pointer; display: block; padding: 10px 20px; color: #555; font-weight: 600; font-size: 0.95rem; transition: all 0.3s ease; text-transform: capitalize; border-radius: 6px; }
+        nav ul li a:hover:not(.menu-ativo) { background-color: #f3f4f6; color: var(--azul-principal); }
+        nav ul li a.menu-ativo { background-color: var(--azul-principal); color: white; }
+
+        .container-padrao { max-width: 1000px; margin: 40px auto; background: white; padding: 40px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        h2.titulo-secao { color: var(--azul-principal); border-bottom: 3px solid var(--azul-claro); padding-bottom: 10px; margin-bottom: 30px; font-size: 2rem; }
+        .text-content p { margin-bottom: 20px; line-height: 1.6; font-size: 1.1rem; color: #444; text-align: justify; }
+        .objectives-list { margin: 20px 0; padding-left: 20px; }
+        .objectives-list li { margin-bottom: 10px; list-style-type: disc; color: var(--azul-escuro); font-size: 1.05rem; }
+
+        .hero { width: 100%; height: 420px; background: linear-gradient(135deg, #002b5c, #00509d); display: flex; align-items: center; justify-content: center; color: white; text-align: center; position: relative; margin-top: 0; z-index: 1; }
+        .hero-content h2 { font-size: 2.8rem; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .hero-content p { font-size: 1.2rem; margin-bottom: 20px; opacity: 0.9; }
+        .hero button { background-color: #fbbf24; color: #1a202c; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.1rem; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4); transition: 0.3s; }
+        .hero button:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(251, 191, 36, 0.6); }
+
+        .quick-access { padding: 0 5%; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; margin-top: -60px; position: relative; z-index: 10; }
+        .card-icon { background: white; padding: 35px 20px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); text-align: center; border-top: 5px solid var(--azul-claro); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
+        .card-icon:hover { transform: translateY(-12px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); background: linear-gradient(to bottom, #ffffff, #f8fafc); }
+        .card-icon h3 { color: var(--azul-principal); margin: 15px 0 5px 0; }
+        .icon-box { font-size: 2.5rem; color: var(--azul-claro); }
+
+        .news-section { padding: 80px 5%; }
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; }
+        .section-title { font-size: 1.8rem; color: var(--azul-escuro); border-left: 6px solid var(--azul-principal); padding-left: 15px; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .news-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #f0f0f0; }
+        .news-card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .news-img { height: 200px; background-color: #cbd5e1; display: flex; align-items: center; justify-content: center; color: #64748b; }
+        .news-img img { width: 100%; height: 100%; object-fit: cover; }
+        .news-content { padding: 25px; }
+        .news-date { font-size: 0.75rem; color: var(--azul-claro); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .news-content h4 { margin: 12px 0; color: var(--azul-escuro); font-size: 1.1rem; line-height: 1.4; }
+
+        /* --- PROGRAMAÇÃO --- */
+        .programacao-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: start; }
+        .schedule-item { border-left: 5px solid var(--azul-claro); padding-left: 20px; margin-bottom: 30px; }
+        .time { font-weight: bold; color: var(--azul-principal); font-size: 1.1rem; }
+        .calendar-wrapper { background: #fff; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); width: 100%; border: 1px solid #eee; }
+        .calendar-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 25px 10px; }
+        .calendar-header .current-date { font-size: 1.2rem; font-weight: 600; color: var(--azul-escuro); text-transform: capitalize; }
+        .calendar-header .icons span { height: 35px; width: 35px; cursor: pointer; color: #878787; text-align: center; line-height: 35px; font-size: 1.5rem; border-radius: 50%; user-select: none; font-family: 'Material Symbols Rounded'; }
+        .calendar-header .icons span:hover { background: #f2f2f2; }
+        .calendar { padding: 15px; }
+        .calendar ul { display: flex; flex-wrap: wrap; list-style: none; text-align: center; }
+        .calendar .weeks { margin-bottom: 10px; }
+        .calendar .weeks li { font-weight: 500; width: calc(100% / 7); font-size: 0.9rem; }
+        .calendar .days li { z-index: 1; cursor: pointer; position: relative; width: calc(100% / 7); margin-top: 25px; font-size: 0.9rem; }
+        .calendar .days li.inactive { color: #aaa; }
+        .calendar .days li.active { color: #fff; }
+        .calendar .days li::before { position: absolute; content: ""; left: 50%; top: 50%; height: 35px; width: 35px; z-index: -1; border-radius: 50%; transform: translate(-50%, -50%); }
+        .calendar .days li.active::before { background: var(--azul-principal); }
+        .calendar .days li:not(.active):hover::before { background: #f2f2f2; }
+        
+        /* Event Bubbles (Future/Past) */
+        .calendar .days li.event-future::before { background: #22c55e !important; } /* Green */
+        .calendar .days li.event-past::before { background: #ef4444 !important; }   /* Red */
+        .calendar .days li.event-future, .calendar .days li.event-past { color: white !important; }
+        /* Ensure today+event prioritizes valid event color if needed, or stick to blue for today. 
+           User asked for green if future OR today. So !important above helps override .active logic if both classes exist.
+           But usually .active comes first. Let's make sure event classes override active background. */
+
+
+        /* --- GALERIA DE FOTOS --- */
+        .galeria-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; padding: 20px 0; }
+        .galeria-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.3s ease; cursor: pointer; }
+        .galeria-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        .galeria-img { width: 100%; height: 200px; object-fit: cover; }
+        .galeria-legenda { padding: 15px; font-size: 0.9rem; color: var(--azul-escuro); font-weight: 600; border-top: 1px solid #eee; }
+
+        /* --- INSCRIÇÃO --- */
+        .layout-inscricao { max-width: 1400px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1.8fr 1fr; gap: 25px; align-items: start; }
+        .coluna-esquerda-wrapper { display: flex; flex-direction: column; gap: 25px; }
+        .bloco-regras { background-color: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-left: 5px solid var(--azul-principal); }
+        .bloco-regras h3 { color: var(--azul-escuro); margin-bottom: 15px; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .regras-lista li { margin-bottom: 10px; font-size: 0.9rem; border-bottom: 1px dashed #eee; padding-bottom: 5px; color: #555; }
+        .regras-lista li strong { color: var(--azul-principal); }
+        .mural-observacoes { background-color: #fff9c4; border: 1px solid #fbc02d; padding: 25px; border-radius: 10px; box-shadow: 2px 4px 10px rgba(0,0,0,0.05); position: relative; }
+        .mural-observacoes::before { content: '📌'; position: absolute; top: -12px; right: -10px; font-size: 1.8rem; }
+        .mural-observacoes h4 { color: #f57f17; margin-bottom: 15px; text-transform: uppercase; border-bottom: 2px solid #fdd835; padding-bottom: 5px; display: inline-block; font-size: 1rem; }
+        .mural-observacoes p { font-size: 0.9rem; color: #555; line-height: 1.4; margin-bottom: 10px; }
+        .caixa-branca-central { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .bloco-submissao { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-top: 5px solid var(--verde-sucesso); transition: all 0.3s ease; }
+        .bloco-submissao.bloqueado { opacity: 0.6; pointer-events: none; filter: grayscale(1); position: relative; }
+        .aviso-bloqueio { display: none; background: rgba(0,0,0,0.8); color: white; padding: 10px; border-radius: 5px; text-align: center; font-size: 0.8rem; margin-bottom: 15px; }
+        .bloco-submissao.bloqueado .aviso-bloqueio { display: block; }
+        .bloco-submissao h3 { color: #065f46; font-size: 1.1rem; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .bloco-submissao label { font-size: 0.9rem; font-weight: 600; color: #444; margin-bottom: 5px; display: block; margin-top: 10px;}
+        .bloco-submissao input, .bloco-submissao textarea { border: 1px solid #ccc; background: #fafafa; }
+        .bloco-submissao input:focus, .bloco-submissao textarea:focus { border-color: var(--verde-sucesso); background: white; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); }
+        .btn-download { display: block; width: 100%; padding: 10px; margin-bottom: 10px; font-size: 0.85rem; background: #eee; border: none; border-radius: 4px; cursor: pointer; text-align: left; }
+        .btn-download:hover { background: #ddd; }
+
+        /* --- CONTATO --- */
+        .layout-contato { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; max-width: 1200px; margin: 0 auto; }
+        .social-card { display: flex; align-items: center; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 20px; text-decoration: none; color: #333; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border-left: 6px solid transparent; position: relative; top: 0; }
+        .social-card:hover { transform: translateY(-5px); box-shadow: 0 12px 20px rgba(0,0,0,0.15), 0 5px 10px rgba(0,0,0,0.05); }
+        .card-instagram { border-left-color: #E1306C; } .card-youtube { border-left-color: #FF0000; } .card-whatsapp { border-left-color: #25D366; } .card-facebook { border-left-color: #1877F2; }
+        .social-icon { width: 32px; height: 32px; margin-right: 15px; } .social-info strong { display: block; font-size: 1.05rem; color: var(--azul-escuro); } .social-info span { font-size: 0.85rem; color: #666; }
+        .coluna-form-contato { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); }
+        form { display: flex; flex-direction: column; gap: 15px; }
+        input, select, textarea { padding: 12px; border: 1px solid #ccc; border-radius: 5px; width: 100%; font-size: 1rem; transition: 0.3s; }
+        input:focus, select:focus, textarea:focus { border-color: var(--azul-claro); outline: none; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        .campo-preenchido { border-color: var(--verde-sucesso); background-color: #f0fdf4; }
+        button.btn-acao { background: var(--azul-principal); color: white; padding: 15px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
+        button.btn-acao:hover { background: var(--azul-claro); }
+
+        footer { background-color: var(--azul-escuro); color: white; padding: 60px 5% 20px 5%; margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; margin-bottom: 40px; }
+        footer h4 { color: var(--azul-claro); margin-bottom: 20px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; text-align: center; font-size: 0.85rem; color: #94a3b8; }
+
+        /* RESPONSIVIDADE SIDEBARS */
+        @media (max-width: 1400px) { 
+            #a-feira > div[style*="grid-template-columns: 250px"] { 
+                grid-template-columns: 200px 1fr 200px !important; 
+            } 
+        }
+        @media (max-width: 1200px) { 
+            #a-feira > div[style*="grid-template-columns"] { 
+                grid-template-columns: 1fr !important; 
+            }
+            #a-feira aside { display: none !important; }
+        }
+
+        @media (max-width: 1100px) { .layout-inscricao { grid-template-columns: 1fr; max-width: 800px; } .coluna-esquerda-wrapper { margin-bottom: 20px; } .programacao-grid { grid-template-columns: 1fr; } .layout-contato { grid-template-columns: 1fr; } .bloco-regras, .bloco-submissao, .mural-observacoes { margin-bottom: 20px; } }
+        @media (max-width: 900px) { header { justify-content: center; text-align: center; gap: 20px; } .logo-area { flex-wrap: wrap; justify-content: center; } .site-title { border-left: none; padding-left: 0; margin-left: 0; margin-top: 15px; width: 100%; } .hero-content h2 { font-size: 1.8rem; } .container-padrao, .caixa-branca-central, .coluna-form-contato { padding: 20px; } .footer-grid { grid-template-columns: 1fr; text-align: center; } nav ul { flex-direction: row; flex-wrap: wrap; } nav ul li a { padding: 8px 12px; font-size: 0.85rem; } }
+        
+        /* Estilo para Radio Buttons de Busca */
+        .radio-busca {
+            display: flex; justify-content: center; gap: 20px; margin-bottom: 15px;
+        }
+        .radio-busca label { cursor: pointer; display: flex; align-items: center; gap: 5px; font-weight: 500; color: #555; }
+        .radio-busca input { width: auto; margin: 0; cursor: pointer; }
+
+        /* --- RESULTADOS (Grid Vencedores) --- */
+        .grid-vencedores .card-projeto { background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s; }
+        .grid-vencedores .card-projeto:hover { transform: translateY(-5px); }
+
+    /* --- PADRONIZAÇÃO DE CARDS (FEIRA E CALENDÁRIO) --- */
+    .card-padrao {
+        background: white; 
+        border-radius: 12px; 
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08); 
+        width: 100%; 
+        border: 1px solid #eee;
+        padding: 25px;
+        height: 100%; /* Para alinhar altura se estiver em grid */
+    }
+    .card-padrao h3 {
+        color: var(--azul-escuro);
+        margin-bottom: 20px;
+        font-size: 1.2rem;
+        border-bottom: 2px solid var(--azul-claro);
+        padding-bottom: 10px;
+        display: inline-block;
+    }
+    
+    /* Ajuste Calendar Wrapper para usar card-padrao visualmente se necessario, ou remover estilo duplicado */
+    .calendar-wrapper { box-shadow: none; border: none; padding: 0; } 
+    .calendar-events-list { margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px; }
+    .event-item-list { font-size: 0.9rem; color: #555; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .event-item-list::before { content: ''; display: block; width: 6px; height: 6px; background: var(--amarelo-destaque); border-radius: 50%; }
+    </style>
+</head>
+<body>
+
+    <div id="modal-global" class="modal-overlay">
+        <div class="modal-box" id="modal-box-style">
+            <span class="material-symbols-rounded modal-icon" id="modal-icon">check_circle</span>
+            <div class="modal-titulo" id="modal-titulo">Título</div>
+            <div class="modal-mensagem" id="modal-msg">Mensagem aqui</div>
+            <div id="modal-protocolo-container" style="display:none;"></div>
+            <button class="modal-btn" onclick="fecharModal()">ENTENDI</button>
+        </div>
+    </div>
+
+    <div id="modal-imagem-overlay" onclick="fecharModalImagem(event)">
+        <span class="material-symbols-rounded btn-fechar-img" onclick="fecharModalImagem(event)">close</span>
+        <div class="img-container-full">
+            <img id="img-ampliada" src="" alt="Imagem ampliada">
+            <div id="caption-ampliada"></div>
+        </div>
+    </div>
+
+    <div class="top-bar">
+        <span>Portal de Transparência e Eventos Acadêmicos</span>
+        <div><span>Acessibilidade</span> | <span>Contraste</span></div>
+    </div>
+
+    <header>
+        <div class="logo-area">
+            <img src="ufal.webp" alt="Brasão UFAL" class="header-logo">   
+            <img src="brasaoteotoniovilela.png" alt="Logo PIBID" class="header-logo">   
+            <img src="pibid.webp" alt="Brasão Teotônio Vilela" class="header-logo">  
+            <div class="site-title">
+                <h1>FEIRA DA MATEMÁTICA</h1>
+                <p>PIBID - Universidade Federal de Alagoas</p>
+            </div>
+        </div>
+        <div style="display: flex; margin-top: 10px;">
+            <input type="text" placeholder="Pesquisar..." style="padding: 10px; border: 1px solid #ddd; border-radius: 4px 0 0 4px; width: 200px;">
+            <button style="padding: 10px 20px; background: var(--azul-principal); color: white; border: none; border-radius: 0 4px 4px 0; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                <span class="material-symbols-rounded">search</span>
+            </button>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a onclick="navegar('inicio')" id="btn-inicio" class="menu-ativo">Início</a></li>
+            <li><a onclick="navegar('a-feira')" id="btn-a-feira">A Feira</a></li>
+            <li><a onclick="navegar('resultados')" id="btn-resultados">Resultados</a></li>
+            <li><a onclick="navegar('galeria')" id="btn-galeria">Galeria</a></li>
+            <li><a onclick="navegar('inscricoes')" id="btn-inscricoes">Inscrições</a></li>
+            <li><a onclick="navegar('certificados')" id="btn-certificados">Certificados</a></li>
+            <li><a onclick="navegar('contato')" id="btn-contato">Contato</a></li>
+        </ul>
+    </nav>
+
+    <div id="inicio" class="pagina-conteudo ativa">
+        <section class="hero">
+            <div class="hero-content">
+                <h2>MATEMÁTICA EM FOCO</h2>
+                <p>Conectando saberes, inovação e educação pública em Alagoas.</p>
+                <button onclick="navegar('inscricoes')">INSCREVA-SE NO EVENTO</button>
+            </div>
+        </section>
+        <section class="quick-access">
+            <div class="card-icon" onclick="navegar('inscricoes')"><div class="icon-box"><span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--azul-claro);">edit_document</span></div><h3>Edital 2025</h3><p>Regras para submissão</p></div>
+            <div class="card-icon" onclick="navegar('contato')"><div class="icon-box"><span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--azul-claro);">location_on</span></div><h3>Localização</h3><p>Como chegar ao evento</p></div>
+            <div class="card-icon" onclick="window.location.href='admin.html'"><div class="icon-box"><span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--azul-claro);">admin_panel_settings</span></div><h3>Página do Monitor</h3><p>Área Restrita</p></div>
+            <div class="card-icon" onclick="navegar('resultados')"><div class="icon-box"><span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--azul-claro);">emoji_events</span></div><h3>Resultados</h3><p>Trabalhos e Vencedores</p></div>
+        </section>
+        <section class="news-section">
+            <div class="section-header">
+                <h2 class="section-title">Destaques e Notícias</h2>
+                <a href="#" style="color: var(--azul-claro); font-weight: bold;">Ver todas as notícias &rarr;</a>
+            </div>
+            <div class="news-grid">
+                <article class="news-card" onclick="navegar('a-feira')" style="cursor: pointer;">
+                    <div class="news-img"><img src="ev-2025.jpg" alt="Imagem da Feira de 2025"></div>
+                    <div class="news-content"><span class="news-date">20 Dez 2025</span><h4>Sucesso na Última Feira de 2025</h4><p>Confira os detalhes e a programação completa do evento que encerrou o ano com chave de ouro.</p></div>
+                </article>
+                <article class="news-card">
+                    <div class="news-img"><img src="semft" alt="Palestrantes UFAL"></div>
+                    <div class="news-content"><span class="news-date">03 Dez 2025</span><h4>Confirmada a presença de palestrantes da UFAL</h4><p>Professores do Instituto de Matemática trarão oficinas inéditas para os alunos.</p></div>
+                </article>
+                <article class="news-card">
+                    <div class="news-img"><img src="semft" alt="Oficinas UFAL"></div>
+                    <div class="news-content"><span class="news-date">01 Dez 2025</span><h4>Oficinas de Lógica e Matemática</h4><p>Aprenda como integrar tecnologias no ensino básico com kits de robótica educacional.</p></div>
+                </article>
+            </div>
+        </section>
+
+        <!-- NOVA SEÇÃO: COMO FUNCIONA (Timeline) -->
+        <section style="background: #fff; padding: 80px 5%;">
+            <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+                <h2 style="font-size: 2.2rem; color: var(--azul-escuro); margin-bottom: 50px;">Como Participar?</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; position: relative;">
+                    <!-- Linha conectora (apenas visual para desktop) -->
+                    <div style="position: absolute; top: 40px; left: 0; width: 100%; height: 4px; background: #e2e8f0; z-index: 0; display: none;"></div> 
+                    
+                    <div style="position: relative; z-index: 1;">
+                        <div style="width: 80px; height: 80px; background: var(--azul-principal); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; font-size: 2rem; font-weight: bold; box-shadow: 0 4px 10px rgba(30, 64, 175, 0.3);">1</div>
+                        <h4 style="color: var(--azul-escuro); margin-bottom: 10px;">Inscrição</h4>
+                        <p style="color: #666; font-size: 0.9rem;">Preencha o formulário e garanta sua vaga como ouvinte ou apresentador.</p>
+                    </div>
+                    <div style="position: relative; z-index: 1;">
+                        <div style="width: 80px; height: 80px; background: var(--azul-claro); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; font-size: 2rem; font-weight: bold; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);">2</div>
+                        <h4 style="color: var(--azul-escuro); margin-bottom: 10px;">Submissão</h4>
+                        <p style="color: #666; font-size: 0.9rem;">Envie o resumo do seu projeto para análise da comissão científica.</p>
+                    </div>
+                    <div style="position: relative; z-index: 1;">
+                        <div style="width: 80px; height: 80px; background: var(--amarelo-alerta); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; font-size: 2rem; font-weight: bold; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);">3</div>
+                        <h4 style="color: var(--azul-escuro); margin-bottom: 10px;">Apresentação</h4>
+                        <p style="color: #666; font-size: 0.9rem;">No dia do evento, compartilhe suas ideias com a comunidade.</p>
+                    </div>
+                    <div style="position: relative; z-index: 1;">
+                        <div style="width: 80px; height: 80px; background: var(--verde-sucesso); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; font-size: 2rem; font-weight: bold; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);">4</div>
+                        <h4 style="color: var(--azul-escuro); margin-bottom: 10px;">Certificação</h4>
+                        <p style="color: #666; font-size: 0.9rem;">Receba seu certificado e concorra a prêmios incríveis.</p>
+                    </div>
+                </div>
+                <button onclick="navegar('inscricoes')" class="btn-acao" style="margin-top: 50px; padding: 12px 40px;">QUERO ME INSCREVER</button>
+            </div>
+        </section>
+
+        <!-- NOVA SEÇÃO: ESTATÍSTICAS (Impacto) -->
+        <section style="background-color: var(--azul-principal); color: white; padding: 60px 5%; text-align: center;">
+            <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; align-items: center;">
+                <div>
+                    <span class="material-symbols-rounded" style="font-size: 3rem; margin-bottom: 10px; opacity: 0.8;">history_edu</span>
+                    <h3 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 5px;">10+</h3>
+                    <p style="font-size: 1.1rem; opacity: 0.9;">Edições Realizadas</p>
+                </div>
+                <div>
+                    <span class="material-symbols-rounded" style="font-size: 3rem; margin-bottom: 10px; opacity: 0.8;">groups</span>
+                    <h3 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 5px;">5.000+</h3>
+                    <p style="font-size: 1.1rem; opacity: 0.9;">Alunos Impactados</p>
+                </div>
+                <div>
+                    <span class="material-symbols-rounded" style="font-size: 3rem; margin-bottom: 10px; opacity: 0.8;">emoji_events</span>
+                    <h3 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 5px;">200+</h3>
+                    <p style="font-size: 1.1rem; opacity: 0.9;">Projetos Premiados</p>
+                </div>
+                <div>
+                    <span class="material-symbols-rounded" style="font-size: 3rem; margin-bottom: 10px; opacity: 0.8;">school</span>
+                    <h3 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 5px;">50+</h3>
+                    <p style="font-size: 1.1rem; opacity: 0.9;">Escolas Parceiras</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOVA SEÇÃO: CHAMADA PARA A FEIRA -->
+        <section style="padding: 80px 5%; background: white;">
+            <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center;">
+                <div>
+                    <h4 style="color: var(--azul-claro); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Uma Imersão no Conhecimento</h4>
+                    <h2 style="font-size: 2.5rem; color: var(--azul-escuro); margin-bottom: 20px; line-height: 1.2;">Conectando Saberes e Transformando Realidades</h2>
+                    <p style="color: #666; font-size: 1.1rem; line-height: 1.6; margin-bottom: 30px;">
+                        A Feira da Matemática é mais do que um evento; é um movimento. Reunimos estudantes, professores e entusiastas para compartilhar descobertas que vão muito além da sala de aula.
+                    </p>
+                    <div style="display: flex; gap: 15px;">
+                        <button onclick="navegar('a-feira')" class="btn-acao" style="padding: 12px 30px; font-size: 1rem;">VER A PROGRAMAÇÃO</button>
+                    </div>
+                </div>
+                <div style="position: relative;">
+                    <div style="background: var(--azul-fundo); border-radius: 20px; padding: 20px; transform: rotate(3deg);">
+                        <div style="background: #cbd5e1; height: 350px; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                            <img src="teotonio.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Evento Anterior">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOVA SEÇÃO: DEPOIMENTOS (Testimonials) -->
+        <section style="padding: 80px 5%; background: linear-gradient(to bottom, #f8fafc, #ffffff);">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <h2 style="text-align: center; font-size: 2.2rem; color: var(--azul-escuro); margin-bottom: 50px;">O que dizem sobre a Feira</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                    <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative;">
+                        <span style="font-size: 4rem; color: #e2e8f0; position: absolute; top: 10px; left: 10px; line-height: 1;">&ldquo;</span>
+                        <p style="position: relative; z-index: 1; color: #555; font-style: italic; margin-bottom: 20px;">"Participar da Feira mudou minha visão sobre a matemática. Ver os alunos engajados e criativos foi inspirador!"</p>
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div style="width: 50px; height: 50px; background: #ddd; border-radius: 50%;"></div>
+                            <div>
+                                <h4 style="color: var(--azul-principal); margin: 0;">Maria Silva</h4>
+                                <span style="font-size: 0.85rem; color: #999;">Professora da Rede Municipal</span>
+                            </div>
+                        </div>
+                    </div>
+                     <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative;">
+                        <span style="font-size: 4rem; color: #e2e8f0; position: absolute; top: 10px; left: 10px; line-height: 1;">&ldquo;</span>
+                        <p style="position: relative; z-index: 1; color: #555; font-style: italic; margin-bottom: 20px;">"Foi a primeira vez que apresentei um projeto e ganhei o prêmio de melhor ideia inovadora. Foi incrível!"</p>
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div style="width: 50px; height: 50px; background: #ddd; border-radius: 50%;"></div>
+                            <div>
+                                <h4 style="color: var(--azul-principal); margin: 0;">João Pedro</h4>
+                                <span style="font-size: 0.85rem; color: #999;">Aluno do Ensino Médio</span>
+                            </div>
+                        </div>
+                    </div>
+                     <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative;">
+                        <span style="font-size: 4rem; color: #e2e8f0; position: absolute; top: 10px; left: 10px; line-height: 1;">&ldquo;</span>
+                        <p style="position: relative; z-index: 1; color: #555; font-style: italic; margin-bottom: 20px;">"A organização e o nível dos trabalhos apresentados mostram o potencial educativo da nossa região."</p>
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div style="width: 50px; height: 50px; background: #ddd; border-radius: 50%;"></div>
+                            <div>
+                                <h4 style="color: var(--azul-principal); margin: 0;">Dr. Carlos Souza</h4>
+                                <span style="font-size: 0.85rem; color: #999;">Avaliador Convidado</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOVA SEÇÃO: GALERIA PREVIEW -->
+        <section style="padding: 80px 5%; background: #f8fafc;">
+            <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+                <h2 style="font-size: 2.2rem; color: var(--azul-escuro); margin-bottom: 15px;">Momentos Inesquecíveis</h2>
+                <p style="color: #666; max-width: 600px; margin: 0 auto 50px auto;">Confira alguns registros que marcaram nossa história. A emoção da descoberta e a alegria da conquista.</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px;">
+                    <div style="height: 250px; background: #e2e8f0; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                        <img src="ev-2025.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Galeria 1">
+                    </div>
+                    <div style="height: 250px; background: #e2e8f0; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                         <img src="ufal.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Galeria 2">
+                    </div>
+                    <div style="height: 250px; background: #e2e8f0; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                         <img src="pibid.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Galeria 3">
+                    </div>
+                    <div style="height: 250px; background: #e2e8f0; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                         <img src="brasaoteotoniovilela.png" style="width: 100%; height: 100%; object-fit: contain; padding: 20px; background: white;" alt="Galeria 4">
+                    </div>
+                </div>
+
+                <button onclick="navegar('galeria')" style="background: transparent; border: 2px solid var(--azul-principal); color: var(--azul-principal); padding: 12px 40px; border-radius: 50px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 1rem;">
+                    ACESSAR GALERIA COMPLETA
+                </button>
+            </div>
+        </section>
+
+        <!-- NOVA SEÇÃO: REALIZAÇÃO E APOIO (Parceiros) -->
+        <section style="padding: 60px 5%; background: white; border-bottom: 1px solid #eee;">
+            <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+                <h4 style="color: #999; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; font-size: 0.9rem;">Realização e Apoio</h4>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 50px; opacity: 0.7;">
+                    <!-- Logos Fictícios / Placeholders -->
+                    <div style="font-weight: 900; font-size: 1.5rem; color: #333; display: flex; align-items: center; gap: 10px;">
+                        <span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--azul-principal);">school</span>
+                        UFAL
+                    </div>
+                    <div style="font-weight: 900; font-size: 1.5rem; color: #333; display: flex; align-items: center; gap: 10px;">
+                        <span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--verde-sucesso);">science</span>
+                        PIBID
+                    </div>
+                    <div style="font-weight: 900; font-size: 1.5rem; color: #333; display: flex; align-items: center; gap: 10px;">
+                        <span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--amarelo-alerta);">account_balance</span>
+                        CAPES
+                    </div>
+                    <div style="font-weight: 900; font-size: 1.5rem; color: #333; display: flex; align-items: center; gap: 10px;">
+                        <span class="material-symbols-rounded" style="font-size: 2.5rem; color: #64748b;">location_city</span>
+                        Prefeitura
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO: NEWSLETTER -->
+        <section style="background: var(--azul-escuro); padding: 80px 5%; color: white; text-align: center;">
+            <div style="max-width: 600px; margin: 0 auto;">
+                <span class="material-symbols-rounded" style="font-size: 3rem; margin-bottom: 15px; display: block; color: var(--azul-claro);">mail</span>
+                <h2 style="font-size: 2rem; margin-bottom: 15px;">Fique por dentro das novidades</h2>
+                <p style="color: #cbd5e1; margin-bottom: 30px;">Receba atualizações sobre datas, editais e premiados diretamente no seu e-mail.</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                    <input type="email" placeholder="Seu melhor e-mail" style="padding: 15px; border-radius: 8px; border: none; width: 300px; max-width: 100%; outline: none; font-size: 1rem;">
+                    <button style="background: var(--azul-principal); color: white; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s;">INSCREVER</button>
+                </div>
+                <p style="font-size: 0.8rem; margin-top: 15px; opacity: 0.6;">Não enviamos spam. Cancele quando quiser.</p>
+            </div>
+        </section>
+
+        <!-- NOVA SEÇÃO: FAQ (Dúvidas) -->
+        <section style="padding: 80px 5%; background: white;">
+            <div style="max-width: 800px; margin: 0 auto;">
+                <h2 style="text-align: center; font-size: 2.2rem; color: var(--azul-escuro); margin-bottom: 40px;">Dúvidas Frequentes</h2>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <details style="background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; cursor: pointer;">
+                        <summary style="font-weight: bold; color: var(--azul-principal); font-size: 1.1rem; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                            Como recebo meu certificado?
+                            <span class="material-symbols-rounded">expand_more</span>
+                        </summary>
+                        <p style="margin-top: 15px; color: #555; line-height: 1.6;">Os certificados são liberados após a confirmação de presença no evento (mínimo 75%). Você pode baixá-los diretamente na aba "Certificados" usando seu CPF.</p>
+                    </details>
+                    <details style="background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; cursor: pointer;">
+                        <summary style="font-weight: bold; color: var(--azul-principal); font-size: 1.1rem; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                            A inscrição é gratuita?
+                            <span class="material-symbols-rounded">expand_more</span>
+                        </summary>
+                        <p style="margin-top: 15px; color: #555; line-height: 1.6;">Sim! A Feira da Matemática é um evento totalmente público e gratuito, promovido pela UFAL em parceria com a prefeitura.</p>
+                    </details>
+                    <details style="background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; cursor: pointer;">
+                        <summary style="font-weight: bold; color: var(--azul-principal); font-size: 1.1rem; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                            Quem pode apresentar trabalhos?
+                            <span class="material-symbols-rounded">expand_more</span>
+                        </summary>
+                        <p style="margin-top: 15px; color: #555; line-height: 1.6;">Estudantes do ensino fundamental, médio e superior podem submeter projetos, desde que estejam vinculados a uma instituição de ensino.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOVA SEÇÃO: CHAMADA PARA CAMPEÕES -->
+        <section style="padding: 80px 5%; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; text-align: center; position: relative; overflow: hidden;">
+            <div style="position: relative; z-index: 2; max-width: 800px; margin: 0 auto;">
+                <span class="material-symbols-rounded" style="font-size: 4rem; color: #fbbf24; margin-bottom: 20px; display: block;">emoji_events</span>
+                <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Hall da Fama</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9;">
+                    Conheça os projetos que se destacaram e levaram o prêmio máximo. Inspiração para os futuros cientistas.
+                </p>
+                <button onclick="navegar('resultados')" style="background: #fbbf24; color: #0f172a; border: none; padding: 15px 40px; border-radius: 50px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4); transition: transform 0.2s;">
+                    CONHECER OS VENCEDORES
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <div id="a-feira" class="pagina-conteudo">
+        
+        <!-- LAYOUT COM SIDEBARS LATERAIS -->
+        <div style="display: grid; grid-template-columns: 250px 1fr 250px; gap: 20px; max-width: 1600px; margin: 0 auto; padding: 0 20px;">
+            
+            <!-- SIDEBAR ESQUERDA - GALERIA DE FOTOS -->
+            <aside style="position: sticky; top: 20px; height: fit-content;">
+                <div style="background: white; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 4px solid var(--azul-principal);">
+                    <h4 style="color: var(--azul-escuro); margin-bottom: 15px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
+                        <span class="material-symbols-rounded" style="font-size: 1.2rem; color: var(--azul-claro);">photo_library</span>
+                        Momentos da Feira
+                    </h4>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <!-- Foto 1 -->
+                        <div style="position: relative; border-radius: 8px; overflow: hidden; cursor: pointer; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                            <img src="ev-2025.jpg" alt="Feira 2025" style="width: 100%; height: 150px; object-fit: cover;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); padding: 8px; color: white; font-size: 0.75rem; font-weight: 600;">
+                                Abertura 2025
+                            </div>
+                        </div>
+                        
+                        <!-- Foto 2 -->
+                        <div style="position: relative; border-radius: 8px; overflow: hidden; cursor: pointer; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                            <img src="ufal.webp" alt="Campus UFAL" style="width: 100%; height: 150px; object-fit: cover;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); padding: 8px; color: white; font-size: 0.75rem; font-weight: 600;">
+                                Campus UFAL
+                            </div>
+                        </div>
+                        
+                        <!-- Foto 3 -->
+                        <div style="position: relative; border-radius: 8px; overflow: hidden; cursor: pointer; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                            <img src="pibid.webp" alt="Logo PIBID" style="width: 100%; height: 150px; object-fit: contain; background: #f8fafc; padding: 15px;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); padding: 8px; color: white; font-size: 0.75rem; font-weight: 600;">
+                                PIBID UFAL
+                            </div>
+                        </div>
+                        
+                        <!-- Call to Action -->
+                        <a href="#galeria" onclick="navegar('galeria')" style="display: block; background: var(--azul-principal); color: white; text-align: center; padding: 10px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-decoration: none; transition: 0.3s;">
+                            <span class="material-symbols-rounded" style="font-size: 1rem; vertical-align: middle; margin-right: 5px;">collections</span>
+                            Ver Galeria Completa
+                        </a>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- CONTEÚDO CENTRAL -->
+            <main>
+                <!-- PROGRAMAÇÃO MERGEADA AQUI -->
+                <div class="container-padrao" style="max-width: 1200px; margin-bottom: 20px;">
+                    <h2 class="titulo-secao">Programação do Evento</h2>
+                    <div class="programacao-grid">
+                        <!-- Coluna Programação -->
+                        <div class="card-padrao">
+                            <h3>Atividades do Dia</h3>
+                            <div class="schedule-item"><div class="time">08:00 - 09:00</div><div><strong>Credenciamento e Entrega de Kits</strong><br>Recepção dos participantes no hall.</div></div>
+                            <div class="schedule-item"><div class="time">09:00 - 10:30</div><div><strong>Mesa de Abertura</strong><br>Presença do Reitor da UFAL e autoridades.</div></div>
+                            <div class="schedule-item"><div class="time">10:30 - 12:00</div><div><strong>Palestra Magna</strong><br>Dr. João da Silva (IM/UFAL)</div></div>
+                            <div class="schedule-item"><div class="time">14:00 - 17:00</div><div><strong>Apresentação de Trabalhos</strong><br>Salas temáticas 01 a 10.</div></div>
+                        </div>
+                        
+                        <!-- Coluna Calendário -->
+                        <div class="card-padrao" style="padding: 10px;"> <!-- Menos padding para calendário ocupar bem -->
+                            <div class="calendar-wrapper">
+                                <header class="calendar-header">
+                                    <p class="current-date"></p>
+                                    <div class="icons">
+                                        <span id="prev" class="material-symbols-rounded">&lt;</span>
+                                        <span id="next" class="material-symbols-rounded">&gt;</span>
+                                    </div>
+                                </header>
+                                <div class="calendar">
+                                    <ul class="weeks"><li>Dom</li> <li>Seg</li> <li>Ter</li> <li>Qua</li> <li>Qui</li> <li>Sex</li> <li>Sab</li></ul>
+                                    <ul class="days"></ul>
+                                </div>
+                                <div class="calendar-events-list" style="padding: 0 20px 20px 20px;">
+                                    <h4 style="font-size: 1rem; color: var(--azul-principal); margin-bottom: 10px;">Eventos deste Mês</h4>
+                                    <div id="lista-eventos-mes" style="min-height: 50px;">
+                                        <p style="color: #ccc; font-size: 0.85rem;">Nenhum evento.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- SIDEBAR DIREITA - INFORMAÇÕES E FOTOS -->
+            <aside style="position: sticky; top: 20px; height: fit-content;">
+                <div style="background: white; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 4px solid var(--verde-sucesso); margin-bottom: 20px;">
+                    <h4 style="color: var(--azul-escuro); margin-bottom: 15px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
+                        <span class="material-symbols-rounded" style="font-size: 1.2rem; color: var(--verde-sucesso);">info</span>
+                        Informações Rápidas
+                    </h4>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.85rem;">
+                        <div style="display: flex; align-items: start; gap: 8px;">
+                            <span class="material-symbols-rounded" style="font-size: 1.1rem; color: var(--azul-claro);">calendar_today</span>
+                            <div>
+                                <strong style="display: block; color: var(--azul-escuro);">Data</strong>
+                                <span style="color: #666;">Janeiro 2026</span>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; align-items: start; gap: 8px;">
+                            <span class="material-symbols-rounded" style="font-size: 1.1rem; color: var(--azul-claro);">location_on</span>
+                            <div>
+                                <strong style="display: block; color: var(--azul-escuro);">Local</strong>
+                                <span style="color: #666;">Campus UFAL</span>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; align-items: start; gap: 8px;">
+                            <span class="material-symbols-rounded" style="font-size: 1.1rem; color: var(--azul-claro);">group</span>
+                            <div>
+                                <strong style="display: block; color: var(--azul-escuro);">Participantes</strong>
+                                <span style="color: #666;">Bolsistas PIBID</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mini Galeria Direita -->
+                <div style="background: white; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 4px solid var(--amarelo-alerta);">
+                    <h4 style="color: var(--azul-escuro); margin-bottom: 15px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
+                        <span class="material-symbols-rounded" style="font-size: 1.2rem; color: var(--amarelo-alerta);">star</span>
+                        Destaques
+                    </h4>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <!-- Miniatura 1 -->
+                        <div style="position: relative; border-radius: 8px; overflow: hidden; cursor: pointer; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                            <img src="teotonio.webp" alt="Escola Teotônio" style="width: 100%; height: 120px; object-fit: cover;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 6px; color: white; font-size: 0.7rem; font-weight: 600;">
+                                Escola Parceira
+                            </div>
+                        </div>
+                        
+                        <!-- Miniatura 2 -->
+                        <div style="position: relative; border-radius: 8px; overflow: hidden; cursor: pointer; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                            <img src="brasaoteotoniovilela.png" alt="Brasão" style="width: 100%; height: 120px; object-fit: contain; background: #f0f9ff; padding: 10px;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 6px; color: white; font-size: 0.7rem; font-weight: 600;">
+                                Teotônio Vilela
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+        <!-- FIM DO LAYOUT COM SIDEBARS (temporário, vamos reabrir dentro) -->
+        <div class="container-padrao" style="max-width: 1200px;">
+            <h2 class="titulo-secao">UFAL e PIBID: Excelência na Formação Docente e Desafios em 2026</h2>
+            
+            <div class="text-content">
+                <p>A <strong>Universidade Federal de Alagoas (UFAL)</strong>, fundada em 1961, consolidou-se como a principal instituição de ensino superior do estado. Sediada no Campus A.C. Simões, em Maceió, a universidade expandiu sua presença estratégica para o interior, com campi em Arapiraca, Delmiro Gouveia (Sertão), Viçosa, Penedo e Santana do Ipanema.</p>
+                
+                <p>É dentro dessa capilaridade e excelência acadêmica que o <strong>Programa Institucional de Bolsa de Iniciação à Docência (PIBID)</strong> encontra um terreno fértil para transformar a educação básica alagoana.</p>
+
+                <h3 style="color: var(--azul-escuro); margin-top: 40px; margin-bottom: 15px; font-size: 1.6rem;">
+                    <span class="material-symbols-rounded" style="font-size: 1.8rem; vertical-align: middle; margin-right: 10px; color: var(--azul-claro);">school</span>
+                    O Papel do PIBID na Estrutura da UFAL
+                </h3>
+                
+                <p>Como uma instituição que atua fortemente no tripé <strong>ensino, pesquisa e extensão</strong>, a UFAL utiliza o PIBID como uma ferramenta vital para integrar a universidade às redes públicas de ensino. O programa não apenas oferece suporte financeiro aos estudantes, mas fortalece os cursos de licenciatura da instituição (como Pedagogia, Letras, Matemática, entre outros), cumprindo objetivos essenciais:</p>
+
+                <div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 5px solid var(--azul-principal); padding: 25px; border-radius: 10px; margin: 25px 0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                    <h4 style="color: var(--azul-escuro); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <span class="material-symbols-rounded" style="color: var(--azul-principal);">target</span>
+                        Objetivos Estratégicos do PIBID
+                    </h4>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li><strong>Imersão na Realidade Escolar:</strong> O PIBID insere os licenciandos da UFAL no cotidiano das escolas públicas de Alagoas desde o início da graduação, permitindo uma formação teórico-prática robusta.</li>
+                        <li><strong>Valorização Docente:</strong> O programa combate a evasão nos cursos de licenciatura e incentiva a carreira docente através de bolsas atrativas (R$ 700,00 para estudantes e R$ 1.100,00 para supervisores).</li>
+                        <li><strong>Permanência Estudantil:</strong> Em um cenário econômico desafiador, a bolsa do PIBID atua como um mecanismo crucial de manutenção dos estudantes na universidade.</li>
+                    </ul>
+                </div>
+
+                <div style="background: #f0fdf4; border: 2px solid #10b981; padding: 20px; border-radius: 10px; margin: 25px 0;">
+                    <p style="margin: 0; display: flex; align-items: start; gap: 10px;">
+                        <span class="material-symbols-rounded" style="color: #10b981; font-size: 1.5rem; flex-shrink: 0;">verified</span>
+                        <span><strong>Importante:</strong> A partir de 2026, com o anúncio da CAPES de que o PIBID se tornou uma <strong>ação permanente</strong>, os estudantes da UFAL ganham a segurança de que não haverá descontinuidade no apoio entre editais, garantindo estabilidade para a formação de novos professores no estado.</span>
+                    </p>
+                </div>
+
+                <h3 style="color: var(--azul-escuro); margin-top: 40px; margin-bottom: 15px; font-size: 1.6rem;">
+                    <span class="material-symbols-rounded" style="font-size: 1.8rem; vertical-align: middle; margin-right: 10px; color: var(--azul-claro);">calendar_today</span>
+                    Cenário Atual (Janeiro de 2026): Excelência Acadêmica em Meio à Crise
+                </h3>
+
+                <p>O início de 2026 marca um momento paradoxal para a UFAL. Por um lado, a instituição demonstra vigor acadêmico e impacto social; por outro, enfrenta severas restrições orçamentárias.</p>
+
+                <h4 style="color: var(--azul-principal); margin-top: 30px; margin-bottom: 15px; font-size: 1.3rem; display: flex; align-items: center; gap: 10px;">
+                    <span class="material-symbols-rounded">emoji_events</span>
+                    1. Conquistas e Reconhecimento Internacional
+                </h4>
+
+                <p>A UFAL segue provando sua excelência com avanços significativos recentes:</p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 25px 0;">
+                    <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #3b82f6; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                            <span class="material-symbols-rounded" style="color: #3b82f6; font-size: 1.8rem;">public</span>
+                            <strong style="color: var(--azul-escuro);">Internacionalização</strong>
+                        </div>
+                        <p style="margin: 0; font-size: 0.95rem; line-height: 1.6;">Integrou o 2º Colóquio Internacional "Repensar a América Latina" em Portugal (16/01/2026) e enviou estudantes para intercâmbios no Japão (08/01/2026).</p>
+                    </div>
+
+                    <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #10b981; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                            <span class="material-symbols-rounded" style="color: #10b981; font-size: 1.8rem;">lightbulb</span>
+                            <strong style="color: var(--azul-escuro);">Inovação</strong>
+                        </div>
+                        <p style="margin: 0; font-size: 0.95rem; line-height: 1.6;">O Núcleo de Excelência em Tecnologias Sociais (NEES) recebeu importante certificação internacional em 12/01/2026.</p>
+                    </div>
+
+                    <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #f59e0b; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                            <span class="material-symbols-rounded" style="color: #f59e0b; font-size: 1.8rem;">handshake</span>
+                            <strong style="color: var(--azul-escuro);">Compromisso Social</strong>
+                        </div>
+                        <p style="margin: 0; font-size: 0.95rem; line-height: 1.6;">Assinou contratos para compra de alimentos da agricultura familiar (07/01/2026) e selecionou bolsistas para projetos de cultura e bem-estar (19/01/2026).</p>
+                    </div>
+                </div>
+
+                <h4 style="color: var(--vermelho-erro); margin-top: 30px; margin-bottom: 15px; font-size: 1.3rem; display: flex; align-items: center; gap: 10px;">
+                    <span class="material-symbols-rounded">warning</span>
+                    2. O Desafio Financeiro
+                </h4>
+
+                <div style="background: #fef2f2; border: 2px solid var(--vermelho-erro); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                    <p style="margin: 0; display: flex; align-items: start; gap: 10px;">
+                        <span class="material-symbols-rounded" style="color: var(--vermelho-erro); font-size: 1.5rem; flex-shrink: 0;">error</span>
+                        <span>Apesar desses êxitos, reportagens de janeiro de 2026 apontam que a UFAL enfrenta uma <strong>grave crise financeira</strong>. Existe o risco real de interrupção de atividades básicas por falta de recursos de custeio (água, luz, segurança). A reitoria tem se mobilizado junto a outros reitores do Nordeste pleiteando a recomposição orçamentária urgente.</span>
+                    </p>
+                </div>
+
+                <h3 style="color: var(--azul-escuro); margin-top: 40px; margin-bottom: 15px; font-size: 1.6rem;">
+                    <span class="material-symbols-rounded" style="font-size: 1.8rem; vertical-align: middle; margin-right: 10px; color: var(--verde-sucesso);">shield</span>
+                    Conclusão: A Importância da Blindagem do PIBID
+                </h3>
+
+                <p>Neste cenário de incerteza orçamentária da universidade, o <strong>PIBID ganha ainda mais relevância</strong>. Como seus recursos provêm diretamente da CAPES (Governo Federal) e não do orçamento de custeio da universidade, o programa funciona como um <strong>pilar de estabilidade</strong>.</p>
+
+                <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-left: 5px solid var(--verde-sucesso); padding: 25px; border-radius: 10px; margin: 25px 0; box-shadow: 0 4px 10px rgba(16,185,129,0.15);">
+                    <p style="margin: 0; font-size: 1.05rem; line-height: 1.7;">
+                        <strong style="color: var(--azul-escuro);">Enquanto a UFAL luta para manter suas portas abertas e suas luzes acesas, o PIBID garante que a formação dos futuros professores continue protegida</strong>, assegurando que a ponte entre a excelência acadêmica da universidade e as escolas públicas de Alagoas permaneça sólida.
+                    </p>
+                </div>
+
+                <!-- NOVA SEÇÃO: UAB E EDUCAÇÃO A DISTÂNCIA -->
+                <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 15px; padding: 35px; margin: 50px 0; box-shadow: 0 10px 30px rgba(245, 158, 11, 0.2);">
+                    <h3 style="color: var(--azul-escuro); margin-bottom: 20px; font-size: 1.8rem; display: flex; align-items: center; gap: 12px;">
+                        <span class="material-symbols-rounded" style="font-size: 2rem; color: #f59e0b;">cast_for_education</span>
+                        UAB: Levando a UFAL a Todos os Cantos de Alagoas
+                    </h3>
+                    <p style="margin: 0; font-size: 1.1rem; line-height: 1.7; color: #78350f;">
+                        Quando falamos da UFAL, é comum pensarmos nos campi físicos. Mas existe uma <strong>força invisível e poderosa</strong> que rompe as barreiras geográficas: o sistema <strong>UAB (Universidade Aberta do Brasil)</strong>.
+                    </p>
+                </div>
+
+                <h3 style="color: var(--azul-escuro); margin-top: 40px; margin-bottom: 15px; font-size: 1.6rem;">
+                    <span class="material-symbols-rounded" style="font-size: 1.8rem; vertical-align: middle; margin-right: 10px; color: var(--azul-claro);">public</span>
+                    A Força da UAB na UFAL: Democratizando o Ensino
+                </h3>
+
+                <p>A UAB na UFAL não é apenas "aula online". É uma <strong>política pública robusta de interiorização</strong> do ensino superior. Através dos <strong>Polos de Apoio Presencial</strong> espalhados por diversos municípios alagoanos (como São José da Laje, Maragogi, Olho d'Água das Flores, entre outros), a universidade chega onde antes era impossível.</p>
+
+                <div style="background: white; border-radius: 12px; padding: 25px; margin: 25px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 5px solid #06b6d4;">
+                    <h4 style="color: var(--azul-escuro); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <span class="material-symbols-rounded" style="color: #06b6d4;">fact_check</span>
+                        Fatos sobre a UAB/UFAL
+                    </h4>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li><strong>Alcance:</strong> Permite que moradores do interior tenham acesso à mesma qualidade de ensino da capital sem precisarem abandonar suas cidades e famílias.</li>
+                        <li><strong>Inclusão:</strong> Atende um perfil de estudante muitas vezes trabalhador, que precisa da flexibilidade do EAD para conquistar o diploma.</li>
+                        <li><strong>Cursos de Licenciatura:</strong> É um dos maiores formadores de professores do estado, oferecendo cursos como Matemática, Pedagogia, Letras, Física e Biologia na modalidade a distância.</li>
+                    </ul>
+                </div>
+
+                <h3 style="color: var(--azul-escuro); margin-top: 40px; margin-bottom: 15px; font-size: 1.6rem;">
+                    <span class="material-symbols-rounded" style="font-size: 1.8rem; vertical-align: middle; margin-right: 10px; color: var(--azul-principal);">link</span>
+                    PIBID e UAB: Por que essa conexão é vital?
+                </h3>
+
+                <p>Muitas vezes, existe o mito de que o aluno EAD estuda "sozinho". É aqui que o <strong>PIBID</strong> entra como um divisor de águas.</p>
+
+                <p style="font-size: 1.05rem; color: var(--azul-principal); font-weight: 600; margin: 20px 0;">A importância do PIBID para o aluno da UAB/UFAL é gigantesca e estratégica:</p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 30px 0;">
+                    <div style="background: linear-gradient(to bottom right, #eff6ff, #dbeafe); padding: 20px; border-radius: 10px; border-top: 4px solid var(--azul-principal);">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                            <span class="material-symbols-rounded" style="color: var(--azul-principal); font-size: 1.8rem;">groups</span>
+                            <strong style="color: var(--azul-escuro); font-size: 1.1rem;">Quebra do Isolamento</strong>
+                        </div>
+                        <p style="margin: 0; font-size: 0.95rem; line-height: 1.6;">O PIBID tira o aluno da frente do computador e o coloca dentro da escola pública do seu próprio município. Ele deixa de ser um "aluno virtual" para se tornar um futuro colega de trabalho dos professores locais.</p>
+                    </div>
+
+                    <div style="background: linear-gradient(to bottom right, #f0fdf4, #dcfce7); padding: 20px; border-radius: 10px; border-top: 4px solid var(--verde-sucesso);">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                            <span class="material-symbols-rounded" style="color: var(--verde-sucesso); font-size: 1.8rem;">home_pin</span>
+                            <strong style="color: var(--azul-escuro); font-size: 1.1rem;">Teoria e Prática em Casa</strong>
+                        </div>
+                        <p style="margin: 0; font-size: 0.95rem; line-height: 1.6;">O estudante aprende a teoria na plataforma da UFAL e aplica a prática na escola do seu bairro. O conhecimento retorna imediatamente para a comunidade local.</p>
+                    </div>
+
+                    <div style="background: linear-gradient(to bottom right, #fef3c7, #fde68a); padding: 20px; border-radius: 10px; border-top: 4px solid var(--amarelo-alerta);">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                            <span class="material-symbols-rounded" style="color: var(--amarelo-alerta); font-size: 1.8rem;">badge</span>
+                            <strong style="color: var(--azul-escuro); font-size: 1.1rem;">Pertencimento</strong>
+                        </div>
+                        <p style="margin: 0; font-size: 0.95rem; line-height: 1.6;">Ao receber a bolsa e o jaleco do PIBID, o aluno da UAB sente na pele que é parte integrante da UFAL, com os mesmos direitos e oportunidades dos alunos do presencial.</p>
+                    </div>
+
+                    <div style="background: linear-gradient(to bottom right, #fdf2f8, #fce7f3); padding: 20px; border-radius: 10px; border-top: 4px solid #ec4899;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                            <span class="material-symbols-rounded" style="color: #ec4899; font-size: 1.8rem;">paid</span>
+                            <strong style="color: var(--azul-escuro); font-size: 1.1rem;">Apoio Financeiro</strong>
+                        </div>
+                        <p style="margin: 0; font-size: 0.95rem; line-height: 1.6;">Para o aluno da UAB, que muitas vezes já trabalha para se sustentar, a bolsa de <strong>R$ 700,00</strong> é fundamental para custear internet, materiais e deslocamento até o polo ou a escola.</p>
+                    </div>
+                </div>
+
+                <div style="background: #fffbeb; border: 2px solid #fbbf24; padding: 25px; border-radius: 10px; margin: 30px 0;">
+                    <h4 style="color: var(--azul-escuro); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <span class="material-symbols-rounded" style="color: #fbbf24; font-size: 1.5rem;">account_balance_wallet</span>
+                        Valores das Bolsas (Vigentes em 2026)
+                    </h4>
+                    <p style="margin-bottom: 15px; font-size: 0.95rem;">Seja no presencial ou na UAB, os valores são os mesmos. <strong>A isonomia é garantida:</strong></p>
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+                        <thead>
+                            <tr style="background: #fef3c7;">
+                                <th style="padding: 12px; text-align: left; border: 1px solid #fbbf24; color: var(--azul-escuro);">Categoria</th>
+                                <th style="padding: 12px; text-align: right; border: 1px solid #fbbf24; color: var(--azul-escuro);">Valor Mensal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #fde68a;">🎓 <strong>Bolsista (Licenciando EAD/Presencial)</strong></td>
+                                <td style="padding: 12px; border: 1px solid #fde68a; text-align: right; font-weight: bold; color: var(--verde-sucesso);">R$ 700,00</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #fde68a;">🏫 <strong>Supervisor (Professor da Escola)</strong></td>
+                                <td style="padding: 12px; border: 1px solid #fde68a; text-align: right; font-weight: bold; color: var(--verde-sucesso);">R$ 1.100,00</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #fde68a;">📚 <strong>Coordenador de Área</strong></td>
+                                <td style="padding: 12px; border: 1px solid #fde68a; text-align: right; font-weight: bold; color: var(--verde-sucesso);">R$ 2.000,00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 style="color: var(--azul-escuro); margin-top: 40px; margin-bottom: 15px; font-size: 1.6rem;">
+                    <span class="material-symbols-rounded" style="font-size: 1.8rem; vertical-align: middle; margin-right: 10px; color: var(--verde-sucesso);">verified_user</span>
+                    Cenário 2026: Resistência e Permanência
+                </h3>
+
+                <p>Como vimos, a UFAL enfrenta uma crise orçamentária severa neste início de 2026. No entanto, o sistema <strong>UAB e o PIBID</strong> possuem financiamento da <strong>CAPES</strong>, o que oferece uma camada extra de proteção a esses programas.</p>
+
+                <div style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border-left: 5px solid var(--azul-principal); padding: 25px; border-radius: 10px; margin: 25px 0; box-shadow: 0 4px 10px rgba(30,64,175,0.15);">
+                    <p style="margin: 0; font-size: 1.05rem; line-height: 1.7; color: #1e293b;">
+                        <strong>A transformação do PIBID em uma ação permanente de Estado é uma vitória dupla para o aluno EAD:</strong> garante que a formação de professores no interior de Alagoas não será interrompida por falta de editais.
+                    </p>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 3px solid var(--verde-sucesso); padding: 30px; border-radius: 15px; margin: 35px 0; box-shadow: 0 6px 20px rgba(16,185,129,0.2); text-align: center;">
+                    <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--verde-sucesso); display: block; margin-bottom: 15px;">school</span>
+                    <h4 style="color: var(--azul-escuro); margin-bottom: 15px; font-size: 1.5rem;">
+                        A UAB/UFAL Prova que Distância Física ≠ Distância do Conhecimento
+                    </h4>
+                    <p style="margin: 0; font-size: 1.1rem; line-height: 1.6; color: #065f46;">
+                        Se você é aluno da UAB, saiba: <strong style="font-size: 1.15rem;">a universidade é você, onde você estiver.</strong><br>
+                        E o chão da escola pública espera pela sua contribuição.
+                    </p>
+                </div>
+
+                <hr style="border: none; border-top: 2px solid #e5e7eb; margin: 40px 0;">
+
+                <h3 style="color: var(--azul-escuro); margin-top: 30px; margin-bottom: 15px;">
+                    <span class="material-symbols-rounded" style="font-size: 1.3rem; vertical-align: middle; margin-right: 8px;">celebration</span>
+                    Sobre a Feira da Matemática
+                </h3>
+                
+                <p>A <strong>Feira da Matemática</strong> é um evento acadêmico e cultural promovido pelo Programa Institucional de Bolsa de Iniciação à Docência (PIBID) da Universidade Federal de Alagoas (UFAL).</p>
+                <p>Realizada em parceria com a Câmara Municipal de Teotônio Vilela, a feira busca integrar a universidade com a comunidade escolar da rede pública.</p>
+                
+                <h4 style="color: var(--azul-escuro); margin-top: 30px; margin-bottom: 15px;">Objetivos do Evento</h4>
+                <ul class="objectives-list">
+                    <li>Estimular o interesse pela matemática através de atividades lúdicas e práticas.</li>
+                    <li>Divulgar os trabalhos desenvolvidos pelos bolsistas do PIBID nas escolas parceiras.</li>
+                    <li>Promover a formação continuada de professores da rede municipal.</li>
+                    <li>Incentivar a produção científica e acadêmica na área de Educação Matemática.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="resultados" class="pagina-conteudo">
+        <div class="container-padrao">
+            <h2 class="titulo-secao">Galeria de Campeões</h2>
+            <p style="text-align: center; margin-bottom: 60px; color: #666; font-size: 1.1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                Conheça os projetos e equipes que fizeram história na Feira da Matemática.
+            </p>
+
+            <div id="loading-vencedores" style="text-align: center; display: none;">
+                <div class="loader"></div>
+                <p>Carregando galeria...</p>
+            </div>
+
+            <div id="grid-vencedores" class="grid-vencedores" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <!-- Cards injetados via JS -->
+            </div>
+        </div>
+    </div>
+
+    <div id="galeria" class="pagina-conteudo">
+        <div class="container-padrao" style="max-width: 1200px;">
+            <h2 class="titulo-secao">Galeria de Momentos</h2>
+            <p style="margin-bottom: 20px;">Confira as fotos das edições anteriores e dos projetos desenvolvidos nas escolas parceiras.</p>
+            <div id="galeria-container" class="galeria-grid">
+                <p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;">Carregando fotos da galeria...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="inscricoes" class="pagina-conteudo">
+        <div class="layout-inscricao">
+            <div class="coluna-esquerda-wrapper">
+                <div class="bloco-regras">
+                    <h3><span class="material-symbols-rounded" style="font-size: 1.3rem; vertical-align: middle; margin-right: 8px;">description</span>Regras Principais</h3>
+                    <ul class="regras-lista">
+                        <li><strong>Gratuito:</strong> Sem taxas.</li>
+                        <li><strong>Vagas:</strong> Limitadas.</li>
+                        <li><strong>Documento:</strong> RG/CPF.</li>
+                        <li><strong>Certificado:</strong> 75% freq.</li>
+                        <li><strong>Chegada:</strong> 30min antes.</li>
+                    </ul>
+                </div>
+                <div class="mural-observacoes">
+                    <h4>MURAL DE AVISOS</h4>
+                    <p><span class="material-symbols-rounded" style="font-size: 1.2rem; vertical-align: middle; margin-right: 5px; color: #f59e0b;">campaign</span><strong>Chegue cedo!</strong><br>Início às 08h.</p>
+                    <p style="margin-top: 10px;"><span class="material-symbols-rounded" style="font-size: 1.2rem; vertical-align: middle; margin-right: 5px; color: #06b6d4;">water_drop</span><strong>Hidrate-se:</strong><br>Traga sua garrafa.</p>
+                    <p style="margin-top: 10px;"><span class="material-symbols-rounded" style="font-size: 1.2rem; vertical-align: middle; margin-right: 5px; color: #10b981;">accessible</span><strong>Acessibilidade:</strong><br>Rampas no local.</p>
+                </div>
+            </div>
+            <div class="caixa-branca-central">
+                <h2 class="titulo-secao" style="margin-top: 0;">Ficha de Inscrição</h2>
+                <p style="margin-bottom: 25px; color: #666;">Os campos com <span style="color: var(--vermelho-erro)">*</span> são obrigatórios:</p>
+                <form id="form-inscricao">
+                    <label>Nome Completo: <span style="color: var(--vermelho-erro)">*</span></label>
+                    <input type="text" id="inp-nome" placeholder="Digite seu nome completo" onkeyup="verificarFormulario()">
+                    <div style="display: flex; gap: 5px; align-items: center;">
+                        <div style="flex: 1;">
+                            <label>CPF:</label>
+                            <input type="text" id="inp-cpf" placeholder="000.000.000-00" onkeyup="verificarFormulario()">
+                        </div>
+                        <div style="font-weight: bold; color: #666; font-size: 0.9rem; padding-top: 25px;">( ou )</div>
+                        <div style="flex: 1;">
+                            <label>Telefone/WhatsApp:</label>
+                            <input type="text" id="inp-fone" placeholder="(00) 00000-0000" onkeyup="verificarFormulario()">
+                        </div>
+                    </div>
+                    <label>Onde estuda: <span style="color: var(--vermelho-erro)">*</span></label>
+                    <input type="text" id="inp-inst" placeholder="Escola ou Universidade" onkeyup="verificarFormulario()">
+                    <label>Tipo de Participação: <span style="color: var(--vermelho-erro)">*</span></label>
+                    <select id="inp-tipo" onchange="verificarFormulario()">
+                        <option value="">Selecione...</option>
+                        <option value="Ouvinte">Ouvinte</option>
+                        <option value="Apresentador">Apresentador de Trabalho</option>
+                        <option value="Monitor">Monitor Voluntário</option>
+                    </select>
+                    <div id="div-email" style="display: none;">
+                        <label>Email: <span style="color: var(--vermelho-erro)">*</span> <small>(Obrigatório para monitores)</small></label>
+                        <input type="email" id="inp-email" placeholder="seuemail@exemplo.com" onkeyup="verificarFormulario()">
+                    </div>
+                    <button type="button" id="btn-confirmar-inscricao" class="btn-acao" style="margin-top: 20px; opacity: 0.5; pointer-events: none;" onclick="salvarInscricaoNoFirebase()">CONFIRMAR INSCRIÇÃO</button>
+                </form>
+            </div>
+            
+            <div class="bloco-submissao bloqueado" id="bloco-submissao">
+                <div class="aviso-bloqueio" id="msg-aviso">🔒 Confirme a inscrição para liberar</div>
+                <h3><span class="material-symbols-rounded" style="font-size: 1.3rem; vertical-align: middle; margin-right: 8px;">upload_file</span>Dados do Trabalho</h3>
+                <p style="font-size: 0.9rem; color: #666; margin-bottom: 20px;">Preencha os dados abaixo para submeter seu trabalho.</p>
+                <form id="form-trabalho">
+                    <label>Título do Trabalho:</label>
+                    <input type="text" id="inp-titulo-trab" placeholder="Ex: O uso de jogos no ensino...">
+                    <label>Tema:</label>
+                    <input type="text" id="inp-tema-trab" placeholder="Ex: Educação Matemática, Robótica...">
+                    <label>Resumo (Até 500 palavras):</label>
+                    <textarea id="inp-resumo-trab" rows="8" placeholder="Escreva aqui o resumo do seu trabalho..."></textarea>
+                    <button type="button" class="btn-acao" style="width: 100%; margin-top: 15px; background-color: var(--verde-sucesso);" onclick="salvarDadosTrabalho()">ENVIAR TRABALHO</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="certificados" class="pagina-conteudo">
+        <div class="container-padrao" style="max-width: 600px; text-align: center;">
+            <h2 class="titulo-secao">Emitir Certificado</h2>
+            <p style="margin-bottom: 25px;">Escolha o método de busca e digite seus dados para verificar se o certificado está disponível.</p>
+            
+            <div class="radio-busca">
+                <label><input type="radio" name="tipo-busca" value="cpf" checked onchange="mudarPlaceholder()"> Buscar por CPF</label>
+                <label><input type="radio" name="tipo-busca" value="nome" onchange="mudarPlaceholder()"> Buscar por Nome</label>
+            </div>
+
+            <input type="text" id="cert-input" placeholder="000.000.000-00" style="margin: 20px 0; text-align: center; font-size: 1.2rem; letter-spacing: 2px;">
+            
+            <button class="btn-acao" id="btn-emitir-cert" onclick="gerarCertificado()">BAIXAR CERTIFICADO PDF</button>
+            <p id="msg-cert" style="margin-top: 15px; font-weight: bold; display: none;"></p>
+        </div>
+    </div>
+
+    <div id="contato" class="pagina-conteudo">
+        <div class="container-padrao" style="max-width: 1200px; background: transparent; box-shadow: none; padding: 0;"> 
+            <h2 class="titulo-secao" style="margin-bottom: 40px; padding: 20px; background: white; border-radius: 10px;">Fale Conosco</h2>
+            <div class="layout-contato">
+                <div class="coluna-social">
+                    <h3 style="color: var(--azul-escuro); margin-bottom: 20px; font-size: 1.1rem; padding-left: 10px;">Nossas Redes e Canais</h3>
+                    <a href="https://instagram.com/ufaloficial" target="_blank" class="social-card card-instagram">
+                        <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: #E1306C;"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        <div class="social-info"><strong>Instagram UFAL</strong><span>@ufaloficial</span></div>
+                    </a>
+                    <a href="https://youtube.com/ufaloficial" target="_blank" class="social-card card-youtube">
+                        <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: #FF0000;"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.25z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" style="fill: #FF0000; stroke: none;"></polygon></svg>
+                        <div class="social-info"><strong>YouTube UFAL</strong><span>Canal Oficial</span></div>
+                    </a>
+                    <a href="#" class="social-card card-instagram">
+                        <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: #E1306C;"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        <div class="social-info"><strong>Instagram PIBID</strong><span>@pibidmatufal</span></div>
+                    </a>
+                    <a href="#" class="social-card card-whatsapp">
+                        <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: #25D366;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                        <div class="social-info"><strong>WhatsApp</strong><span>Atendimento</span></div>
+                    </a>
+                    <a href="#" class="social-card card-facebook">
+                        <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: #1877F2;"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                        <div class="social-info"><strong>Facebook</strong><span>Página Oficial</span></div>
+                    </a>
+                </div>
+                <div class="coluna-form-contato">
+                    <h3 style="color: var(--azul-escuro); margin-bottom: 20px; font-size: 1.1rem;">Envie sua Mensagem</h3>
+                    <form>
+                        <label>Nome:</label><input type="text" placeholder="Seu nome">
+                        <label>Email:</label><input type="email" placeholder="seu@email.com">
+                        <label>Mensagem:</label><textarea rows="5" placeholder="Digite sua dúvida..."></textarea>
+                        <button class="btn-acao">ENVIAR MENSAGEM</button>
+                    </form>
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                        <p><strong>Localização:</strong> Câmara Municipal de Teotônio Vilela - AL</p>
+                        <p><strong>Email:</strong> contato@pibidmat.ufal.br</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div><h4>Realização</h4><p>UFAL - Campus A.C. Simões</p></div>
+            <div><h4>Links Rápidos</h4><ul><li><a style="cursor: pointer;" onclick="navegar('inscricoes')">Inscrever-se</a></li><li><a style="cursor: pointer;" onclick="navegar('certificados')">Certificados</a></li></ul></div>
+            <div><h4>Atendimento</h4><p>coord.pibid.mat@ufal.br</p></div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2025 Feira da Matemática - Apoio: Câmara Municipal de Teotônio Vilela e UFAL. <span style="opacity:0.6; margin-left:10px; font-family: monospace;"> | Created for Dev root@J/A:~#</span></p></div>
+    </footer>
+
+    <script>
+        function navegar(idPagina) {
+            var paginas = document.querySelectorAll('.pagina-conteudo');
+            paginas.forEach(function(pag) { pag.classList.remove('ativa'); });
+            var botoes = document.querySelectorAll('nav ul li a');
+            botoes.forEach(function(btn) { btn.classList.remove('menu-ativo'); });
+            var paginaAlvo = document.getElementById(idPagina);
+            if (paginaAlvo) paginaAlvo.classList.add('ativa');
+            var botaoAlvo = document.getElementById('btn-' + idPagina);
+            if (botaoAlvo) botaoAlvo.classList.add('menu-ativo');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function verificarFormulario() {
+            const nome = document.getElementById('inp-nome');
+            const cpf = document.getElementById('inp-cpf');
+            const fone = document.getElementById('inp-fone');
+            const email = document.getElementById('inp-email');
+            const inst = document.getElementById('inp-inst');
+            const tipo = document.getElementById('inp-tipo');
+            const btnConfirmar = document.getElementById('btn-confirmar-inscricao');
+            const divEmail = document.getElementById('div-email');
+            
+            if (tipo.value === "Monitor") { divEmail.style.display = "block"; } 
+            else { divEmail.style.display = "none"; email.value = ""; }
+
+            const camposBasicosOk = nome.value.trim() !== "" && inst.value.trim() !== "" && tipo.value !== "";
+            const documentoOk = cpf.value.trim() !== "" || fone.value.trim() !== "";
+            let emailOk = true;
+            if (tipo.value === "Monitor") { emailOk = email.value.trim() !== ""; }
+
+            let formularioValido = camposBasicosOk && documentoOk && emailOk;
+
+            [nome, cpf, fone, email, inst, tipo].forEach(campo => {
+                if(campo.value.trim() !== "") campo.classList.add('campo-preenchido');
+                else campo.classList.remove('campo-preenchido');
+            });
+
+            if (formularioValido) {
+                btnConfirmar.style.opacity = "1";
+                btnConfirmar.style.pointerEvents = "auto";
+                btnConfirmar.innerText = "CONFIRMAR INSCRIÇÃO";
+            } else {
+                btnConfirmar.style.opacity = "0.5";
+                btnConfirmar.style.pointerEvents = "none";
+                btnConfirmar.innerText = "Preencha os campos obrigatórios (*)";
+            }
+        }
+
+        // --- SISTEMA DE MODAL ---
+        function exibirModal(tipo, titulo, mensagem, protocolo = null) {
+            const modal = document.getElementById('modal-global');
+            const box = document.getElementById('modal-box-style');
+            const icon = document.getElementById('modal-icon');
+            const tit = document.getElementById('modal-titulo');
+            const msg = document.getElementById('modal-msg');
+            const protContainer = document.getElementById('modal-protocolo-container');
+
+            box.className = 'modal-box';
+            
+            if (tipo === 'sucesso') {
+                box.classList.add('tipo-sucesso');
+                icon.innerText = 'check_circle';
+                icon.style.color = 'var(--verde-sucesso)';
+            } else if (tipo === 'erro') {
+                box.classList.add('tipo-erro');
+                icon.innerText = 'error';
+                icon.style.color = 'var(--vermelho-erro)';
+            } else {
+                icon.innerText = 'info';
+                icon.style.color = 'var(--azul-principal)';
+            }
+
+            tit.innerText = titulo;
+            msg.innerText = mensagem;
+
+            if (protocolo) {
+                protContainer.style.display = 'block';
+                protContainer.innerHTML = `<div class="protocolo-box">PROTOCOLO: ${protocolo}</div><small>Salve este número!</small>`;
+            } else {
+                protContainer.style.display = 'none';
+            }
+            modal.style.display = 'flex';
+        }
+
+        function fecharModal() { document.getElementById('modal-global').style.display = 'none'; }
+
+
+        // --- FUNÇÕES LIGHTBOX ---
+        function abrirImagem(url, legenda) {
+            const modalImg = document.getElementById('modal-imagem-overlay');
+            const img = document.getElementById('img-ampliada');
+            const caption = document.getElementById('caption-ampliada');
+            img.src = url;
+            caption.innerText = legenda || '';
+            modalImg.style.display = 'flex';
+        }
+
+        function fecharModalImagem(e) {
+            if (e.target.id === 'modal-imagem-overlay' || e.target.classList.contains('btn-fechar-img')) {
+                document.getElementById('modal-imagem-overlay').style.display = 'none';
+                document.getElementById('img-ampliada').src = '';
+            }
+        }
+
+        // --- FUNÇÃO DE PLACEHOLDER CERTIFICADO ---
+        function mudarPlaceholder() {
+            const tipo = document.querySelector('input[name="tipo-busca"]:checked').value;
+            const input = document.getElementById('cert-input');
+            if(tipo === 'cpf') {
+                input.placeholder = "000.000.000-00";
+            } else {
+                input.placeholder = "Digite seu Nome Completo";
+            }
+        }
+
+        // Script do Calendário
+        const daysTag = document.querySelector(".days"), currentDate = document.querySelector(".current-date"), prevNextIcon = document.querySelectorAll(".icons span");
+        let date = new Date(), currYear = 2026, currMonth = 0; 
+        const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+        
+        let eventosCache = []; // Cache global
+        window.eventosCache = eventosCache;
+
+        const renderCalendar = () => {
+            let firstDayofMonth = new Date(currYear, currMonth, 1).getDay(), lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(), lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay(), lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate(); 
+            let liTag = "";
+            for (let i = firstDayofMonth; i > 0; i--) { liTag += `<li class="inactive">${lastDateofLastMonth - i + 1}</li>`; }
+            for (let i = 1; i <= lastDateofMonth; i++) { 
+                let isToday = i === new Date().getDate() && currMonth === new Date().getMonth() && currYear === new Date().getFullYear() ? "active" : "";
+                
+                // Verifica Evento (usa window.eventosCache)
+                let eventoDia = window.eventosCache.find(e => {
+                    const thisDateStr = `${currYear}-${String(currMonth+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+                    return e.data === thisDateStr;
+                });
+                
+                let extraClass = "";
+                if(eventoDia) {
+                    // Lógica de Cor: Verde (Futuro/Hoje) e Vermelho (Passado)
+                    const dataEvento = new Date(eventoDia.data + "T23:59:59"); 
+                    const hoje = new Date();
+                    // Normalizar datas 
+                    const hojeZerado = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+                    const eventoZerado = new Date(dataEvento.getFullYear(), dataEvento.getMonth(), dataEvento.getDate());
+
+                    if(eventoZerado < hojeZerado) {
+                        extraClass = "event-past"; // Vermelho
+                    } else {
+                        extraClass = "event-future"; // Verde
+                    }
+                }
+                
+                let titleAttr = eventoDia ? `title="${eventoDia.descricao}"` : "";
+                
+                // Removemos o span do dot e aplicamos a classe no LI
+                liTag += `<li class="${isToday} ${extraClass}" ${titleAttr} style="position:relative; display:flex; justify-content:center; align-items:center; flex-direction:column;">${i}</li>`; 
+            }
+            for (let i = lastDayofMonth; i < 6; i++) { liTag += `<li class="inactive">${i - lastDayofMonth + 1}</li>` }
+            currentDate.innerText = `${months[currMonth]} ${currYear}`; 
+            daysTag.innerHTML = liTag;
+
+            // ATUALIZAR LISTA DE EVENTOS DO MÊS
+            const listaDiv = document.getElementById('lista-eventos-mes');
+            if(listaDiv) {
+                listaDiv.innerHTML = "";
+                // Filtra eventos deste mês e ano
+                const eventosMes = window.eventosCache.filter(e => {
+                    const parts = e.data.split('-'); // YYYY-MM-DD
+                    const eYear = parseInt(parts[0]);
+                    const eMonth = parseInt(parts[1]) - 1; // 0-indexed
+                    return eYear === currYear && eMonth === currMonth;
+                });
+                
+                if(eventosMes.length === 0) {
+                     listaDiv.innerHTML = '<p style="color: #999; font-size: 0.85rem; font-style: italic;">Nenhum evento programado para este mês.</p>';
+                } else {
+                    eventosMes.sort((a,b) => a.data.localeCompare(b.data)); // Ordenar por dia
+                    eventosMes.forEach(e => {
+                        const parts = e.data.split('-');
+                        const dia = parts[2];
+                        
+                        // Recalcula cor para a lista também
+                        const dataEvento = new Date(e.data + "T23:59:59");
+                        const hoje = new Date();
+                        const hojeZerado = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+                        const eventoZerado = new Date(dataEvento.getFullYear(), dataEvento.getMonth(), dataEvento.getDate());
+                        
+                        let corTexto = (eventoZerado < hojeZerado) ? "#ef4444" : "#22c55e";
+
+                        listaDiv.innerHTML += `<div class="event-item-list"><span style="color:${corTexto}; font-weight:bold;">Dia ${dia}:</span> ${e.descricao}</div>`;
+                    });
+                }
+            }
+        }
+        
+        window.renderCalendar = renderCalendar; // Expose to window
+        renderCalendar();
+        prevNextIcon.forEach(icon => { icon.addEventListener("click", () => { currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1; if(currMonth < 0 || currMonth > 11) { date = new Date(currYear, currMonth, new Date().getDate()); currYear = date.getFullYear(); currMonth = date.getMonth(); } else { date = new Date(); } renderCalendar(); }); });
+    </script>
+
+    <script type="module">
+        import { collection, addDoc, getDocs, updateDoc, doc, query, where, getDoc, setDoc, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+        import { db, storage, analytics } from "./config.js";
+
+        /* REMOVED: Local Initialization */
+
+
+        // --- FETCH EVENTOS (Modulo Script) ---
+        const fetchEventos = async () => {
+            try {
+                // Busca eventos na coleção inscricoes filtrando pelo tipo 'evento'
+                const q = query(collection(db, "inscricoes"), where("tipo", "==", "evento"));
+                const snap = await getDocs(q);
+                window.eventosCache = [];
+                snap.forEach(d => { window.eventosCache.push(d.data()); });
+                if(window.renderCalendar) window.renderCalendar(); 
+            } catch(e) { console.log("Erro calendar:", e); }
+        }
+        fetchEventos();
+
+        // --- CARREGAR VENCEDOR (Modulo Script) ---
+        window.carregarVencedorPublico = async function() {
+            try {
+                const docRef = doc(db, "inscricoes", "CONFIG_VENCEDOR");
+                const snap = await getDoc(docRef);
+                if(snap.exists()) {
+                    const d = snap.data();
+                    const container = document.getElementById('winner-container');
+                    container.innerHTML = `
+                        <div style="background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 40px; max-width: 800px; margin: 0 auto; border: 1px solid #eee;">
+                            <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                                <div style="position: relative;">
+                                    <span class="material-symbols-rounded" style="position: absolute; top: -20px; right: -20px; font-size: 60px; color: var(--amarelo-destaque); text-shadow: 0 5px 10px rgba(0,0,0,0.1);">emoji_events</span>
+                                    <img src="${d.fotoUrl || 'placeholder.jpg'}" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 5px solid white; box-shadow: 0 8px 25px rgba(0,0,0,0.15);">
+                                </div>
+                                <h2 style="color: var(--azul-medio); font-size: 2rem; margin-top: 10px;">${d.nome}</h2>
+                                <p style="font-size: 1.1rem; color: #555; line-height: 1.6; max-width: 600px;">${d.texto}</p>
+                                <div style="margin-top: 10px; background: var(--verde-pibid); color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.9rem;">GRANDE VENCEDOR</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            } catch(e) { console.log("Erro ao carregar vencedor:", e); }
+        }
+        
+        // --- FUNÇÃO DE NAVEGAÇÃO RESULTADOS ---
+        // --- FUNÇÃO DE NAVEGAÇÃO RESULTADOS ---
+        window.alternarTabResultados = function(aba) {
+            // Remove classe 'ativo' de todos os botões
+            document.querySelectorAll('.btn-tab-result').forEach(b => b.classList.remove('ativo'));
+            
+            // Esconde todas as views
+            document.getElementById('view-aprovados').style.display = 'none';
+            document.getElementById('view-vencedores').style.display = 'none';
+            
+            if(aba === 'aprovados') {
+                // Ativa botão correspondente (precisamos selecionar pelo onclick ou index, mas vamos simplificar: o primeiro é aprovados)
+                document.querySelectorAll('.btn-tab-result')[0].classList.add('ativo');
+                document.getElementById('view-aprovados').style.display = 'block';
+            } else {
+                // Ativa botão vencedores (segundo botão)
+                document.querySelectorAll('.btn-tab-result')[1].classList.add('ativo');
+                document.getElementById('view-vencedores').style.display = 'block';
+                carregarVencedorPublico();
+            }
+        }
+        window.carregarGaleria = async function() {
+            const container = document.getElementById('galeria-container');
+            
+            try {
+                console.log("Iniciando carregamento da galeria...");
+                let q;
+                try {
+                    q = query(collection(db, "galeria"), orderBy("data_upload", "desc"));
+                } catch(e) {
+                    console.warn("Índice de ordenação ausente, carregando sem ordem.");
+                    q = collection(db, "galeria");
+                }
+
+                const querySnapshot = await getDocs(q);
+                
+                if (querySnapshot.empty) {
+                    container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #666;">Nenhuma foto publicada na galeria ainda.</p>`;
+                    return;
+                }
+
+                container.innerHTML = ''; 
+                let contador = 0;
+
+                querySnapshot.forEach((doc) => {
+                    const dados = doc.data();
+                    if(dados.url) {
+                        const card = `
+                            <div class="galeria-card" onclick="abrirImagem('${dados.url}', '${dados.titulo || ''}')">
+                                <img src="${dados.url}" alt="${dados.titulo || 'Foto'}" class="galeria-img">
+                                <div class="galeria-legenda">${dados.titulo || 'Sem legenda'}</div>
+                            </div>
+                        `;
+                        container.innerHTML += card;
+                        contador++;
+                    }
+                });
+                console.log(`Total de ${contador} fotos carregadas.`);
+
+            } catch (erro) {
+                console.error("Erro na galeria:", erro);
+                container.innerHTML = '<p style="color: var(--vermelho-erro); text-align:center; grid-column: 1/-1;">Erro ao carregar imagens.</p>';
+            }
+        }
+        window.carregarGaleria();
+
+        // --- CARREGAR RESULTADOS (APROVADOS e VENCEDORES) ---
+        // --- CARREGAR GALERIA DE VENCEDORES (NOVA LÓGICA) ---
+        window.carregarResultados = async function() {
+            // Alias para manter compatibilidade com chamadas de navegação, mas agora carrega vencedores
+            const container = document.getElementById('grid-vencedores');
+            const loader = document.getElementById('loading-vencedores');
+            
+            if(!container) return; // Se elemento não existir por alguma razão
+            if(!document.getElementById('resultados').classList.contains('ativa')) return;
+
+            container.innerHTML = "";
+            loader.style.display = "block";
+
+            try {
+                const q = query(collection(db, "vencedores"), orderBy("ano", "desc"));
+                const snap = await getDocs(q);
+                
+                loader.style.display = "none";
+                
+                if (snap.empty) {
+                    container.innerHTML = `<p style="grid-column:1/-1; text-align:center; color: #666;">A galeria de campeões está sendo atualizada.</p>`;
+                    return;
+                }
+
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    const card = `
+                        <div class="card-projeto" style="text-align: left; padding: 0; overflow: hidden; border-radius: 12px; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.08); transition: transform 0.3s ease;">
+                            <div style="position: relative; height: 220px; overflow: hidden;">
+                                <div style="background-image: url('${d.fotoUrl}'); background-size: cover; background-position: center; height: 100%; width: 100%; transition: transform 0.5s;"></div>
+                                <div style="position: absolute; top: 15px; right: 15px; background: var(--amarelo-destaque); color: #333; font-weight: 800; padding: 5px 15px; border-radius: 20px; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                                    ${d.ano}
+                                </div>
+                            </div>
+                            <div style="padding: 30px 25px;">
+                                <h4 style="margin-bottom: 10px; color: var(--azul-principal); font-size: 1.25rem; font-weight: 700;">${d.nome}</h4>
+                                <div style="width: 50px; height: 4px; background: var(--azul-claro); margin-bottom: 15px; border-radius: 2px;"></div>
+                                <p style="font-size: 0.95rem; color: #555; line-height: 1.6;">${d.texto}</p>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += card;
+                });
+            } catch(e) {
+                console.error(e);
+                loader.style.display = "none";
+                container.innerHTML = `<p style="color:red; text-align:center;">Não foi possível carregar a galeria.</p>`;
+            }
+        }
+
+        // Hook na navegação para carregar dados
+        const originalNavegar = window.navegar; // Salva a original se definida fora do module (mas ela está no global scope)
+        // Como 'navegar' está definida no script normal e este é module, podemos adicionar um listener no botão
+        
+        // Adiciona listener para carregar quando clicar no menu Resultados
+        document.getElementById('btn-resultados').addEventListener('click', () => carregarResultados());
+        
+        // --- SISTEMA DE CERTIFICADOS (CPF ou NOME) ---
+        window.gerarCertificado = async function() {
+            const tipoBusca = document.querySelector('input[name="tipo-busca"]:checked').value;
+            const valorInput = document.getElementById('cert-input').value.trim();
+            const btn = document.getElementById('btn-emitir-cert');
+            const msg = document.getElementById('msg-cert');
+
+            if(!valorInput) {
+                exibirModal('erro', 'Campo Obrigatório', 'Digite o CPF ou o Nome para buscar.');
+                return;
+            }
+
+            btn.innerText = "Verificando...";
+            btn.disabled = true;
+            msg.style.display = 'none';
+
+            try {
+               
+                let q;
+                if (tipoBusca === 'cpf') {
+                    q = query(collection(db, "inscricoes"), where("cpf", "==", valorInput));
+                } else {
+                    q = query(collection(db, "inscricoes"), where("nome_busca", "==", valorInput.toLowerCase()));
+                }
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    throw new Error(tipoBusca === 'cpf' ? "CPF não encontrado." : "Nome não encontrado. Digite exatamente igual à inscrição.");
+                }
+
+                const dados = querySnapshot.docs[0].data();
+
+                // BLOCAR OUVINTES DE CERTIFICADO
+                if (dados.tipo_participacao === "Ouvinte") {
+                    throw new Error("Certificados disponíveis apenas para Monitores e Apresentadores de Projetos.");
+                }
+
+                if (!dados.certificado_liberado) {
+                    throw new Error("O certificado ainda não foi liberado pela organização. Aguarde o encerramento do evento.");
+                }
+
+                btn.innerText = "Gerando PDF...";
+                await criarPDF(dados.nome, dados.tipo_participacao);
+                
+                exibirModal('sucesso', 'Sucesso!', 'O download do seu certificado iniciará em instantes.');
+
+            } catch (erro) {
+                console.error(erro);
+                exibirModal('erro', 'Atenção', erro.message);
+            } finally {
+                btn.innerText = "BAIXAR CERTIFICADO PDF";
+                btn.disabled = false;
+            }
+        }
+
+        async function criarPDF(nomeParticipante, tipoParticipacao) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('l', 'mm', 'a4');
+            const width = doc.internal.pageSize.getWidth();
+            const height = doc.internal.pageSize.getHeight();
+
+            const imgUrl = "modelo_certificado.png"; 
+            const img = new Image();
+            img.src = imgUrl;
+
+            return new Promise((resolve, reject) => {
+                img.onload = function() {
+                    doc.addImage(img, 'PNG', 0, 0, width, height);
+                    doc.setFont("times", "italic");
+                    doc.setFontSize(22);
+                    doc.setTextColor(30, 64, 175);
+                    doc.text(nomeParticipante.toUpperCase(), width / 2 + 55, 120, { align: 'center' });
+                    doc.setFont("helvetica", "italic");
+                    doc.setFontSize(14);
+                    doc.setTextColor(50, 50, 50);
+                    doc.text(`Participação registrada como: ${tipoParticipacao}`, width / 2 + 70, 127, { align: 'center' });
+                    doc.save(`Certificado_${nomeParticipante}.pdf`);
+                    resolve();
+                };
+                img.onerror = function() {
+                    reject(new Error("Erro ao carregar o modelo de imagem do certificado."));
+                }
+            });
+        }
+
+        // --- INSCRIÇÃO ---
+        let idUsuarioAtual = null;
+
+        window.salvarInscricaoNoFirebase = async function() {
+            const nome = document.getElementById('inp-nome').value;
+            const cpf = document.getElementById('inp-cpf').value;
+            const fone = document.getElementById('inp-fone').value; 
+            const email = document.getElementById('inp-email').value;
+            const inst = document.getElementById('inp-inst').value;
+            const tipo = document.getElementById('inp-tipo').value;
+            
+            const btn = document.getElementById('btn-confirmar-inscricao');
+            const blocoSubmissao = document.getElementById('bloco-submissao');
+            const msgAviso = document.getElementById('msg-aviso');
+
+            btn.innerText = "Salvando...";
+            btn.style.backgroundColor = "#ccc";
+            btn.disabled = true;
+
+            const agora = new Date();
+            const idProtocolo = `${agora.getFullYear()}${String(agora.getMonth() + 1).padStart(2, '0')}${String(agora.getDate()).padStart(2, '0')}${Math.floor(1000 + Math.random() * 9000)}`;
+
+            try {
+                // ... dentro de salvarInscricaoNoFirebase ...
+
+                await setDoc(doc(db, "inscricoes", idProtocolo), {
+                    nome: nome,
+                    nome_busca: nome.toLowerCase(),
+                    cpf: cpf,
+                    telefone: fone, 
+                    email: email, 
+                    onde_estuda: inst,
+                    tipo_participacao: tipo,
+                    data: new Date().toLocaleString(),
+                    protocolo: idProtocolo,
+                    confirmado: (tipo === "Ouvinte") // Ouvintes aprovados automaticamente
+
+                });
+
+                idUsuarioAtual = idProtocolo;
+
+                exibirModal('sucesso', 'Inscrição Realizada!', 'Sua inscrição foi confirmada com sucesso.', idProtocolo);
+                
+                if (tipo === "Apresentador") {
+                    blocoSubmissao.classList.remove('bloqueado');
+                    msgAviso.style.display = "none";
+                    blocoSubmissao.scrollIntoView({ behavior: 'smooth' });
+                }
+
+                document.getElementById('form-inscricao').reset();
+                document.querySelectorAll('.campo-preenchido').forEach(el => el.classList.remove('campo-preenchido'));
+                verificarFormulario();
+                btn.style.opacity = "0.5";
+                btn.style.pointerEvents = "none";
+
+            } catch (e) {
+                console.error("Erro ao salvar: ", e);
+                exibirModal('erro', 'Erro ao Salvar', 'Não foi possível realizar a inscrição. Tente novamente.');
+            } finally {
+                btn.innerText = "CONFIRMAR INSCRIÇÃO";
+                btn.style.backgroundColor = "var(--azul-principal)";
+                btn.disabled = false;
+            }
+        }
+
+        window.salvarDadosTrabalho = async function() {
+            const titulo = document.getElementById('inp-titulo-trab').value;
+            const tema = document.getElementById('inp-tema-trab').value;
+            const resumo = document.getElementById('inp-resumo-trab').value;
+            const btnUpload = document.querySelector('.bloco-submissao .btn-acao');
+
+            if (!idUsuarioAtual) {
+                exibirModal('erro', 'Atenção', 'Você precisa confirmar sua inscrição primeiro!');
+                return;
+            }
+
+            if (titulo.trim() === "" || tema.trim() === "" || resumo.trim() === "") {
+                exibirModal('erro', 'Campos Vazios', 'Por favor, preencha todos os campos do trabalho.');
+                return;
+            }
+
+            btnUpload.innerText = "Enviando...";
+            btnUpload.disabled = true;
+
+            try {
+                const docRef = doc(db, "inscricoes", idUsuarioAtual);
+                
+                await updateDoc(docRef, {
+                    titulo_trabalho: titulo,
+                    tema_trabalho: tema,
+                    resumo_trabalho: resumo,
+                    data_submissao: new Date().toLocaleString()
+                });
+
+                exibirModal('sucesso', 'Trabalho Enviado!', 'Os dados do seu trabalho foram salvos com sucesso.');
+                
+                document.getElementById('form-trabalho').reset();
+                document.getElementById('bloco-submissao').classList.add('bloqueado');
+                document.getElementById('msg-aviso').innerText = "Trabalho enviado com sucesso!";
+                document.getElementById('msg-aviso').style.display = "block";
+
+            } catch (error) {
+                console.error("Erro no envio:", error);
+                exibirModal('erro', 'Erro no Envio', 'Não foi possível enviar o trabalho.');
+            } finally {
+                btnUpload.innerText = "ENVIAR TRABALHO";
+                btnUpload.disabled = false;
+            }
+        }
+    </script>
+
+</body>
+</html>
+<!-- root@J/A:~# -->
+
+
+
