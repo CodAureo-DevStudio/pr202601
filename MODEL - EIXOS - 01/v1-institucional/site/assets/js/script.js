@@ -260,15 +260,88 @@ window.openProjectModal = function(card) {
     // Get Data
     const title = card.getAttribute("data-title");
     const category = card.getAttribute("data-category");
-    const desc = card.getAttribute("data-description");
+    const desc = card.getAttribute("data-full-description") || card.getAttribute("data-description");
     const stats = card.getAttribute("data-stats");
     const images = JSON.parse(card.getAttribute("data-images"));
     
     // Populate Info
     document.getElementById("modal-title").innerText = title;
     document.getElementById("modal-category").innerText = category;
-    document.getElementById("modal-description").innerText = desc;
     document.getElementById("modal-stats").innerText = stats;
+
+    // --- ACCORDION GENERATION ---
+    const accordionContainer = document.getElementById("modal-accordion");
+    accordionContainer.innerHTML = ""; // Clear existing
+
+    // Define Sections
+    const sections = [
+        {
+            title: "Sumário do Projeto",
+            content: desc // From data attribute
+        },
+        {
+            title: "Dados do Instrumento da Parceria",
+            content: "<p>Informações detalhadas sobre a parceria e vigência.</p><p><strong>Vigência:</strong> 2025 - 2026</p><p><strong>Órgão:</strong> Governo do Distrito Federal</p>"
+        },
+        {
+            title: "Termo de Fomento",
+            content: "<p>Acesse o documento oficial do Termo de Fomento deste projeto.</p>",
+            pdf: "Termo de Fomento.pdf"
+        },
+        {
+            title: "Equipe Técnica e Recursos Humanos",
+            content: "<p><strong>Coordenação Geral:</strong> Dra. Ana Sophia</p><p><strong>Assistência Social:</strong> Equipe Multidisciplinar Eixos</p>"
+        },
+        {
+            title: "Relatório Final de Execução",
+            content: "<p>Resultados alcançados e prestação de contas final.</p>",
+            pdf: "Relatório Final.pdf"
+        }
+    ];
+
+    sections.forEach((section, index) => {
+        const item = document.createElement("div");
+        item.className = "accordion-item";
+
+        // Open first item by default
+        const isActive = index === 0 ? "active" : "";
+        const contentStyle = index === 0 ? "max-height: 500px;" : ""; 
+
+        let pdfHtml = "";
+        if (section.pdf) {
+            pdfHtml = `<br><a href="#" class="accordion-pdf-link"><i class="fas fa-file-pdf"></i> Baixar ${section.pdf}</a>`;
+        }
+
+        item.innerHTML = `
+            <button class="accordion-header ${isActive}">
+                ${section.title}
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="accordion-content" style="${contentStyle}">
+                <div class="accordion-body">
+                    ${section.content}
+                    ${pdfHtml}
+                </div>
+            </div>
+        `;
+
+        accordionContainer.appendChild(item);
+
+        // Add Click Event
+        const header = item.querySelector(".accordion-header");
+        const content = item.querySelector(".accordion-content");
+
+        header.addEventListener("click", () => {
+            // Toggle current
+            header.classList.toggle("active");
+            if (header.classList.contains("active")) {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } else {
+                content.style.maxHeight = null;
+            }
+        });
+    });
+
     
     // Setup Carousel
     const track = document.getElementById("modal-carousel-track");
@@ -330,5 +403,55 @@ document.getElementById("project-modal")?.addEventListener("click", (e) => {
         closeProjectModal();
     }
 });
+});
+
+// === AUTO-SCROLL TRAJECTORY CAROUSEL ===
+document.addEventListener("DOMContentLoaded", function() {
+    const container = document.querySelector(".timeline-container");
+    const track = document.querySelector(".timeline-track");
+
+    if (container && track) {
+        // Clone items for infinite effect
+        const items = Array.from(track.children);
+        items.forEach(item => {
+            const clone = item.cloneNode(true);
+            track.appendChild(clone);
+        });
+
+        // Auto Scroll Logic
+        let scrollAmount = 0;
+        let speed = 0.5; // Adjust speed (pixels per frame)
+        let isPaused = false;
+        let animationId;
+
+        function scrollStep() {
+            if (!isPaused) {
+                scrollAmount += speed;
+                
+                // Reset when half is reached (since we duplicated contents)
+                if (scrollAmount >= track.scrollWidth / 2) {
+                    scrollAmount = 0;
+                }
+                
+                container.scrollLeft = scrollAmount;
+            }
+            animationId = requestAnimationFrame(scrollStep);
+        }
+
+        // Start
+        animationId = requestAnimationFrame(scrollStep);
+
+        // Pause on Hover
+        container.addEventListener("mouseenter", () => isPaused = true);
+        container.addEventListener("mouseleave", () => isPaused = false);
+        
+        // Mobile Touch Support (Optional: Allow manual scroll overrides or pause)
+        container.addEventListener("touchstart", () => isPaused = true);
+        container.addEventListener("touchend", () => {
+             // Resume after a delay? Or keep running? 
+             // For simple behavior, just resume.
+             setTimeout(() => isPaused = false, 1000);
+        });
+    }
 });
 

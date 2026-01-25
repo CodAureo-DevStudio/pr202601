@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Instituto Eixos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <img src="assets/img/instituto-eixos-logo.png" alt="Instituto Eixos" class="sidebar-logo-img">
+        </div>
+
+        <ul class="sidebar-menu">
+            <li class="menu-item">
+                <a href="#" class="menu-link active" data-section="dashboard">
+                    <i class="fas fa-chart-pie"></i> Visão Geral
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link" data-section="news">
+                    <i class="fas fa-newspaper"></i> Gerenciar Notícias
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link" data-section="projects">
+                    <i class="fas fa-project-diagram"></i> Projetos
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link" data-section="transparency">
+                    <i class="fas fa-file-invoice-dollar"></i> Transparência
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link" data-section="messages">
+                    <i class="fas fa-envelope"></i> Mensagens <span style="background: var(--danger); color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.7rem; margin-left: auto;">3</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link" data-section="users">
+                    <i class="fas fa-users-cog"></i> Usuários
+                </a>
+            </li>
+        </ul>
+
+        <div class="user-profile">
+            <div class="user-avatar">
+                <img src="https://ui-avatars.com/api/?name=Admin+User&background=2563eb&color=fff" alt="Admin" style="width: 100%; height: 100%; border-radius: 50%;">
+            </div>
+            <div style="flex: 1;">
+                <h4 style="font-size: 0.9rem;">Administrador</h4>
+                <p style="font-size: 0.8rem; color: #94a3b8;">admin@eixos.org</p>
+            </div>
+            <a href="login.html" title="Sair" style="color: #94a3b8;"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+        <!-- Top Mobile Header -->
+        <header class="top-bar">
+            <div class="menu-toggle-admin" style="display: none;">
+                <i class="fas fa-bars"></i>
+            </div>
+            <h1 class="page-title" id="page-title">Visão Geral</h1>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn-sm btn-primary"><i class="fas fa-plus"></i> Novo Item</button>
+            </div>
+        </header>
+
+        <!-- SECTIONS -->
+
+        <!-- 1. DASHBOARD OVERVIEW -->
+        <section id="dashboard" class="dashboard-section active">
+            
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-value">2,540</div>
+                            <div class="stat-label">Beneficiários Totais</div>
+                        </div>
+                        <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+                    </div>
+                    <span class="status-badge active"><i class="fas fa-arrow-up"></i> 12% este mês</span>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-value">45</div>
+                            <div class="stat-label">Projetos Ativos</div>
+                        </div>
+                        <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Novas Mensagens</div>
+                        </div>
+                        <div class="stat-icon yellow"><i class="fas fa-envelope"></i></div>
+                    </div>
+                    <span class="status-badge active" style="background: #fef3c7; color: #b45309;">Ação Necessária</span>
+                </div>
+            </div>
+
+            <!-- Recent Activity Table -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h3>Atividades Recentes</h3>
+                    <button class="btn-sm btn-outline">Ver Tudo</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Usuário</th>
+                            <th>Ação</th>
+                            <th>Data</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div class="user-avatar" style="width: 24px; height: 24px; font-size: 0.8rem;"></div>
+                                    Ana Souza
+                                </div>
+                            </td>
+                            <td>Publicou notícia "Nova Sede"</td>
+                            <td>Hoje, 10:30</td>
+                            <td><span class="status-badge active">Concluído</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div class="user-avatar" style="width: 24px; height: 24px; font-size: 0.8rem; background: #eab308;"></div>
+                                    Carlos M.
+                                </div>
+                            </td>
+                            <td>Editou Projeto "Brasília 2025"</td>
+                            <td>Ontem, 16:45</td>
+                            <td><span class="status-badge active">Concluído</span></td>
+                        </tr>
+                        <tr>
+                            <td>sistema</td>
+                            <td>Backup Automático</td>
+                            <td>Ontem, 00:00</td>
+                            <td><span class="status-badge active">Sucesso</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+        <!-- 2. NEWS MANAGEMENT -->
+        <section id="news" class="dashboard-section">
+            <div class="content-card">
+                <div class="card-header">
+                    <h3>Todas as Notícias</h3>
+                    <div style="display: flex; gap: 0.5rem;">
+                         <input type="text" placeholder="Buscar..." class="form-input" style="width: 200px; padding: 0.4rem;">
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="50%">Título</th>
+                            <th>Categoria</th>
+                            <th>Data</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Nova Sede do Instituto Eixos é Inaugurada</strong><br><small style="color: #94a3b8;">Última edição por Admin</small></td>
+                            <td><span class="status-badge active">Institucional</span></td>
+                            <td>20 Jan 2026</td>
+                            <td>
+                                <button class="btn-action"><i class="fas fa-edit"></i></button>
+                                <button class="btn-action btn-delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ação Social no Bairro dos Estados</strong></td>
+                            <td><span class="status-badge draft">Projetos</span></td>
+                            <td>18 Jan 2026</td>
+                            <td>
+                                <button class="btn-action"><i class="fas fa-edit"></i></button>
+                                <button class="btn-action btn-delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Workshop de Capacitação Profissional</strong></td>
+                            <td><span class="status-badge active">Eventos</span></td>
+                            <td>15 Jan 2026</td>
+                            <td>
+                                <button class="btn-action"><i class="fas fa-edit"></i></button>
+                                <button class="btn-action btn-delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 3. MESSAGES -->
+        <section id="messages" class="dashboard-section">
+            <div class="stats-grid">
+                 <div class="stat-card">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Não Lidas</div>
+                 </div>
+            </div>
+
+            <div class="content-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Remetente</th>
+                            <th>Assunto</th>
+                            <th>Data</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #fefffe; font-weight: 600;">
+                            <td>Maria Silva <br><small style="font-weight: 400; color: #94a3b8;">maria@gmail.com</small></td>
+                            <td>Quero ser Voluntária - Disponibilidade Sábados</td>
+                            <td>Hoje, 09:15</td>
+                            <td><button class="btn-sm btn-primary">Responder</button></td>
+                        </tr>
+                        <tr style="background: #fefffe; font-weight: 600;">
+                            <td>João Pedro</td>
+                            <td>Dúvida sobre Doação de Equipamentos</td>
+                            <td>Ontem</td>
+                            <td><button class="btn-sm btn-primary">Responder</button></td>
+                        </tr>
+                        <tr>
+                            <td>Empresa XYZ</td>
+                            <td>Proposta de Parceria</td>
+                            <td>20 Jan</td>
+                            <td><button class="btn-sm btn-outline">Ver Detalhes</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 4. PROJECTS MANAGEMENT -->
+        <section id="projects" class="dashboard-section">
+            <div class="content-card">
+                <div class="card-header">
+                    <h3>Gerenciar Projetos</h3>
+                    <div style="display: flex; gap: 1rem;">
+                        <input type="text" placeholder="Buscar projetos..." class="form-input" style="width: 250px; padding: 0.4rem;">
+                        <button class="btn-sm btn-primary" onclick="openModal('modal-new-project')">
+                            <i class="fas fa-plus"></i> Novo Projeto
+                        </button>
+                    </div>
+                </div>
+                <!-- Projects Table -->
+                <div class="table-responsive">
+                    <table id="projects-table">
+                        <thead>
+                            <tr>
+                                <th width="30%">Projeto</th>
+                                <th>Categoria</th>
+                                <th>Estatísticas</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Mock Data Row 1 -->
+                            <tr>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 1rem;">
+                                        <img src="assets/img/projeto-brasilia-2025-1.webp" style="width: 40px; height: 40px; border-radius: 4px; object-fit: cover;">
+                                        <div>
+                                            <strong>Brasília 2025</strong>
+                                            <div style="font-size: 0.8rem; color: #64748b;">Ação capitânia em 15 regiões</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge" style="background: #eff6ff; color: var(--admin-primary);">Social</span></td>
+                                <td>
+                                    <div style="font-size: 0.85rem;">2.500+ Famílias</div>
+                                    <div style="font-size: 0.75rem; color: #94a3b8;">15 Regiões</div>
+                                </td>
+                                <td><span class="status-badge active">Em Andamento</span></td>
+                                <td>
+                                    <button class="btn-action"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-action btn-delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <!-- Mock Data Row 2 -->
+                            <tr>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 1rem;">
+                                        <img src="assets/img/quem-somos-r1nd93a231j678w13jhp92onbbjg4k3aktxfpo7pow.webp" style="width: 40px; height: 40px; border-radius: 4px; object-fit: cover;">
+                                        <div>
+                                            <strong>Mutirão da Saúde</strong>
+                                            <div style="font-size: 0.8rem; color: #64748b;">Atendimentos itinerantes</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge" style="background: #f0fdf4; color: var(--success);">Saúde</span></td>
+                                <td>
+                                    <div style="font-size: 0.85rem;">1.200+ Atendimentos</div>
+                                    <div style="font-size: 0.75rem; color: #94a3b8;">50 Médicos</div>
+                                </td>
+                                <td><span class="status-badge active">Ativo</span></td>
+                                <td>
+                                    <button class="btn-action"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-action btn-delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- NEW PROJECT MODAL -->
+            <div id="modal-new-project" class="admin-modal-overlay">
+                <div class="admin-modal">
+                    <div class="admin-modal-header">
+                        <h3 class="admin-modal-title">Novo Projeto</h3>
+                        <button class="admin-modal-close" onclick="closeModal('modal-new-project')">&times;</button>
+                    </div>
+                    <div class="admin-modal-body">
+                        <form id="form-new-project" class="form-grid">
+                            <!-- Title & Category -->
+                            <div class="form-group">
+                                <label class="form-label">Nome do Projeto</label>
+                                <input type="text" name="title" class="form-input" placeholder="Ex: Ação Solidária 2026" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Categoria (Tag)</label>
+                                <select name="category" class="form-input">
+                                    <option>Em Andamento</option>
+                                    <option>Saúde</option>
+                                    <option>Educação</option>
+                                    <option>Cultura</option>
+                                    <option>Esporte</option>
+                                </select>
+                            </div>
+
+                            <!-- Short Description -->
+                            <div class="form-group form-full">
+                                <label class="form-label">Descrição Curta (Card)</label>
+                                <textarea name="excerpt" class="form-input" rows="2" placeholder="Resumo breve que aparece no card..." required></textarea>
+                            </div>
+
+                            <!-- Stats -->
+                            <div class="form-group">
+                                <label class="form-label">Estatística Principal</label>
+                                <input type="text" name="stat_main" class="form-input" placeholder="Ex: 500+ Famílias">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Estatística Secundária</label>
+                                <input type="text" name="stat_sec" class="form-input" placeholder="Ex: 5 Cidades">
+                            </div>
+
+                            <!-- Full Description (HTML) -->
+                            <div class="form-group form-full">
+                                <label class="form-label">Descrição Completa</label>
+                                <div style="background: #f1f5f9; padding: 0.5rem; border-radius: 0.5rem 0.5rem 0 0; border: 1px solid var(--admin-border); border-bottom: none; display: flex; gap: 0.5rem;">
+                                    <button type="button" class="btn-sm btn-outline" style="padding: 0.2rem 0.5rem;"><b>B</b></button>
+                                    <button type="button" class="btn-sm btn-outline" style="padding: 0.2rem 0.5rem;"><i>I</i></button>
+                                    <button type="button" class="btn-sm btn-outline" style="padding: 0.2rem 0.5rem;">Link</button>
+                                </div>
+                                <textarea name="full_description" class="form-input" rows="6" style="border-top-left-radius: 0; border-top-right-radius: 0;" placeholder="Texto detalhado que aparecerá no modal do site..." required></textarea>
+                            </div>
+
+                            <!-- Image Upload -->
+                            <div class="form-group form-full">
+                                <label class="form-label">Imagem de Capa</label>
+                                <div class="admin-file-upload">
+                                    <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: #94a3b8; margin-bottom: 1rem;"></i>
+                                    <p style="color: #64748b;">Arraste uma imagem ou clique para selecionar</p>
+                                    <input type="file" style="display: none;">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="admin-modal-footer">
+                        <button class="btn-sm btn-outline" onclick="closeModal('modal-new-project')">Cancelar</button>
+                        <button type="button" class="btn-sm btn-primary" onclick="submitProject()">Salvar Projeto</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 5. TRANSPARENCY MANAGEMENT -->
+        <section id="transparency" class="dashboard-section">
+            <div class="content-card">
+                <div class="card-header">
+                    <h3>Portal da Transparência</h3>
+                    <div style="display: flex; gap: 1rem;">
+                        <input type="text" placeholder="Buscar documentos..." class="form-input" style="width: 250px; padding: 0.4rem;">
+                        <button class="btn-sm btn-primary" onclick="openModal('modal-new-doc')">
+                            <i class="fas fa-plus"></i> Novo Documento
+                        </button>
+                    </div>
+                </div>
+                <!-- Documents Table -->
+                <div class="table-responsive">
+                    <table id="transparency-table">
+                        <thead>
+                            <tr>
+                                <th width="40%">Título do Documento</th>
+                                <th>Categoria</th>
+                                <th>Data Publicação</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Mock Data Row 1 -->
+                            <tr>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <i class="fas fa-file-pdf" style="color: var(--danger); font-size: 1.2rem;"></i>
+                                        <strong>Edital de Chamamento 01/2026</strong>
+                                    </div>
+                                    <small style="color: #64748b; margin-left: 1.7rem;">Seleção de fornecedores...</small>
+                                </td>
+                                <td><span class="status-badge" style="background: #e0f2fe; color: #0369a1;">Editais</span></td>
+                                <td>15 Jan, 2026</td>
+                                <td><span class="status-badge active" style="background: #dbeafe; color: #1e40af;">Aberto</span></td>
+                                <td>
+                                    <button class="btn-action"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-action btn-delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <!-- Mock Data Row 2 -->
+                            <tr>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <i class="fas fa-file-alt" style="color: #64748b; font-size: 1.2rem;"></i>
+                                        <strong>Relatório Financeiro 2025</strong>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge" style="background: #f0fdf4; color: #15803d;">Relatórios</span></td>
+                                <td>30 Dez, 2025</td>
+                                <td><span class="status-badge active">Concluído</span></td>
+                                <td>
+                                    <button class="btn-action"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-action btn-delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- NEW DOCUMENT MODAL -->
+            <div id="modal-new-doc" class="admin-modal-overlay">
+                <div class="admin-modal">
+                    <div class="admin-modal-header">
+                        <h3 class="admin-modal-title">Novo Documento</h3>
+                        <button class="admin-modal-close" onclick="closeModal('modal-new-doc')">&times;</button>
+                    </div>
+                    <div class="admin-modal-body">
+                        <form id="form-new-doc" class="form-grid">
+                            <!-- Title -->
+                            <div class="form-group form-full">
+                                <label class="form-label">Título do Documento</label>
+                                <input type="text" name="doc_title" class="form-input" placeholder="Ex: Relatório Anual 2025" required>
+                            </div>
+                            
+                            <!-- Category & Status -->
+                            <div class="form-group">
+                                <label class="form-label">Categoria</label>
+                                <select name="doc_category" class="form-input">
+                                    <option>Editais</option>
+                                    <option>Relatórios</option>
+                                    <option>Contratos</option>
+                                    <option>Certidões</option>
+                                    <option>Financeiro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Status (Tag)</label>
+                                <select name="doc_status" class="form-input">
+                                    <option>Aberto</option>
+                                    <option>Concluído</option>
+                                    <option>Em Execução</option>
+                                    <option>Encerrado</option>
+                                </select>
+                            </div>
+
+                            <!-- Date & File -->
+                            <div class="form-group">
+                                <label class="form-label">Data de Publicação</label>
+                                <input type="date" name="doc_date" class="form-input" required>
+                            </div>
+                            
+                            <!-- Description -->
+                            <div class="form-group form-full">
+                                <label class="form-label">Descrição Breve</label>
+                                <input type="text" name="doc_desc" class="form-input" placeholder="Resumo do conteúdo (opcional)">
+                            </div>
+
+                            <!-- File Upload -->
+                            <div class="form-group form-full">
+                                <label class="form-label">Arquivo (PDF/DOC)</label>
+                                <div class="admin-file-upload">
+                                    <i class="fas fa-file-upload" style="font-size: 2rem; color: #94a3b8; margin-bottom: 1rem;"></i>
+                                    <p style="color: #64748b;">Clique para enviar o documento</p>
+                                    <input type="file" style="display: none;">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="admin-modal-footer">
+                        <button class="btn-sm btn-outline" onclick="closeModal('modal-new-doc')">Cancelar</button>
+                        <button type="button" class="btn-sm btn-primary" onclick="submitDoc()">Salvar Documento</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="users" class="dashboard-section">
+            <div style="text-align: center; padding: 4rem;">
+                <i class="fas fa-user-shield" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 1rem;"></i>
+                <h3>Gestão de Usuários</h3>
+                <p style="color: #64748b;">Gerencie permissões e acessos ao sistema.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="assets/js/admin.js"></script>
+</body>
+</html>

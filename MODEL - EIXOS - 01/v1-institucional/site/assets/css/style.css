@@ -38,7 +38,10 @@
     0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg:
     0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Premium Fluid Easing */
+  --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-slow: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); /* Ease Out Quart for reveals */
+  --transition-fast: all 0.2s ease-out;
 }
 
 /* Reset & Base */
@@ -173,6 +176,7 @@ ul {
   color: var(--accent-red);
 }
 
+
 /* Header */
 .header {
   position: fixed;
@@ -191,13 +195,36 @@ ul {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative; /* For absolute logo positioning */
 }
-.logo img {
-  height: 45px;
+
+/* Seal Logo Style */
+.header-seal-logo {
+    position: absolute;
+    top: 0;
+    left: 2rem;
+    background: white;
+    padding: 1rem;
+    border-radius: 0 0 50% 50%; /* Semicircle or rounded bottom */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    z-index: 1001;
+    transition: var(--transition);
+    max-width: 120px; /* Reasonable size */
 }
+.header-seal-logo img {
+    height: 80px; /* Size control */
+    width: auto;
+    display: block;
+}
+.header-seal-logo:hover {
+    padding-top: 1.5rem; /* Slight animation */
+}
+
+/* Adjust layout since logo is absolute */
 .nav-menu {
   display: flex;
   gap: 2rem;
+  margin-left: auto; /* Push nav to right */
 }
 .nav-link {
   font-weight: 600;
@@ -215,6 +242,7 @@ ul {
   font-size: 1.5rem;
   color: var(--secondary);
   cursor: pointer;
+  margin-left: 2rem;
 }
 
 /* === IBRAS STYLE HERO SLIDER === */
@@ -750,12 +778,24 @@ ul {
 /* Scroll Reveal Base States */
 .reveal {
     opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+    transform: translate3d(0, 40px, 0); /* GPU Acceleration */
+    transition: var(--transition-slow);
     will-change: opacity, transform;
 }
 
 .reveal.active {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+/* Text Reveal (Staggered words logic handled by JS, but base CSS here) */
+.reveal-text span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: var(--transition-slow);
+}
+.reveal-text.active span {
     opacity: 1;
     transform: translateY(0);
 }
@@ -764,6 +804,8 @@ ul {
 .delay-100 { transition-delay: 0.1s; }
 .delay-200 { transition-delay: 0.2s; }
 .delay-300 { transition-delay: 0.3s; }
+.delay-400 { transition-delay: 0.4s; }
+.delay-500 { transition-delay: 0.5s; }
 
 /* Enhanced Hover Effects */
 .article-card {
@@ -772,6 +814,89 @@ ul {
 .article-card:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* === MODAL ACCORDION === */
+.accordion {
+    margin-bottom: 2rem;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+.accordion-item {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.accordion-item:last-child {
+    border-bottom: none;
+}
+
+.accordion-header {
+    width: 100%;
+    text-align: left;
+    padding: 1rem 1.5rem;
+    background: #f8fafc;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: var(--font-heading);
+    color: var(--secondary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.accordion-header:hover,
+.accordion-header.active {
+    background: #f1f5f9;
+}
+
+.accordion-header i {
+    transition: transform 0.3s;
+}
+
+.accordion-header.active i {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background: white;
+}
+
+.accordion-body {
+    padding: 1.5rem;
+    font-size: 0.95rem;
+    color: var(--text-main);
+}
+
+.accordion-body p {
+    margin-bottom: 1rem;
+}
+
+.accordion-pdf-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary);
+    font-weight: 500;
+    padding: 0.75rem 1rem;
+    border: 1px dashed var(--primary);
+    border-radius: var(--radius-sm);
+    background: rgba(37, 99, 235, 0.05);
+    transition: var(--transition);
+    text-decoration: none;
+    margin-top: 0.5rem;
+}
+
+.accordion-pdf-link:hover {
+    background: rgba(37, 99, 235, 0.1);
+    transform: translateY(-2px);
 }
 
 .btn {
@@ -840,6 +965,10 @@ ul {
 
 .btn-whatsapp {
     background: #25D366;
+}
+
+.btn-instagram {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
 }
 
 /* === MODERN ANIMATION UPGRADES === */
@@ -1016,14 +1145,14 @@ ul {
 
 .modal-content {
     background: var(--surface);
-    width: 100%;
-    max-width: 1000px;
+    width: 95%; /* Increased width */
+    max-width: 1200px; /* Increased max-width */
     height: auto;
     max-height: 90vh;
     border-radius: var(--radius-lg);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     position: relative;
-    overflow: hidden; /* Contains scroll if necessary */
+    overflow: hidden;
     display: flex;
     flex-direction: column;
 }
@@ -1052,10 +1181,9 @@ ul {
 }
 
 .modal-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
+    display: block; 
     height: 100%;
-    overflow-y: auto; /* Enable scroll if content is tall */
+    overflow-y: auto; 
 }
 
 /* Modal Carousel */
@@ -1063,7 +1191,12 @@ ul {
     position: relative;
     background: #000;
     overflow: hidden;
-    height: 500px; /* Fixed height for consistency */
+    height: 500px; /* Increased height for larger card */
+    float: left;
+    width: 50%; /* Wider image area */
+    margin-right: 2rem;
+    margin-bottom: 0;
+    border-radius: 0; /* Flush with edge if desired, or keep radius? Keeping radius for now but flush left side effectively */
 }
 
 .modal-carousel {
@@ -1118,8 +1251,8 @@ ul {
 /* Modal Info */
 .modal-info {
     padding: 3rem;
-    display: flex;
-    flex-direction: column;
+    display: block;
+    overflow-y: auto; /* Allow independent scroll if needed, though modal-grid handles it mostly */
 }
 
 .modal-stats-bar {
@@ -1136,10 +1269,14 @@ ul {
 /* Mobile Modal */
 @media (max-width: 900px) {
     .modal-grid {
-        grid-template-columns: 1fr;
+        display: block;
     }
     .modal-carousel-container {
         height: 300px;
+        float: none;
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 1.5rem;
     }
     .modal-info {
         padding: 1.5rem;
@@ -1150,5 +1287,79 @@ ul {
         width: 2.5rem;
         height: 2.5rem;
     }
+}
+
+/* === EXTRA UTILITIES === */
+.w-100 {
+    width: 100%;
+}
+
+/* === OPTIMIZATION & EXTRACTION CLASSES === */
+.section-projects {
+    padding: 6rem 0;
+}
+
+.card-tag {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.mt-auto {
+    margin-top: auto;
+}
+
+.btn-donate {
+    padding: 0.5rem 1rem;
+}
+
+.btn-contact {
+    color: white;
+    padding: 0.5rem 1rem;
+}
+
+.modal-title {
+    margin: 1rem 0;
+    font-size: 2.5rem; /* Larger title */
+    line-height: 1.1;
+}
+
+.modal-description {
+    color: var(--text-light);
+    margin-bottom: 2rem;
+}
+
+.modal-cta-title {
+    margin-bottom: 1rem;
+}
+
+.section-cta {
+    background: var(--background);
+    padding: 4rem 0;
+}
+
+.footer-logo-img {
+    height: 40px;
+    margin-bottom: 1rem;
+    filter: grayscale(1);
+}
+
+.footer-desc {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.footer-socials {
+    margin: 0;
+}
+
+/* === HORIZONTAL TIMELINE CAROUSEL === */
+.timeline-container {
+    /* Hide scrollbar for carousel effect */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.timeline-container::-webkit-scrollbar {
+    display: none;
 }
 

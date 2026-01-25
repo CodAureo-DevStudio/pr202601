@@ -21,8 +21,8 @@
     <!-- Header -->
     <header class="header">
         <div class="container">
-            <a href="index.html" class="logo">
-                <img src="assets/img/instituto-eixos-logo.png" alt="Instituto Eixos">
+            <a href="index.html" class="header-seal-logo">
+                <img src="assets/img/instituto-eixos-logo.png" alt="Selo Instituto Eixos">
             </a>
             
             <nav class="nav-menu">
@@ -30,7 +30,7 @@
                 <a href="quem-somos.html" class="nav-link active">Quem Somos</a>
                 <a href="projetos.html" class="nav-link">Projetos</a>
                 <a href="galeria.html" class="nav-link">Galeria</a>
-                <a href="editais.html" class="nav-link">Editais</a>
+                <a href="editais.html" class="nav-link">Transparência</a>
                 <a href="noticias.html" class="nav-link">Notícias</a>
                 <a href="doe-aqui.html" class="nav-link btn btn-outline btn-sm">Doe Aqui</a>
                 <a href="fale-conosco.html" class="nav-link btn btn-primary text-white btn-sm">Fale Conosco</a>
@@ -71,51 +71,91 @@
             <!-- Mission, Vision, Values -->
             <div class="values-grid">
                 <div class="value-item">
-                    <h3><i class="fas fa-rocket"></i> Missão</h3>
-                    <p>Promover oportunidades e transformar vidas por meio de iniciativas que impactam a saúde, educação, turismo, cultura e o esporte.</p>
+                    <i class="fas fa-rocket"></i>
+                    <h3>Missão</h3>
+                    <p>Promover oportunidades e transformar vidas por meio de iniciativas que impactam a saúde, educação, turismo, a cultura e o esporte, ajudando pessoas a desenvolverem seu potencial e melhorando suas condições de vida.</p>
                 </div>
                 <div class="value-item">
-                    <h3><i class="fas fa-eye"></i> Visão</h3>
-                    <p>Ser referência na execução de projetos sociais, promovendo impacto positivo e sustentável em comunidades.</p>
+                    <i class="fas fa-eye"></i>
+                    <h3>Visão</h3>
+                    <p>Ser uma organização de referência na execução de projetos sociais, promovendo impacto positivo e sustentável. Buscamos fortalecer comunidades, ampliar oportunidades e contribuir para uma sociedade mais justa, inclusiva e solidária.</p>
                 </div>
                 <div class="value-item">
-                    <h3><i class="fas fa-handshake"></i> Valores</h3>
-                    <p>Solidariedade, Inclusão, Inovação, Compromisso e Sustentabilidade são os pilares que guiam nossas ações.</p>
+                    <i class="fas fa-handshake"></i>
+                    <h3>Valores</h3>
+                    <p class="text-justify" style="font-size: 0.9rem;">
+                        <strong>Solidariedade:</strong> Acreditamos no poder da união e da ajuda mútua para transformar vidas.<br>
+                        <strong>Inclusão:</strong> Defendemos a igualdade de oportunidades para todos.<br>
+                        <strong>Inovação:</strong> Buscamos soluções criativas e eficientes para promover impacto social.<br>
+                        <strong>Compromisso:</strong> Trabalhamos com responsabilidade e dedicação para alcançar resultados positivos.<br>
+                        <strong>Sustentabilidade:</strong> Atuamos com foco no equilíbrio social, ambiental e econômico.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- History Timeline -->
+    <!-- History Timeline (Horizontal) -->
     <section class="reveal" style="padding: 6rem 0; background: var(--surface);">
         <div class="container">
             <h2 class="section-title text-center">Nossa Trajetória</h2>
-            <div style="max-width: 800px; margin: 3rem auto 0; position: relative; padding-left: 2rem; border-left: 3px solid var(--primary);">
-                
-                <!-- Timeline Item 1 -->
-                <div style="margin-bottom: 3rem; position: relative;">
-                    <div style="position: absolute; left: -2.6rem; top: 0; width: 1.2rem; height: 1.2rem; background: var(--primary); border-radius: 50%; border: 3px solid white;"></div>
-                    <span class="tag tag-primary" style="margin-bottom: 0.5rem;">2024</span>
-                    <h3>Inauguração da Sede Própria</h3>
-                    <p style="color: var(--text-light);">Um marco em nossa história, permitindo a ampliação dos cursos profissionalizantes e do atendimento à comunidade em Taguatinga.</p>
-                </div>
+            <p class="text-center" style="margin-bottom: 3rem; color: var(--text-light);">20 anos de história transformando vidas.</p>
+            
+            <div class="timeline-container" style="overflow-x: auto; padding-bottom: 2rem;">
+                <div class="timeline-track" style="display: flex; gap: 3rem; position: relative; padding-top: 2rem; min-width: max-content; padding-left: 2rem; padding-right: 2rem;">
+                    
+                    <!-- Connecting Line -->
+                    <div style="position: absolute; top: 2.8rem; left: 0; width: 100%; height: 4px; background: #e2e8f0; z-index: 0;"></div>
 
-                <!-- Timeline Item 2 -->
-                <div style="margin-bottom: 3rem; position: relative;">
-                    <div style="position: absolute; left: -2.6rem; top: 0; width: 1.2rem; height: 1.2rem; background: var(--secondary); border-radius: 50%; border: 3px solid white;"></div>
-                    <span class="tag tag-green" style="margin-bottom: 0.5rem;">2022</span>
-                    <h3>Expansão Nacional</h3>
-                    <p style="color: var(--text-light);">Início das parcerias interestaduais, levando o projeto "Saúde em Movimento" para 3 novos estados.</p>
-                </div>
+                    <!-- 2006 (20 Years Ago) -->
+                    <div class="timeline-item reveal delay-100" style="position: relative; z-index: 1; width: 280px; flex-shrink: 0;">
+                        <div style="width: 20px; height: 20px; background: var(--primary); border: 4px solid white; border-radius: 50%; margin-bottom: 1.5rem; box-shadow: 0 0 0 4px #e2e8f0;"></div>
+                        <span class="tag tag-primary" style="margin-bottom: 0.5rem;">2006</span>
+                        <h3 style="font-size: 1.25rem;">O Início</h3>
+                        <p style="color: var(--text-light); font-size: 0.95rem;">Fundação do grupo de voluntários "Amigos do Bem", dando os primeiros passos na comunidade de Ceilândia.</p>
+                    </div>
 
-                <!-- Timeline Item 3 -->
-                <div style="margin-bottom: 3rem; position: relative;">
-                    <div style="position: absolute; left: -2.6rem; top: 0; width: 1.2rem; height: 1.2rem; background: var(--accent-red); border-radius: 50%; border: 3px solid white;"></div>
-                    <span class="tag tag-red" style="margin-bottom: 0.5rem;">2020</span>
-                    <h3>Fundação</h3>
-                    <p style="color: var(--text-light);">O Instituto nasce do sonho de um grupo de voluntários em fazer a diferença durante a pandemia.</p>
-                </div>
+                    <!-- 2010 -->
+                    <div class="timeline-item reveal delay-200" style="position: relative; z-index: 1; width: 280px; flex-shrink: 0;">
+                        <div style="width: 20px; height: 20px; background: var(--accent-green); border: 4px solid white; border-radius: 50%; margin-bottom: 1.5rem; box-shadow: 0 0 0 4px #e2e8f0;"></div>
+                        <span class="tag tag-green" style="margin-bottom: 0.5rem;">2010</span>
+                        <h3 style="font-size: 1.25rem;">Formalização</h3>
+                        <p style="color: var(--text-light); font-size: 0.95rem;">Constituição oficial do Instituto Eixos e obtenção do primeiro espaço físico para atendimentos.</p>
+                    </div>
 
+                    <!-- 2015 -->
+                    <div class="timeline-item reveal delay-300" style="position: relative; z-index: 1; width: 280px; flex-shrink: 0;">
+                        <div style="width: 20px; height: 20px; background: var(--accent-purple); border: 4px solid white; border-radius: 50%; margin-bottom: 1.5rem; box-shadow: 0 0 0 4px #e2e8f0;"></div>
+                        <span class="tag tag-primary" style="margin-bottom: 0.5rem; background: rgba(139, 92, 246, 0.1); color: var(--accent-purple);">2015</span>
+                        <h3 style="font-size: 1.25rem;">Primeiro Edital</h3>
+                        <p style="color: var(--text-light); font-size: 0.95rem;">Aprovação no primeiro edital de fomento público, permitindo a profissionalização da equipe.</p>
+                    </div>
+
+                    <!-- 2020 (Pandemic Response) -->
+                    <div class="timeline-item reveal delay-100" style="position: relative; z-index: 1; width: 280px; flex-shrink: 0;">
+                        <div style="width: 20px; height: 20px; background: var(--accent-red); border: 4px solid white; border-radius: 50%; margin-bottom: 1.5rem; box-shadow: 0 0 0 4px #e2e8f0;"></div>
+                        <span class="tag tag-red" style="margin-bottom: 0.5rem;">2020</span>
+                        <h3 style="font-size: 1.25rem;">Ação COVID-19</h3>
+                        <p style="color: var(--text-light); font-size: 0.95rem;">Atuação massiva na distribuição de alimentos e kits de higiene durante a pandemia.</p>
+                    </div>
+
+                    <!-- 2022 -->
+                    <div class="timeline-item reveal delay-200" style="position: relative; z-index: 1; width: 280px; flex-shrink: 0;">
+                        <div style="width: 20px; height: 20px; background: var(--secondary); border: 4px solid white; border-radius: 50%; margin-bottom: 1.5rem; box-shadow: 0 0 0 4px #e2e8f0;"></div>
+                        <span class="tag tag-green" style="margin-bottom: 0.5rem;">2022</span>
+                        <h3 style="font-size: 1.25rem;">Expansão Nacional</h3>
+                        <p style="color: var(--text-light); font-size: 0.95rem;">Início das parcerias interestaduais e expansão do projeto "Saúde em Movimento".</p>
+                    </div>
+
+                    <!-- 2024 -->
+                    <div class="timeline-item reveal delay-300" style="position: relative; z-index: 1; width: 280px; flex-shrink: 0;">
+                        <div style="width: 20px; height: 20px; background: var(--primary); border: 4px solid white; border-radius: 50%; margin-bottom: 1.5rem; box-shadow: 0 0 0 4px #e2e8f0;"></div>
+                        <span class="tag tag-primary" style="margin-bottom: 0.5rem;">2024</span>
+                        <h3 style="font-size: 1.25rem;">Sede Própria</h3>
+                        <p style="color: var(--text-light); font-size: 0.95rem;">Inauguração da sede definitiva em Taguatinga e ampliação dos cursos profissionalizantes.</p>
+                    </div>
+
+                </div>
             </div>
         </div>
     </section>

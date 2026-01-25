@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notícias - Instituto Eixos</title>
     
-    <!-- Fonts: Cinzel & Manrope -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,11 +18,11 @@
 </head>
 <body>
 
-    <!-- Editorial Header -->
+    <!-- Header -->
     <header class="header">
         <div class="container">
-            <a href="index.html" class="logo">
-                <img src="assets/img/instituto-eixos-logo.png" alt="Instituto Eixos" style="height: 35px; filter: grayscale(100%) contrast(120%);">
+            <a href="index.html" class="header-seal-logo">
+                <img src="assets/img/instituto-eixos-logo.png" alt="Selo Instituto Eixos">
             </a>
             
             <nav class="nav-menu">
@@ -30,9 +30,10 @@
                 <a href="quem-somos.html" class="nav-link">Quem Somos</a>
                 <a href="projetos.html" class="nav-link">Projetos</a>
                 <a href="galeria.html" class="nav-link">Galeria</a>
-                <a href="editais.html" class="nav-link">Editais</a>
+                <a href="editais.html" class="nav-link">Transparência</a>
                 <a href="noticias.html" class="nav-link active">Notícias</a>
-                <a href="doe-aqui.html" class="btn btn-primary" style="padding: 0.6rem 1.5rem;">DOE AGORA</a>
+                <a href="doe-aqui.html" class="nav-link btn btn-outline btn-sm">Doe Aqui</a>
+                <a href="fale-conosco.html" class="nav-link btn btn-primary text-white btn-sm">Fale Conosco</a>
             </nav>
             
             <div class="menu-toggle">
@@ -42,72 +43,75 @@
     </header>
 
     <!-- Page Header -->
-    <div style="background: var(--secondary); color: white; padding: 8rem 0 4rem;">
-        <div class="container text-center">
-            <h1 class="section-title" style="color: white;">Notícias & Atualizações</h1>
-            <p class="section-subtitle" style="color: rgba(255,255,255,0.7);">Acompanhe o impacto de nossas ações em tempo real.</p>
+    <header class="page-header">
+        <div class="page-header-bg"></div>
+        <div class="container page-header-content">
+            <h1>Notícias e Atualizações</h1>
+            <p>Fique por dentro das nossas ações e impactos na comunidade.</p>
         </div>
-    </div>
+    </header>
 
-    <!-- News Sections -->
+    <!-- News Grid -->
     <section style="padding: 6rem 0;">
         <div class="container">
+        <div class="container">
             
-            <!-- Featured Full Width -->
-            <div style="margin-bottom: 4rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; align-items: center;">
-                <div style="border-radius: var(--radius-md); overflow: hidden; height: 400px;">
-                    <img src="assets/img/projeto-brasilia-2025-1.webp" alt="Destaque" style="width: 100%; height: 100%; object-fit: cover;">
-                </div>
-                <div>
-                    <span style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; color: var(--primary); font-weight: 700;">Destaque</span>
-                    <h2 style="font-size: 2.5rem; margin: 1rem 0;">Ação Social no Bairro dos Estados transforma comunidade</h2>
-                    <p style="margin-bottom: 2rem; color: var(--text-light); font-size: 1.1rem;">
-                        Nossa equipe esteve presente levando atendimento médico, doações de cestas básicas e muita alegria para as famílias da região. Confira os detalhes desta ação transformadora.
-                    </p>
-                    <a href="#" class="btn btn-outline">Ler Matéria Completa</a>
-                </div>
+            <!-- Featured News (New) -->
+            <div class="reveal" style="margin-bottom: 4rem;">
+                <article style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 3rem; background: var(--surface); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-md);">
+                    <div style="height: 400px;">
+                        <img src="assets/img/projeto-brasilia-2025-1.webp" alt="Destaque" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 3rem; display: flex; flex-direction: column; justify-content: center;">
+                        <span class="tag tag-primary" style="align-self: start; margin-bottom: 1rem;">Destaque</span>
+                        <h2 style="font-size: 2rem; margin-bottom: 1rem;">Nova Sede do Instituto Eixos é Inaugurada em Taguatinga</h2>
+                        <p style="color: var(--text-light); margin-bottom: 2rem; font-size: 1.1rem;">Espaço será utilizado para cursos profissionalizantes e atendimento à comunidade, ampliando nossa capacidade de atuação em 50%.</p>
+                        <a href="#" class="btn btn-primary" style="align-self: start;">Ler Matéria Completa</a>
+                    </div>
+                </article>
             </div>
 
-            <!-- News Grid -->
-            <h3 style="margin-bottom: 2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 1rem;">Últimas Notícias</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
+            <div class="page-grid">
                 
-                <!-- News Item 1 -->
-                <article style="border: 1px solid #e2e8f0; border-radius: var(--radius-md); overflow: hidden; transition: transform 0.3s;">
-                    <div style="height: 200px; background: #f1f5f9;">
-                         <img src="assets/img/noticias-1.webp" alt="Notícia" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;" onerror="this.src='assets/img/instituto-eixos-logo.png'">
+                <!-- Article 1 -->
+                <article class="article-card reveal delay-100">
+                    <div class="article-image">
+                        <span class="tag tag-primary" style="position: absolute; top: 1rem; right: 1rem;">Projetos</span>
+                        <img src="assets/img/projetos-r1nd8zipbpe0wt1hphv6z3msxs1z9rod8bbhskdads.webp" alt="Notícia 1">
                     </div>
-                    <div style="padding: 1.5rem;">
-                        <span style="font-size: 0.8rem; color: var(--primary);">22 Jan 2026</span>
-                        <h4 style="margin: 0.5rem 0 1rem;">Novas Turmas de Informática</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem;">Inscrições abertas para o curso básico e avançado. Garanta sua vaga.</p>
-                        <a href="#" style="font-size: 0.8rem; text-decoration: underline; font-weight: 600;">Ler mais</a>
-                    </div>
-                </article>
-
-                <!-- News Item 2 -->
-                <article style="border: 1px solid #e2e8f0; border-radius: var(--radius-md); overflow: hidden; transition: transform 0.3s;">
-                    <div style="height: 200px; background: #f1f5f9;">
-                         <img src="assets/img/noticias-2.webp" alt="Notícia" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;" onerror="this.src='assets/img/instituto-eixos-logo.png'">
-                    </div>
-                    <div style="padding: 1.5rem;">
-                        <span style="font-size: 0.8rem; color: var(--primary);">18 Jan 2026</span>
-                        <h4 style="margin: 0.5rem 0 1rem;">Relatório Anual 2025</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem;">Transparência e resultados. Veja o que alcançamos juntos.</p>
-                        <a href="#" style="font-size: 0.8rem; text-decoration: underline; font-weight: 600;">Ler mais</a>
+                    <div class="article-content">
+                        <span class="tag" style="background: transparent; color: var(--text-light); padding: 0; margin-bottom: 0.5rem; font-size: 0.85rem;"><i class="far fa-calendar-alt"></i> 20 Jan, 2026</span>
+                        <h3 class="article-title">Projeto Brasília 2025 impacta mais de 2.000 famílias</h3>
+                        <p class="article-excerpt">Nossa iniciativa de distribuição de alimentos e roupas alcançou um novo recorde neste mês.</p>
+                        <a href="#" style="color: var(--primary); font-weight: 600;">Ler mais <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </article>
 
-                <!-- News Item 3 -->
-                <article style="border: 1px solid #e2e8f0; border-radius: var(--radius-md); overflow: hidden; transition: transform 0.3s;">
-                    <div style="height: 200px; background: #f1f5f9;">
-                         <img src="assets/img/noticias-3.webp" alt="Notícia" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;" onerror="this.src='assets/img/instituto-eixos-logo.png'">
+                <!-- Article 2 -->
+                <article class="article-card">
+                    <div class="article-image">
+                        <span class="tag tag-green" style="position: absolute; top: 1rem; right: 1rem;">Saúde</span>
+                        <img src="assets/img/quem-somos-r1nd93a231j678w13jhp92onbbjg4k3aktxfpo7pow.webp" alt="Notícia 2">
                     </div>
-                    <div style="padding: 1.5rem;">
-                        <span style="font-size: 0.8rem; color: var(--primary);">10 Jan 2026</span>
-                        <h4 style="margin: 0.5rem 0 1rem;">Parceria com Escolas Locais</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem;">Expandindo nossos horizontes educacionais para mais jovens.</p>
-                        <a href="#" style="font-size: 0.8rem; text-decoration: underline; font-weight: 600;">Ler mais</a>
+                    <div class="article-content">
+                        <span class="tag" style="background: transparent; color: var(--text-light); padding: 0; margin-bottom: 0.5rem; font-size: 0.85rem;"><i class="far fa-calendar-alt"></i> 18 Jan, 2026</span>
+                        <h3 class="article-title">A importância da saúde preventiva nas comunidades</h3>
+                        <p class="article-excerpt">Como nossos mutirões de saúde estão ajudando a detectar problemas precocemente.</p>
+                        <a href="#" style="color: var(--primary); font-weight: 600;">Ler mais <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <!-- Article 3 -->
+                <article class="article-card">
+                    <div class="article-image">
+                        <span class="tag tag-red" style="position: absolute; top: 1rem; right: 1rem;">Eventos</span>
+                        <img src="assets/img/transparencia-r1nd963knjn162rxn2pkyjz13h5jrnehl7vw5i3j68.webp" alt="Notícia 3">
+                    </div>
+                    <div class="article-content">
+                        <span class="tag" style="background: transparent; color: var(--text-light); padding: 0; margin-bottom: 0.5rem; font-size: 0.85rem;"><i class="far fa-calendar-alt"></i> 15 Jan, 2026</span>
+                        <h3 class="article-title">Workshop de Capacitação Profissional Aberto</h3>
+                        <p class="article-excerpt">Inscreva-se agora para nossos cursos gratuitos de tecnologia e artesanato.</p>
+                        <a href="#" style="color: var(--primary); font-weight: 600;">Ler mais <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </article>
 
@@ -116,25 +120,40 @@
     </section>
 
     <!-- Footer -->
-    <footer class="editorial-footer">
-        <a href="index.html" class="footer-logo">INSTITUTO EIXOS</a>
-        
-        <nav class="footer-nav">
-            <a href="quem-somos.html">Quem Somos</a>
-            <a href="projetos.html">Projetos</a>
-            <a href="editais.html">Editais</a>
-            <a href="fale-conosco.html">Fale Conosco</a>
-            <a href="doe-aqui.html">Doe Agora</a>
-        </nav>
-        
-        <div style="font-size: 0.8rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px;">
-            &copy; 2026 Instituto Eixos. Todos os direitos reservados.
-        </div>
-        
-        <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 1rem;">
-             <a href="#"><i class="fab fa-instagram"></i></a>
-             <a href="#"><i class="fab fa-facebook-f"></i></a>
-             <a href="#"><i class="fab fa-whatsapp"></i></a>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col" style="max-width: 300px;">
+                    <img src="assets/img/instituto-eixos-logo.png" alt="Logo" class="footer-logo">
+                    <p style="opacity: 0.7;">Transformando a realidade de milhares de brasileiros através da solidariedade e ação social.</p>
+                    <div class="social-links-gap">
+                        <a href="#" class="social-icon-lg"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon-lg"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-icon-lg"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Mapa do Site</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="quem-somos.html">Quem Somos</a></li>
+                        <li><a href="projetos.html">Projetos</a></li>
+                        <li><a href="noticias.html">Notícias</a></li>
+                        <li><a href="#transparencia">Transparência</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contato</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> <span>Taguatinga Norte, Brasília/DF<br>Q CNC 3, Bloco B, Sala 611</span></li>
+                        <li><i class="fas fa-envelope"></i> <span>contato@institutoeixos.org.br</span></li>
+                        <li><i class="fab fa-whatsapp"></i> <span>(61) 98103-0472</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Instituto Eixos. Todos os direitos reservados.</p>
+            </div>
         </div>
     </footer>
 

@@ -25,35 +25,26 @@
   <body>
     <!-- Header -->
     <header class="header">
-      <div class="container">
-        <a href="index.html" class="logo">
-          <img
-            src="assets/img/instituto-eixos-logo.png"
-            alt="Instituto Eixos"
-          />
-        </a>
-
-        <nav class="nav-menu">
-          <a href="index.html" class="nav-link active">Início</a>
-          <a href="quem-somos.html" class="nav-link">Quem Somos</a>
-          <a href="projetos.html" class="nav-link">Projetos</a>
-          <a href="galeria.html" class="nav-link">Galeria</a>
-          <a href="editais.html" class="nav-link">Editais</a>
-          <a href="noticias.html" class="nav-link">Notícias</a>
-          <a href="doe-aqui.html" class="nav-link btn btn-outline btn-sm"
-            >Doe Aqui</a
-          >
-          <a
-            href="fale-conosco.html"
-            class="nav-link btn btn-primary text-white btn-sm"
-            >Fale Conosco</a
-          >
-        </nav>
-
-        <div class="menu-toggle">
-          <i class="fas fa-bars"></i>
+        <div class="container">
+            <a href="index.html" class="header-seal-logo">
+                <img src="assets/img/instituto-eixos-logo.png" alt="Selo Instituto Eixos">
+            </a>
+            
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link active">Início</a>
+                <a href="quem-somos.html" class="nav-link">Quem Somos</a>
+                <a href="projetos.html" class="nav-link">Projetos</a>
+                <a href="galeria.html" class="nav-link">Galeria</a>
+                <a href="editais.html" class="nav-link">Transparência</a>
+                <a href="noticias.html" class="nav-link">Notícias</a>
+                <a href="doe-aqui.html" class="nav-link btn btn-outline btn-sm">Doe Aqui</a>
+                <a href="fale-conosco.html" class="nav-link btn btn-primary text-white btn-sm">Fale Conosco</a>
+            </nav>
+            
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
         </div>
-      </div>
     </header>
 
     <!-- Hero Slider Section -->
@@ -63,19 +54,17 @@
         style="background-image: url(&quot;assets/img/hero-bg.jpg&quot;)"
       ></div>
       <div class="container">
-        <div class="hero-content reveal">
-          <h1 class="hero-title">
+        <div class="hero-content reveal" style="text-align: center; margin: 0 auto; max-width: 1000px;">
+          <h1 class="hero-title" style="font-size: 3.5rem; text-transform: uppercase;">
             AÇÕES QUE MELHORAM A VIDA E O DIA A DIA DAS PESSOAS QUE MAIS
             PRECISAM.
           </h1>
-          <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9">
+          <p style="font-size: 1.2rem; margin-bottom: 2.5rem; opacity: 0.9">
             Compromisso com o desenvolvimento humano e social em todo o Brasil.
           </p>
-          <div class="d-flex gap-1 reveal delay-200">
-            <a href="quem-somos.html" class="btn btn-primary">Saiba mais</a>
-            <a href="projetos.html" class="btn btn-outline btn-white-outline"
-              >Ver Projetos</a
-            >
+          <div class="d-flex gap-1 reveal delay-200" style="justify-content: center; align-items: center; flex-direction: row;">
+            <a href="quem-somos.html" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1rem;">SAIBA MAIS</a>
+            <a href="projetos.html" class="btn btn-outline btn-white-outline" style="padding: 1rem 2.5rem; font-size: 1rem;">VER PROJETOS</a>
           </div>
         </div>
       </div>
@@ -356,6 +345,71 @@
       </div>
     </section>
 
+    <!-- Testimonials (New) -->
+    <section class="testimonials-section reveal" style="padding: 6rem 0; background-color: var(--surface);">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: 4rem;">
+                <h2 class="section-title center">Vozes da Transformação</h2>
+                <p>Histórias de quem constrói e de quem vive o impacto do Instituto Eixos.</p>
+            </div>
+            
+            <div class="page-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <!-- Testimonial 1 -->
+                <div style="background: white; padding: 2rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); position: relative;">
+                    <i class="fas fa-quote-left" style="font-size: 1.5rem; color: var(--primary); opacity: 0.3; position: absolute; top: 1.5rem; left: 1.5rem;"></i>
+                    <p style="margin-top: 1.5rem; font-style: italic; color: var(--text-main);">"O curso de informática básica abriu portas que eu nem sabia que existiam. Hoje estou empregado e posso ajudar minha família."</p>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-top: 1.5rem; border-top: 1px solid #e2e8f0; padding-top: 1rem;">
+                        <div style="width: 40px; height: 40px; background: #cbd5e1; border-radius: 50%;"></div>
+                        <div>
+                            <strong style="display: block; font-size: 0.95rem;">Carlos Mendes</strong>
+                            <small style="color: var(--text-light);">Ex-aluno</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div style="background: white; padding: 2rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); position: relative;">
+                    <i class="fas fa-quote-left" style="font-size: 1.5rem; color: var(--accent-green); opacity: 0.3; position: absolute; top: 1.5rem; left: 1.5rem;"></i>
+                    <p style="margin-top: 1.5rem; font-style: italic; color: var(--text-main);">"Ser voluntária na distribuição de alimentos renova minhas energias. Ver o sorriso de gratidão das famílias não tem preço."</p>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-top: 1.5rem; border-top: 1px solid #e2e8f0; padding-top: 1rem;">
+                        <div style="width: 40px; height: 40px; background: #cbd5e1; border-radius: 50%;"></div>
+                        <div>
+                            <strong style="display: block; font-size: 0.95rem;">Fernanda Lima</strong>
+                            <small style="color: var(--text-light);">Voluntária</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div style="background: white; padding: 2rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); position: relative;">
+                    <i class="fas fa-quote-left" style="font-size: 1.5rem; color: var(--accent-red); opacity: 0.3; position: absolute; top: 1.5rem; left: 1.5rem;"></i>
+                    <p style="margin-top: 1.5rem; font-style: italic; color: var(--text-main);">"O atendimento oftalmológico salvou a visão da minha mãe. Somos eternamente gratos ao Instituto Eixos."</p>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-top: 1.5rem; border-top: 1px solid #e2e8f0; padding-top: 1rem;">
+                        <div style="width: 40px; height: 40px; background: #cbd5e1; border-radius: 50%;"></div>
+                        <div>
+                            <strong style="display: block; font-size: 0.95rem;">Maria José</strong>
+                            <small style="color: var(--text-light);">Beneficiária</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Volunteer CTA (New) -->
+    <section class="cta-section reveal delay-100" style="padding: 6rem 0; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('assets/img/hero-bg.jpg') center/cover fixed; color: white; text-align: center;">
+        <div class="container">
+            <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem; color: white;">Você pode ser a mudança</h2>
+            <p style="font-size: 1.2rem; opacity: 0.9; margin-bottom: 2.5rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                Existem muitas formas de ajudar. Seja doando seu tempo, recursos financeiros ou compartilhando nossa missão.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="doe-aqui.html" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.1rem;">Quero Doar</a>
+                <a href="fale-conosco.html" class="btn btn-outline" style="border-color: white; color: white; padding: 1rem 2.5rem; font-size: 1.1rem;">Ser Voluntário</a>
+            </div>
+        </div>
+    </section>
+
     <!-- Partners Section -->
     <section class="partners-section">
       <div class="container">
@@ -391,63 +445,40 @@
 
     <!-- Footer -->
     <footer class="footer">
-      <div class="container">
-        <div class="footer-grid">
-          <div class="footer-col" style="max-width: 300px">
-            <img
-              src="assets/img/instituto-eixos-logo.png"
-              alt="Logo"
-              class="footer-logo"
-            />
-            <p style="opacity: 0.7">
-              Transformando a realidade de milhares de brasileiros através da
-              solidariedade e ação social.
-            </p>
-            <div class="social-links-gap">
-              <a href="#" class="social-icon-lg"
-                ><i class="fab fa-instagram"></i
-              ></a>
-              <a href="#" class="social-icon-lg"
-                ><i class="fab fa-facebook"></i
-              ></a>
-              <a href="#" class="social-icon-lg"
-                ><i class="fab fa-youtube"></i
-              ></a>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col" style="max-width: 300px;">
+                    <img src="assets/img/instituto-eixos-logo.png" alt="Logo" class="footer-logo">
+                    <p style="opacity: 0.7;">Transformando a realidade de milhares de brasileiros através da solidariedade e ação social.</p>
+                    <div class="social-links-gap">
+                        <a href="#" class="social-icon-lg"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon-lg"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-icon-lg"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Mapa do Site</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="quem-somos.html">Quem Somos</a></li>
+                        <li><a href="projetos.html">Projetos</a></li>
+                        <li><a href="noticias.html">Notícias</a></li>
+                        <li><a href="#transparencia">Transparência</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contato</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> <span>Taguatinga Norte, Brasília/DF<br>Q CNC 3, Bloco B, Sala 611</span></li>
+                        <li><i class="fas fa-envelope"></i> <span>contato@institutoeixos.org.br</span></li>
+                        <li><i class="fab fa-whatsapp"></i> <span>(61) 98103-0472</span></li>
+                    </ul>
+                </div>
             </div>
-          </div>
-          <div class="footer-col">
-            <h4>Mapa do Site</h4>
-            <ul class="footer-links">
-              <li><a href="index.html">Início</a></li>
-              <li><a href="quem-somos.html">Quem Somos</a></li>
-              <li><a href="projetos.html">Projetos</a></li>
-              <li><a href="noticias.html">Notícias</a></li>
-            </ul>
-          </div>
-          <div class="footer-col">
-            <h4>Contato</h4>
-            <ul class="footer-contact">
-              <li>
-                <i class="fas fa-map-marker-alt"></i>
-                <span
-                  >Taguatinga Norte, Brasília/DF<br />Q CNC 3, Bloco B, Sala
-                  611</span
-                >
-              </li>
-              <li>
-                <i class="fas fa-envelope"></i>
-                <span>contato@institutoeixos.org.br</span>
-              </li>
-              <li>
-                <i class="fab fa-whatsapp"></i> <span>(61) 98103-0472</span>
-              </li>
-            </ul>
-          </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Instituto Eixos. Todos os direitos reservados.</p>
+            </div>
         </div>
-        <div class="footer-bottom">
-          <p>&copy; 2026 Instituto Eixos. Todos os direitos reservados.</p>
-        </div>
-      </div>
     </footer>
 
     <!-- Scripts -->
