@@ -10,6 +10,61 @@
 </head>
 <body>
 
+    <!-- === LOGIN SCREEN OVERLAY === -->
+    <div id="login-screen" class="login-body">
+        <!-- LEFT SIDE: Branding -->
+        <div class="login-brand-side">
+            <div class="brand-content">
+                <h1>Transformando Vidas e Comunidades</h1>
+                <p>Bem-vindo ao sistema de gestão do Instituto Eixos. Controle projetos, transparência e notícias em um só lugar.</p>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE: Form -->
+        <div class="login-form-side">
+            <div class="login-card-modern">
+                <div style="text-align: center;">
+                    <img src="assets/img/instituto-eixos-logo.png" alt="Instituto Eixos" class="login-logo" style="filter: none;">
+                    <h2 style="font-size: 1.75rem; color: var(--admin-secondary); margin-bottom: 0.5rem;">Olá, Administrador</h2>
+                    <p style="color: #64748b; margin-bottom: 2.5rem;">Digite suas credenciais para continuar.</p>
+                </div>
+                
+                <form id="login-form">
+                    <div class="form-group">
+                        <label class="form-label">E-mail</label>
+                        <div style="position: relative;">
+                            <input type="email" class="form-input" placeholder="seu@email.com" value="admin@institutoeixos.org.br" required style="padding-left: 2.5rem;">
+                            <i class="fas fa-envelope" style="position: absolute; left: 1rem; top: 1rem; color: #94a3b8;"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Senha</label>
+                        <div style="position: relative;">
+                             <input type="password" class="form-input" placeholder="••••••••" value="admin123" required style="padding-left: 2.5rem;">
+                             <i class="fas fa-lock" style="position: absolute; left: 1rem; top: 1rem; color: #94a3b8;"></i>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; font-size: 0.9rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #64748b;">
+                            <input type="checkbox" checked style="accent-color: var(--admin-primary);"> Lembrar-me
+                        </label>
+                        <a href="#" style="color: var(--admin-primary); font-weight: 500;">Esqueceu?</a>
+                    </div>
+
+                    <button type="submit" class="btn-login">Acessar Painel <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i></button>
+                </form>
+                
+                <div style="margin-top: 2rem; text-align: center; font-size: 0.85rem; color: #94a3b8;">
+                    &copy; 2026 Instituto Eixos. Todos os direitos reservados.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- === APP CONTENT (Hidden until login) === -->
+    <div id="app-content" style="display: none; width: 100%; height: 100%;">
+    
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-brand">
@@ -23,18 +78,23 @@
                 </a>
             </li>
             <li class="menu-item">
-                <a href="#" class="menu-link" data-section="news">
-                    <i class="fas fa-newspaper"></i> Gerenciar Notícias
-                </a>
-            </li>
-            <li class="menu-item">
                 <a href="#" class="menu-link" data-section="projects">
                     <i class="fas fa-project-diagram"></i> Projetos
                 </a>
             </li>
             <li class="menu-item">
+                <a href="#" class="menu-link" data-section="gallery">
+                    <i class="fas fa-images"></i> Galeria
+                </a>
+            </li>
+            <li class="menu-item">
                 <a href="#" class="menu-link" data-section="transparency">
                     <i class="fas fa-file-invoice-dollar"></i> Transparência
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link" data-section="news">
+                    <i class="fas fa-newspaper"></i> Gerenciar Notícias
                 </a>
             </li>
             <li class="menu-item">
@@ -80,38 +140,91 @@
         <!-- 1. DASHBOARD OVERVIEW -->
         <section id="dashboard" class="dashboard-section active">
             
-            <!-- Stats Grid -->
-            <div class="stats-grid">
+            <!-- Stats Grid (Expanded) -->
+            <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+                
+                <!-- Stat 1: Site Visits -->
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-value">12.5k</div>
+                            <div class="stat-label">Visitas no Site (Mês)</div>
+                        </div>
+                        <div class="stat-icon blue"><i class="fas fa-chart-line"></i></div>
+                    </div>
+                    <span class="status-badge active"><i class="fas fa-arrow-up"></i> 18% vs mês anterior</span>
+                </div>
+
+                <!-- Stat 2: Beneficiaries -->
                 <div class="stat-card">
                     <div class="stat-header">
                         <div>
                             <div class="stat-value">2,540</div>
-                            <div class="stat-label">Beneficiários Totais</div>
+                            <div class="stat-label">Famílias Impactadas</div>
                         </div>
-                        <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+                        <div class="stat-icon green"><i class="fas fa-users"></i></div>
                     </div>
-                    <span class="status-badge active"><i class="fas fa-arrow-up"></i> 12% este mês</span>
+                    <span class="status-badge active"><i class="fas fa-plus"></i> 120 esta semana</span>
                 </div>
 
+                <!-- Stat 3: Donations (Mock) -->
                 <div class="stat-card">
                     <div class="stat-header">
                         <div>
-                            <div class="stat-value">45</div>
-                            <div class="stat-label">Projetos Ativos</div>
+                            <div class="stat-value">R$ 15k</div>
+                            <div class="stat-label">Doações (Janeiro)</div>
                         </div>
-                        <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+                        <div class="stat-icon yellow"><i class="fas fa-hand-holding-heart"></i></div>
                     </div>
+                    <span class="status-badge active"><i class="fas fa-arrow-up"></i> 5% vs meta</span>
                 </div>
 
+                <!-- Stat 4: Pending Messages -->
                 <div class="stat-card">
                     <div class="stat-header">
                         <div>
-                            <div class="stat-value">12</div>
-                            <div class="stat-label">Novas Mensagens</div>
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Fale Conosco</div>
                         </div>
-                        <div class="stat-icon yellow"><i class="fas fa-envelope"></i></div>
+                        <div class="stat-icon" style="background: #f1f5f9; color: var(--admin-secondary);"><i class="fas fa-comment-alt"></i></div>
                     </div>
-                    <span class="status-badge active" style="background: #fef3c7; color: #b45309;">Ação Necessária</span>
+                    <span class="status-badge active" style="background: #fee2e2; color: #b91c1c;">3 Não Lidas</span>
+                </div>
+            </div>
+
+            <!-- Quick Actions & System Health -->
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                
+                <!-- Quick Actions -->
+                <div class="content-card" style="margin-bottom: 0;">
+                    <div class="card-header" style="border-bottom: none; padding-bottom: 0.5rem;">
+                        <h3>Novidades & Ações Rápidas</h3>
+                    </div>
+                    <div style="padding: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                         <button class="btn-sm btn-outline" onclick="openModal('modal-new-project')">
+                            <i class="fas fa-plus-circle" style="color: var(--admin-primary);"></i> Novo Projeto
+                        </button>
+                        <button class="btn-sm btn-outline" onclick="document.querySelector('[data-section=news]').click()">
+                            <i class="fas fa-pen" style="color: var(--warning);"></i> Escrever Notícia
+                        </button>
+                        <button class="btn-sm btn-outline" onclick="openModal('modal-new-doc')">
+                             <i class="fas fa-file-upload" style="color: var(--success);"></i> Publicar Edital
+                        </button>
+                    </div>
+                </div>
+
+                <!-- System Health -->
+                <div class="stat-card" style="display: flex; flex-direction: column; justify-content: center; background: linear-gradient(135deg, var(--admin-secondary), #1e293b); color: white;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h4 style="color: white; margin: 0; font-size: 1rem;">Status do Sistema</h4>
+                        <span style="width: 10px; height: 10px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 10px #22c55e;"></span>
+                    </div>
+                    <div style="font-size: 0.85rem; opacity: 0.8; margin-bottom: 0.5rem;">
+                        <i class="fas fa-server"></i> Servidor: <strong>Online</strong>
+                    </div>
+                    <div style="font-size: 0.85rem; opacity: 0.8;">
+                        <i class="fas fa-database"></i> Backup: <strong>Hoje, 03:00</strong>
+                    </div>
                 </div>
             </div>
 
@@ -256,6 +369,34 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </section>
+
+        <!-- 1.5 GALLERY MANAGEMENT -->
+        <section id="gallery" class="dashboard-section">
+            <div class="content-card">
+                <div class="card-header">
+                    <h3>Galeria de Fotos</h3>
+                    <button class="btn-sm btn-primary"><i class="fas fa-cloud-upload-alt"></i> Upload</button>
+                </div>
+                <div style="padding: 2rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem;">
+                    <!-- Gallery Mock Items -->
+                    <div style="aspect-ratio: 1; background: #e2e8f0; border-radius: 0.5rem; position: relative; overflow: hidden; height: 150px;">
+                        <img src="assets/img/projeto-brasilia-2025-1.webp" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.5); padding: 0.5rem; display: flex; justify-content: flex-end;">
+                            <button class="btn-action btn-delete" style="color: white;"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div style="aspect-ratio: 1; background: #e2e8f0; border-radius: 0.5rem; position: relative; overflow: hidden; height: 150px;">
+                         <img src="assets/img/quem-somos-r1nd93a231j678w13jhp92onbbjg4k3aktxfpo7pow.webp" style="width: 100%; height: 100%; object-fit: cover;">
+                         <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.5); padding: 0.5rem; display: flex; justify-content: flex-end;">
+                            <button class="btn-action btn-delete" style="color: white;"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div style="aspect-ratio: 1; border: 2px dashed #cbd5e1; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #94a3b8; transition: 0.2s;" onmouseenter="this.style.borderColor='var(--admin-primary)'; this.style.color='var(--admin-primary)'" onmouseleave="this.style.borderColor='#cbd5e1'; this.style.color='#94a3b8'">
+                        <i class="fas fa-plus" style="font-size: 1.5rem;"></i>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -543,6 +684,9 @@
         </section>
 
     </main>
+
+    </div>
+    <!-- End #app-content -->
 
     <script src="assets/js/admin.js"></script>
 </body>

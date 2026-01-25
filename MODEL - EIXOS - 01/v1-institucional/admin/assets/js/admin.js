@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'dashboard': 'Visão Geral',
         'news': 'Gerenciar Notícias',
         'projects': 'Meus Projetos',
+        'gallery': 'Galeria de Fotos',
         'transparency': 'Portal da Transparência',
         'messages': 'Caixa de Entrada',
         'users': 'Usuários do Sistema'
@@ -78,12 +79,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    // 0. Login Logic
+    const loginForm = document.getElementById('login-form');
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Mock Login
+            const btn = loginForm.querySelector('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Autenticando...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                // Fade out effect
+                const loginScreen = document.getElementById('login-screen');
+                loginScreen.classList.add('fade-out');
+                
+                // Show Dashboard behind it
+                const appContent = document.getElementById('app-content');
+                appContent.style.display = 'flex'; 
+                
+                // Wait for fade to finish before hiding display
+                setTimeout(() => {
+                    loginScreen.style.display = 'none';
+                    window.dispatchEvent(new Event('resize'));
+                }, 500);
+
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 1000);
+        });
+    }
+
+
+    // 3.5 Logout Confirmation
     // 3.5 Logout Confirmation
     const logoutBtn = document.querySelector('.user-profile a[title="Sair"]');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
-            if (!confirm('Deseja realmente sair do painel?')) {
-                e.preventDefault();
+            e.preventDefault();
+             if (confirm('Deseja realmente sair do painel?')) {
+                document.getElementById('app-content').style.display = 'none';
+                document.getElementById('login-screen').style.display = 'flex';
+                // Reset form
+                if(document.getElementById('login-form')) document.getElementById('login-form').reset();
             }
         });
     }
