@@ -1,0 +1,243 @@
+/* 
+   THEME TEST: Company Visual Identity Colors
+   Colors: Red, Blue, Yellow, Green, White
+*/
+
+:root {
+  /* Primary Brand Color - Blue */
+  --primary: #0056b3; 
+  --primary-dark: #004494;
+
+  /* Secondary Color - Using a deep Neutral Dark Blue for text/headings to maintain readability 
+     while fitting the palette, instead of pure black */
+  --secondary: #0f172a; 
+
+  /* Accents */
+  --accent-red: #e60000;    /* Company Red */
+  --accent-green: #00a84d;  /* Company Green */
+  --accent-purple: #ffcc00; /* REPLACING Purple with Company YELLOW */
+
+  /* Gradients - Mixing the brand colors */
+  --gradient-primary: linear-gradient(135deg, #0056b3 0%, #00a84d 100%); /* Blue to Green */
+
+  /* Backgrounds */
+  --background: #f1f5f9; /* Keep light gray for contrast */
+  --surface: #ffffff;    /* Pure White */
+}
+
+/* 
+   Specific Overrides to ensure Yellow is visible 
+   (Since we replaced Purple with Yellow, we need to ensure text contrast on Yellow bg)
+*/
+.tag-purple, 
+.tag[style*="var(--accent-purple)"] {
+    background: rgba(255, 204, 0, 0.2) !important;
+    color: #b38600 !important; /* Darker yellow for text readability */
+}
+
+/* GLOBAL TEXT ALIGNMENT - JUSTIFIED */
+p {
+    text-align: justify;
+    text-justify: inter-word; /* Improves spacing */
+}
+
+/* Add a specific Yellow class if needed */
+.tag-yellow {
+    background: rgba(255, 204, 0, 0.2);
+    color: #b38600;
+}
+
+/* Update any direct purple usages to yellow text if legible, or darker yellow */
+/* Since we mapped accent-purple to yellow, we need to check contrast where it was used */
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(135deg, #0056b3 0%, #004494 100%); /* Blue variation */
+}
+
+/* Testimonials / Stats - varying the icons to match the 4 colors */
+.stat-card:nth-child(1) i { color: var(--accent-green); }
+.stat-card:nth-child(2) i { color: var(--primary); }      /* Blue */
+.stat-card:nth-child(3) i { color: var(--accent-red); }
+
+/* Pillars Section - adjust icons */
+/* Education - Blue (default) */
+/* Health - Red (default) */
+/* Culture - Was Purple -> Now Yellow */
+/* Sport - Green (default) */
+
+.fa-palette {
+    color: #e6b800 !important; /* Darker yellow for icon visibility on white */
+}
+
+/* === NEWS PAGE STYLES === */
+.filter-btn {
+    background: transparent;
+    border: 1px solid #ddd;
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: var(--text-light);
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: rgba(0, 86, 179, 0.05); /* Tint of primary */
+}
+
+.filter-btn.active {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 4px 10px rgba(0, 86, 179, 0.2);
+}
+
+.newsletter-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.load-more-btn {
+    transition: all 0.3s ease;
+}
+
+/* === NEWS MODAL ADAPTIVE STYLES === */
+.modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%;
+    overflow: hidden;
+}
+
+.modal-gallery {
+    background: #000;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-info {
+    padding: 3rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 992px) {
+    .modal-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: 35vh auto; /* Image takes 35% height */
+        overflow-y: auto; /* Allow scrolling entire container if needed */
+    }
+    
+    .modal-info {
+        padding: 1.5rem;
+        overflow-y: visible; /* Let it flow normally in the grid row */
+    }
+
+    .modal-gallery {
+        min-height: 250px;
+    }
+    
+    /* Ensure modal fits in viewport */
+    #project-modal .modal-content,
+    #news-modal .modal-content {
+        width: 95%;
+        height: 90vh;
+        max-height: 90vh;
+        flex-direction: column;
+    }
+    
+    /* Close button visibility */
+    .modal-close {
+        top: 1rem;
+        right: 1rem;
+        background: rgba(0,0,0,0.5);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* Custom Modal Scrollbar */
+.modal-info::-webkit-scrollbar {
+    width: 6px;
+}
+.modal-info::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+
+/* Article Body Typography */
+.article-body p {
+    margin-bottom: 1rem;
+    line-height: 1.8;
+    color: #444;
+    text-align: justify;
+}
+.article-body h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--secondary);
+    font-size: 1.3rem;
+}
+
+/* Carousel Styles (Reused/Optimized if needed) */
+.carousel-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-slide {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover for immersive/full feel */
+    flex: 0 0 100%;
+}
+
+
+/* === READ MORE BUTTON IMPROVEMENTS === */
+.read-more.btn-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.5rem;
+    background-color: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.read-more.btn-link:hover {
+    background-color: var(--primary);
+    color: white;
+    padding-right: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 86, 179, 0.2);
+}
+
+.read-more.btn-link i {
+    transition: transform 0.3s ease;
+}
+
+.read-more.btn-link:hover i {
+    transform: translateX(5px);
+}

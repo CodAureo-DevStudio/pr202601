@@ -15,6 +15,7 @@
     
     <!-- Styles -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/theme-test.css" id="theme-test">
 </head>
 <body>
 
@@ -22,23 +23,32 @@
     <header class="header">
         <div class="container">
             <a href="index.html" class="header-seal-logo">
+                <span class="logo-menu-label">MENU</span>
                 <img src="assets/img/instituto-eixos-logo.png" alt="Selo Instituto Eixos">
+            </a>
+            
+            <a href="editais.html" class="mobile-quick-link">
+                Transparência
             </a>
             
             <nav class="nav-menu">
                 <a href="index.html" class="nav-link">Início</a>
                 <a href="quem-somos.html" class="nav-link active">Quem Somos</a>
-                <a href="projetos.html" class="nav-link">Projetos</a>
+                <a href="projetos.html" class="nav-link">
+                    Projetos
+                    <span class="mobile-desc">Nossas iniciativas</span>
+                </a>
                 <a href="galeria.html" class="nav-link">Galeria</a>
-                <a href="editais.html" class="nav-link">Transparência</a>
+                <a href="editais.html" class="nav-link">
+                    Transparência
+                    <span class="mobile-desc">Editais e contas</span>
+                </a>
                 <a href="noticias.html" class="nav-link">Notícias</a>
                 <a href="doe-aqui.html" class="nav-link btn btn-outline btn-sm">Doe Aqui</a>
                 <a href="fale-conosco.html" class="nav-link btn btn-primary text-white btn-sm">Fale Conosco</a>
             </nav>
             
-            <div class="menu-toggle">
-                <i class="fas fa-bars"></i>
-            </div>
+
         </div>
     </header>
 
@@ -52,35 +62,68 @@
     </header>
 
     <!-- About Content -->
-    <section class="about-section" style="padding: 4rem 0;">
-        <div class="container">
-            
-            <div class="about-grid">
-                <div class="about-text">
-                    <p>O <strong>Instituto Eixos</strong> é uma organização da sociedade civil com sede em Brasília-DF e atuação em todo o território nacional. Nosso compromisso é transformar vidas e fortalecer comunidades por meio de projetos sociais e ações integradas.</p>
-                    <p><br>Com foco em saúde, educação, turismo, cultura e esporte, promovemos oportunidades que impactam positivamente a sociedade. Acreditamos que a solidariedade e o desenvolvimento humano são essenciais para construir um futuro mais justo, inclusivo e sustentável.</p>
-                </div>
-                <div class="about-image" style="display: flex; flex-direction: column; align-items: center; gap: 1.5rem;">
-                    <img src="assets/img/instituto-eixos-logo.png" alt="Sobre o Instituto Eixos">
-                    <a href="https://institutoeixos.org.br/wp-content/uploads/2025/12/TERMO-DE-FOMENTO.pdf" target="_blank" class="btn btn-outline" style="border-width: 2px;">
-                        <i class="fas fa-file-pdf"></i> Transparência
-                    </a>
-                </div>
+    <!-- Main About Story Section -->
+    <section class="about-story" style="padding: 6rem 0; background: white;">
+      <div class="container" style="max-width: 900px;"> <!-- Narrower container for reading -->
+        
+        <!-- Intro -->
+        <div class="story-block reveal" style="margin-bottom: 4rem; display: flex; align-items: flex-start; gap: 2rem;">
+            <div style="flex: 1;">
+                <h2 class="section-title" style="margin-bottom: 1.5rem;">Quem Somos</h2>
+                <p style="margin-bottom: 1rem;">
+                    O <strong>Instituto Eixos</strong> é muito mais do que uma organização; somos um movimento de transformação. Nascemos em Brasília-DF com o sonho de conectar pessoas e oportunidades.
+                </p>
+                <p>
+                    Desde nossa fundação, entendemos que para mudar a realidade, é preciso estar presente. Por isso, nossa atuação não se limita a escritórios; nós vamos onde a necessidade está, em todo o território nacional.
+                </p>
             </div>
+            <img src="assets/img/instituto-eixos-logo.png" alt="Logo" style="width: 180px; height: auto; border-radius: 50%; box-shadow: var(--shadow-md); padding: 1rem; background: #fff; border: 1px solid #f1f5f9;">
+        </div>
 
-            <!-- Mission, Vision, Values -->
+        <!-- Motivation (Image Left) -->
+        <div class="story-block reveal delay-100" style="margin-bottom: 4rem; display: flex; flex-direction: row-reverse; align-items: center; gap: 3rem;">
+            <div style="flex: 1;">
+                <h3 style="font-size: 1.75rem; color: var(--secondary); margin-bottom: 1rem;">O Que Nos Move</h3>
+                <p style="margin-bottom: 1rem;">
+                    Acreditamos que cada ser humano possui um potencial único, mas nem todos têm as mesmas oportunidades. É aí que entramos.
+                </p>
+                <p>
+                    Com foco em cinco pilares essenciais — <strong>saúde, educação, turismo, cultura e esporte</strong> — criamos pontes para que jovens, adultos e idosos possam atravessar para um futuro mais digno e promissor.
+                </p>
+            </div>
+            <img src="assets/img/aplicação-instituto-eixos.png" alt="Nossa atuação" style="width: 220px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); transform: rotate(-2deg);">
+        </div>
+
+        <!-- Transparency (Text Full with Button) -->
+        <div class="story-block reveal delay-200" style="text-align: center; background: #f8fafc; padding: 3rem; border-radius: var(--radius-md); border-left: 5px solid var(--primary);">
+            <i class="fas fa-file-contract" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;"></i>
+            <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Compromisso com a Verdade</h3>
+            <p style="margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                A transparência não é apenas uma obrigação, é um valor inegociável. Cada recurso investido no Instituto Eixos é tratado com rigor e responsabilidade.
+            </p>
+            <a href="https://institutoeixos.org.br/wp-content/uploads/2025/12/TERMO-DE-FOMENTO.pdf" target="_blank" class="btn btn-outline">
+                <i class="fas fa-file-pdf"></i> Acessar Relatórios de Transparência
+            </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Mission, Vision, Values -->
+    <section class="values-section bg-light" style="padding: 4rem 0;">
+        <div class="container">
             <div class="values-grid">
-                <div class="value-item">
+                <div class="value-item reveal delay-100">
                     <i class="fas fa-rocket"></i>
                     <h3>Missão</h3>
                     <p>Promover oportunidades e transformar vidas por meio de iniciativas que impactam a saúde, educação, turismo, a cultura e o esporte, ajudando pessoas a desenvolverem seu potencial e melhorando suas condições de vida.</p>
                 </div>
-                <div class="value-item">
+                <div class="value-item reveal delay-200">
                     <i class="fas fa-eye"></i>
                     <h3>Visão</h3>
                     <p>Ser uma organização de referência na execução de projetos sociais, promovendo impacto positivo e sustentável. Buscamos fortalecer comunidades, ampliar oportunidades e contribuir para uma sociedade mais justa, inclusiva e solidária.</p>
                 </div>
-                <div class="value-item">
+                <div class="value-item reveal delay-300">
                     <i class="fas fa-handshake"></i>
                     <h3>Valores</h3>
                     <p class="text-justify" style="font-size: 0.9rem;">
@@ -257,7 +300,7 @@
                     <img src="assets/img/instituto-eixos-logo.png" alt="Logo" class="footer-logo">
                     <p style="opacity: 0.7;">Transformando a realidade de milhares de brasileiros através da solidariedade e ação social.</p>
                     <div class="social-links-gap">
-                        <a href="#" class="social-icon-lg"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.instagram.com/institutoeixos/" class="social-icon-lg" target="_blank"><i class="fab fa-instagram"></i></a>
                         <a href="#" class="social-icon-lg"><i class="fab fa-facebook"></i></a>
                         <a href="#" class="social-icon-lg"><i class="fab fa-youtube"></i></a>
                     </div>

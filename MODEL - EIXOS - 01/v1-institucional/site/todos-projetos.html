@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projetos - Instituto Eixos</title>
+    <meta name="description" content="Conheça os projetos do Instituto Eixos que transformam vidas no DF através de segurança alimentar, saúde e educação.">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/theme-test.css" id="theme-test">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="header-seal-logo">
+                <span class="logo-menu-label">MENU</span>
+                <img src="assets/img/instituto-eixos-logo.png" alt="Selo Instituto Eixos">
+            </a>
+            
+            <a href="editais.html" class="mobile-quick-link">
+                Transparência
+            </a>
+            
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">Início</a>
+                <a href="quem-somos.html" class="nav-link">Quem Somos</a>
+                <a href="projetos.html" class="nav-link active">
+                    Projetos
+                    <span class="mobile-desc">Nossas iniciativas</span>
+                </a>
+                <a href="galeria.html" class="nav-link">Galeria</a>
+                <a href="editais.html" class="nav-link">
+                    Transparência
+                    <span class="mobile-desc">Editais e contas</span>
+                </a>
+                <a href="noticias.html" class="nav-link">Notícias</a>
+                <a href="doe-aqui.html" class="nav-link btn btn-outline btn-sm">Doe Aqui</a>
+                <a href="fale-conosco.html" class="nav-link btn btn-primary text-white btn-sm">Fale Conosco</a>
+            </nav>
+            
+
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <!-- Page Header (Simplified) -->
+    <header class="page-header" style="height: 30vh; min-height: 300px; display: flex; align-items: center;">
+        <div class="page-header-bg" style="filter: brightness(0.4);"></div>
+        <div class="container page-header-content text-center">
+            <h1 style="font-size: 3rem; margin-bottom: 1rem;">Todos os Projetos</h1>
+            <p style="font-size: 1.1rem; max-width: 600px; margin: 0 auto; color: rgba(255,255,255,0.9);">
+                Conheça todas as nossas iniciativas que estão transformando vidas.
+            </p>
+        </div>
+    </header>
+
+    <section class="section-projects" style="padding-top: 4rem;">
+        <div class="container">
+            
+            <!-- Filter Tabs -->
+            <div class="filter-tabs reveal">
+                <button class="filter-btn active">Todos</button>
+                <button class="filter-btn">Saúde</button>
+                <button class="filter-btn">Educação</button>
+                <button class="filter-btn">Cultura</button>
+                <button class="filter-btn">Segurança Alimentar</button>
+            </div>
+
+            <!-- Projects Grid (All Projects) -->
+            <div class="page-grid">
+                
+                <!-- Project 1: Brasília 2025 -->
+                <div class="article-card reveal delay-100" 
+                     onclick="openProjectModal(this)"
+                     data-title="Brasília 2025"
+                     data-category="Segurança Alimentar"
+                     data-description="Nossa iniciativa capitânia no combate à fome. Atuamos em mais de 15 regiões."
+                     data-stats="2.500+ Famílias | 15 Regiões"
+                     data-full-description="O Projeto Brasília 2025 é a nossa principal frente de atuação no combate à fome e à desigualdade no Distrito Federal. <br><br> Com uma gestão logística eficiente e parcerias estratégicas, atuamos em mais de 15 regiões administrativas, garantindo que alimentos frescos, cestas básicas e itens de vestuário cheguem a quem realmente precisa. <br><br> Além da distribuição de recursos, realizamos um trabalho de triagem social para identificar as famílias em situação de maior vulnerabilidade."
+                     data-images='["assets/img/projeto-brasilia-2025-1.png", "assets/img/quem-somos-team.png", "assets/img/ong-instituto-eixos.png"]'>
+                    <div class="article-image">
+                        <span class="tag tag-primary card-tag">Em Andamento</span>
+                        <img src="assets/img/projeto-brasilia-2025-1.png" alt="Brasília 2025" loading="lazy">
+                    </div>
+                    <div class="article-content">
+                        <h3 class="article-title">Brasília 2025</h3>
+                        <div class="card-stats-preview">
+                            <span><i class="fas fa-home"></i> 2.500+ Famílias</span>
+                        </div>
+                        <p class="article-excerpt">Iniciativa capitânia no combate à fome e segurança alimentar.</p>
+                        <button class="btn btn-outline btn-sm mt-auto">Ver Detalhes</button>
+                    </div>
+                </div>
+
+                <!-- Project 2: Saúde -->
+                <div class="article-card reveal delay-200"
+                     onclick="openProjectModal(this)"
+                     data-title="Mutirão da Saúde Integral"
+                     data-category="Saúde"
+                     data-description="Levamos saúde de qualidade para onde o governo não chega. Check-ups, encaminhamentos e doação de óculos."
+                     data-stats="1.200+ Atendimentos | 50 Médicos"
+                     data-full-description="A saúde é um direito básico, mas muitas vezes inacessível. O Mutirão da Saúde Integral leva atendimento médico humanizado diretamente às comunidades carentes. <br><br> Nossas ações itinerantes contam com uma equipe voluntária de médicos, dentistas, oftalmologistas e enfermeiros."
+                     data-images='["assets/img/quem-somos-r1nd93a231j678w13jhp92onbbjg4k3aktxfpo7pow.webp", "assets/img/projeto-brasilia-2025-1.webp"]'>
+                    <div class="article-image">
+                        <span class="tag tag-green card-tag">Saúde</span>
+                        <img src="assets/img/quem-somos-r1nd93a231j678w13jhp92onbbjg4k3aktxfpo7pow.webp" alt="Mutirão da Saúde" loading="lazy">
+                    </div>
+                    <div class="article-content">
+                        <h3 class="article-title">Mutirão da Saúde Integral</h3>
+                        <div class="card-stats-preview">
+                            <span><i class="fas fa-user-md"></i> 1.200+ Atendimentos</span>
+                        </div>
+                        <p class="article-excerpt">Ações itinerantes que levam atendimento médico básico e oftalmológico.</p>
+                        <button class="btn btn-outline btn-sm mt-auto">Ver Detalhes</button>
+                    </div>
+                </div>
+
+                <!-- Project 2.5: Campanha Sorriso -->
+                <div class="article-card reveal delay-250"
+                     onclick="openProjectModal(this)"
+                     data-title="Campanha Sorriso"
+                     data-category="Saúde"
+                     data-description="Atendimento odontológico gratuito para crianças em idade escolar."
+                     data-stats="500+ Crianças | 20 Dentistas"
+                     data-full-description="A saúde bucal é fundamental. Com a Campanha Sorriso, levamos kits de higiene e tratamento dentário completo para escolas públicas das regiões administrativas."
+                     data-images='["assets/img/quem-somos-r1nd93a231j678w13jhp92onbbjg4k3aktxfpo7pow.webp", "assets/img/projeto-brasilia-2025-1.webp"]'>
+                    <div class="article-image">
+                        <span class="tag tag-green card-tag">Saúde</span>
+                        <img src="assets/img/quem-somos-r1nd93a231j678w13jhp92onbbjg4k3aktxfpo7pow.webp" alt="Campanha Sorriso" loading="lazy">
+                    </div>
+                    <div class="article-content">
+                        <h3 class="article-title">Campanha Sorriso</h3>
+                        <div class="card-stats-preview">
+                            <span><i class="fas fa-smile"></i> 500+ Crianças</span>
+                        </div>
+                        <p class="article-excerpt">Atendimento odontológico e kits de higiene para escolas.</p>
+                        <button class="btn btn-outline btn-sm mt-auto">Ver Detalhes</button>
+                    </div>
+                </div>
+
+                <!-- Project 3: Educação -->
+                <div class="article-card reveal delay-300"
+                     onclick="openProjectModal(this)"
+                     data-title="Futuro Brilhante"
+                     data-category="Educação"
+                     data-description="Cursos de alfabetização digital e empreendedorismo para jovens e mães solo."
+                     data-stats="350+ Formados | 100% Gratuito"
+                     data-full-description="Acreditamos que a educação transforma destinos. O Projeto Futuro Brilhante oferece capacitação profissional gratuita focada nas demandas do mercado atual. <br><br> Oferecemos cursos de alfabetização digital, programação básica e artesanato sustentável."
+                     data-images='["assets/img/transparencia-r1nd963knjn162rxn2pkyjz13h5jrnehl7vw5i3j68.webp", "assets/img/ong-instituto-eixos-1024x682.webp"]'>
+                    <div class="article-image">
+                        <span class="tag tag-red card-tag">Educação</span>
+                        <img src="assets/img/transparencia-r1nd963knjn162rxn2pkyjz13h5jrnehl7vw5i3j68.webp" alt="Futuro Brilhante" loading="lazy">
+                    </div>
+                    <div class="article-content">
+                        <h3 class="article-title">Futuro Brilhante</h3>
+                        <div class="card-stats-preview">
+                            <span><i class="fas fa-graduation-cap"></i> 350+ Formados</span>
+                        </div>
+                        <p class="article-excerpt">Cursos profissionalizantes gratuitos focados em inclusão digital.</p>
+                        <button class="btn btn-outline btn-sm mt-auto">Ver Detalhes</button>
+                    </div>
+                </div>
+
+                <!-- Placeholder Project -->
+                <div class="article-card reveal delay-400"
+                     data-category="Geral"
+                     style="opacity: 0.7; cursor: default;">
+                     <div class="article-image" style="background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-plus-circle" style="font-size: 3rem; color: #cbd5e1;"></i>
+                     </div>
+                     <div class="article-content">
+                        <h3 class="article-title">Em Breve</h3>
+                        <p class="article-excerpt">Novos projetos estão sendo desenvolvidos. Aguarde novidades!</p>
+                     </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- Project Modal (Existing Structure) -->
+        <div id="project-modal" class="modal-overlay">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeProjectModal()">&times;</button>
+                
+                <div class="modal-grid">
+                    <!-- Left Column: Image + Meta -->
+                    <div class="modal-left-col">
+                        <!-- Carousel -->
+                        <div class="modal-carousel-container">
+                            <div class="modal-carousel" id="modal-carousel-track">
+                                <!-- Images injected via JS -->
+                            </div>
+                            <button class="carousel-btn prev" onclick="moveCarousel(-1)">&#10094;</button>
+                            <button class="carousel-btn next" onclick="moveCarousel(1)">&#10095;</button>
+                            <div class="carousel-dots" id="carousel-dots">
+                                <!-- Dots injected via JS -->
+                            </div>
+                        </div>
+
+                        <!-- Meta Data (Tags & Stats) - Below Image -->
+                        <div class="modal-meta" style="margin-top: 1.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                            <span class="tag tag-primary" id="modal-category" style="margin-bottom: 0;">Categoria</span>
+                            <div id="modal-stats" style="font-weight: 600; color: var(--secondary); font-size: 0.9rem;">Stats</div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Info -->
+                    <div class="modal-info">
+                        <button class="modal-close mobile-only" onclick="closeProjectModal()">&times;</button> <!-- Close button for mobile -->
+                        
+                        <h2 id="modal-title" class="modal-title" style="margin-top: 0; margin-bottom: 1.5rem;">Título do Projeto</h2>
+                        
+                        <!-- CTA Buttons (Moved Up) -->
+                        <div class="modal-cta-section mb-4">
+                            <h5 class="mb-2" style="font-size: 0.9rem; color: var(--text-light); text-transform: uppercase;">Como Ajudar?</h5>
+                            <div class="d-flex gap-2">
+                                <a href="doe-aqui.html" class="btn btn-primary" style="flex: 1;">Doar Agora</a>
+                                <a href="fale-conosco.html" class="btn btn-outline" style="flex: 1;">Ser Voluntário</a>
+                            </div>
+                        </div>
+
+                        <div id="modal-accordion" class="accordion">
+                            <!-- Accordion injected via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section-testimonials bg-light reveal" style="padding: 4rem 0;">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">O Impacto Real</h2>
+            <div class="testimonials-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card" style="background: white; padding: 2rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <img src="assets/img/depoimento-1.jpg" alt="Maria S." style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: #ddd;" loading="lazy">
+                        <div>
+                            <h4 style="margin: 0; font-size: 1.1rem; color: var(--secondary);">Maria Silva</h4>
+                            <span style="font-size: 0.85rem; color: var(--text-light);">Beneficiária - Brasília 2025</span>
+                        </div>
+                    </div>
+                    <p style="font-style: italic; color: var(--text-main);">"O Instituto Eixos não trouxe apenas comida, trouxe esperança. Hoje meus filhos têm o que vestir e eu consegui um curso para voltar a trabalhar."</p>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card" style="background: white; padding: 2rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
+                     <div class="d-flex align-items-center gap-3 mb-3">
+                        <img src="assets/img/depoimento-2.jpg" alt="João P." style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: #ddd;" loading="lazy">
+                        <div>
+                            <h4 style="margin: 0; font-size: 1.1rem; color: var(--secondary);">João Pereira</h4>
+                            <span style="font-size: 0.85rem; color: var(--text-light);">Aluno - Futuro Brilhante</span>
+                        </div>
+                    </div>
+                    <p style="font-style: italic; color: var(--text-main);">"Fiz o curso de informática e em menos de dois meses consegui meu primeiro emprego. Sou muito grato pela oportunidade."</p>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card" style="background: white; padding: 2rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
+                     <div class="d-flex align-items-center gap-3 mb-3">
+                        <img src="assets/img/depoimento-3.jpg" alt="Dra. Ana" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: #ddd;" loading="lazy">
+                        <div>
+                            <h4 style="margin: 0; font-size: 1.1rem; color: var(--secondary);">Dra. Ana Costa</h4>
+                            <span style="font-size: 0.85rem; color: var(--text-light);">Médica Voluntária</span>
+                        </div>
+                    </div>
+                    <p style="font-style: italic; color: var(--text-main);">"Participar dos mutirões de saúde renovou meu propósito como médica. Ver o alívio no rosto de quem é atendido não tem preço."</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section class="section-partners reveal" style="padding: 4rem 0;">
+        <div class="container text-center">
+            <h5 style="color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2rem;">Quem Apoia Nossa Causa</h5>
+            <div class="partners-flex" style="display: flex; justify-content: center; align-items: center; gap: 3rem; flex-wrap: wrap; opacity: 0.6;">
+                <i class="fas fa-university fa-3x" title="Governo do DF"></i>
+                <i class="fas fa-building fa-3x" title="Empresas Parceiras"></i>
+                <i class="fas fa-hand-holding-heart fa-3x" title="Doadores"></i>
+                <i class="fas fa-landmark fa-3x" title="Instituições"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="section-cta">
+        <div class="container text-center">
+            <h2 class="section-title">Quer apoiar nossos projetos?</h2>
+            <p class="section-subtitle">Sua contribuição faz toda a diferença.</p>
+            <a href="quem-somos.html#contato" class="btn btn-primary">Entre em Contato</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col" style="max-width: 300px;">
+                    <img src="assets/img/instituto-eixos-logo.png" alt="Logo" class="footer-logo" loading="lazy">
+                    <p style="opacity: 0.7;">Transformando a realidade de milhares de brasileiros através da solidariedade e ação social.</p>
+                    <div class="social-links-gap">
+                        <a href="https://www.instagram.com/institutoeixos/" class="social-icon-lg" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon-lg"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-icon-lg"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Mapa do Site</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="quem-somos.html">Quem Somos</a></li>
+                        <li><a href="projetos.html">Projetos</a></li>
+                        <li><a href="noticias.html">Notícias</a></li>
+                        <li><a href="#transparencia">Transparência</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contato</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> <span>Taguatinga Norte, Brasília/DF<br>Q CNC 3, Bloco B, Sala 611</span></li>
+                        <li><i class="fas fa-envelope"></i> <span>contato@institutoeixos.org.br</span></li>
+                        <li><i class="fab fa-whatsapp"></i> <span>(61) 98103-0472</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Instituto Eixos. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

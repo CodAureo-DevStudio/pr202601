@@ -9,12 +9,103 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Main Elements
+  const logo = document.querySelector(".header-seal-logo");
+
+
   // Close menu when clicking a link
   document.querySelectorAll(".nav-link").forEach((link) => {
     link.addEventListener("click", () => {
       navMenu.classList.remove("active");
     });
   });
+
+  // === FLUID PULL-DOWN MENU GESTURE ===
+  // const logo declared above
+  let startY = 0;
+  let currentY = 0;
+  
+  if (logo && navMenu) {
+    logo.addEventListener("touchstart", (e) => {
+      startY = e.touches[0].clientY;
+      // Disable transitions for instant response
+      logo.style.transition = "none";
+      navMenu.style.transition = "none";
+    }, { passive: true });
+
+    logo.addEventListener("touchmove", (e) => {
+      currentY = e.touches[0].clientY;
+      const diff = currentY - startY;
+      const menuHeight = navMenu.offsetHeight;
+      const isOpen = navMenu.classList.contains("active");
+
+      // CASE 1: MENU CLOSED -> PULL DOWN (diff > 0)
+      if (!isOpen && diff > 0) {
+        // "Bookmark" Physics: 1:1 Movement
+        logo.style.transform = `translateY(${diff}px)`;
+        
+        const menuPixelOffset = diff - menuHeight; 
+        navMenu.style.transform = `translateY(${menuPixelOffset}px)`;
+      }
+
+      // CASE 2: MENU OPEN -> PUSH UP (diff < 0)
+      if (isOpen && diff < 0) {
+         // Move everything UP
+         logo.style.transform = `translateY(${diff}px)`;
+         navMenu.style.transform = `translateY(${diff}px)`;
+      }
+    }, { passive: true });
+
+    // CLICK EVENT: Open menu on logo click (Mobile)
+    logo.addEventListener("click", (e) => {
+      if (window.innerWidth <= 900) {
+        e.preventDefault(); // Stop navigation to index.html if we want to open menu instead
+        
+        logo.style.transition = "transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)";
+        navMenu.style.transition = "transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)";
+        
+        if (!navMenu.classList.contains("active")) {
+          navMenu.classList.add("active");
+          if (navigator.vibrate) navigator.vibrate(50);
+        } else {
+          navMenu.classList.remove("active");
+        }
+      }
+    });
+
+    logo.addEventListener("touchend", () => {
+      const diff = currentY - startY;
+      const isOpen = navMenu.classList.contains("active");
+      
+      // Re-enable transitions for smooth snap
+      logo.style.transition = "transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)";
+      navMenu.style.transition = "transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)";
+      
+      logo.style.transform = ""; // Reset logo position (always snaps back to top)
+
+      if (!isOpen) {
+        // OPENING VISITOR
+        if (diff > 150 && window.innerWidth <= 900) {
+            navMenu.style.transform = ""; // Clear inline transform
+            navMenu.classList.add("active"); // CSS takes over (translateY(0))
+            if (navigator.vibrate) navigator.vibrate(50);
+        } else {
+            // Revert (Close)
+            navMenu.style.transform = ""; // Clear inline (returns to -100%)
+        }
+      } else {
+        // CLOSING VISITOR
+        if (diff < -100) { // Dragged up by 100px
+            navMenu.style.transform = "";
+            navMenu.classList.remove("active"); // CSS takes over (translateY(-100%))
+            if (navigator.vibrate) navigator.vibrate(50);
+        } else {
+            // Revert (Stay Open)
+            navMenu.style.transform = ""; // Clear inline returns to active (0)
+        }
+      }
+    });
+  }
 
   // Stats Counter Animation
   const stats = document.querySelectorAll(".number");
@@ -110,7 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
       socialContainer.className = "floating-socials";
       
       const whatsappLink = "https://wa.me/5561981030472"; // Using number from footer
-      const instagramLink = "#"; // Placeholder
+      const instagramLink = "https://www.instagram.com/institutoeixos/"; // Placeholder
       
       socialContainer.innerHTML = `
           <a href="${whatsappLink}" target="_blank" class="social-float-btn btn-whatsapp" aria-label="Fale conosco no WhatsApp">
@@ -135,22 +226,31 @@ document.addEventListener("DOMContentLoaded", function () {
   
   textReveals.forEach(el => textObserver.observe(el));
 
-  // 3D Tilt Effect for Cards
+  // 3D Tilt Effect for Cards - Optimized
   const cards = document.querySelectorAll(".article-card");
   
   cards.forEach(card => {
-      card.addEventListener("mousemove", (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-          
-          const rotateX = ((y - centerY) / centerY) * -5; // Max 5deg tilt
-          const rotateY = ((x - centerX) / centerX) * 5;
+      let ticking = false;
 
-          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+      card.addEventListener("mousemove", (e) => {
+          if (!ticking) {
+              window.requestAnimationFrame(() => {
+                  const rect = card.getBoundingClientRect();
+                  const x = e.clientX - rect.left;
+                  const y = e.clientY - rect.top;
+                  
+                  const centerX = rect.width / 2;
+                  const centerY = rect.height / 2;
+                  
+                  // Reduced tilt for subtle, smoother feel
+                  const rotateX = ((y - centerY) / centerY) * -3; 
+                  const rotateY = ((x - centerX) / centerX) * 3;
+
+                  card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                  ticking = false;
+              });
+              ticking = true;
+          }
       });
 
       card.addEventListener("mouseleave", () => {
@@ -158,17 +258,25 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   });
 
-  // Magnetic Buttons (Desktop only)
+  // Magnetic Buttons (Desktop only) - Optimized
   if (window.innerWidth > 768) {
       const btns = document.querySelectorAll(".btn");
       
       btns.forEach(btn => {
+          let ticking = false;
+
           btn.addEventListener("mousemove", (e) => {
-              const rect = btn.getBoundingClientRect();
-              const x = e.clientX - rect.left - rect.width / 2;
-              const y = e.clientY - rect.top - rect.height / 2;
-              
-              btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+              if (!ticking) {
+                  window.requestAnimationFrame(() => {
+                      const rect = btn.getBoundingClientRect();
+                      const x = e.clientX - rect.left - rect.width / 2;
+                      const y = e.clientY - rect.top - rect.height / 2;
+                      
+                      btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`; // Reduced factor slightly
+                      ticking = false;
+                  });
+                  ticking = true;
+              }
           });
           
           btn.addEventListener("mouseleave", () => {
@@ -188,7 +296,7 @@ document.addEventListener("DOMContentLoaded", function () {
           overlay.innerHTML = `
               <div class="mobile-popup-card">
                   <button class="popup-close">&times;</button>
-                  <img src="${imgSrc}" class="popup-image" alt="${title}">
+                  <img src="${imgSrc}" class="popup-image" alt="${title}" loading="lazy">
                   <div class="popup-content">
                       <h3 class="popup-title">${title}</h3>
                       <p class="popup-text">${text}</p>
@@ -299,47 +407,38 @@ window.openProjectModal = function(card) {
         }
     ];
 
-    sections.forEach((section, index) => {
+    sections.forEach((section) => {
+        // Create Item
         const item = document.createElement("div");
         item.className = "accordion-item";
-
-        // Open first item by default
-        const isActive = index === 0 ? "active" : "";
-        const contentStyle = index === 0 ? "max-height: 500px;" : ""; 
-
-        let pdfHtml = "";
+        
+        const header = document.createElement("div");
+        header.className = "accordion-header";
+        header.innerHTML = `<h4>${section.title}</h4><i class="fas fa-chevron-down"></i>`;
+        
+        const body = document.createElement("div");
+        body.className = "accordion-body";
+        
         if (section.pdf) {
-            pdfHtml = `<br><a href="#" class="accordion-pdf-link"><i class="fas fa-file-pdf"></i> Baixar ${section.pdf}</a>`;
+            body.innerHTML = `${section.content} <a href="${section.pdf}" class="btn-link" target="_blank"><i class="fas fa-file-pdf"></i> Baixar Arquivo</a>`;
+        } else {
+            body.innerHTML = section.content;
         }
 
-        item.innerHTML = `
-            <button class="accordion-header ${isActive}">
-                ${section.title}
-                <i class="fas fa-chevron-down"></i>
-            </button>
-            <div class="accordion-content" style="${contentStyle}">
-                <div class="accordion-body">
-                    ${section.content}
-                    ${pdfHtml}
-                </div>
-            </div>
-        `;
+        // Toggle Logic
+        header.onclick = () => {
+            const isActive = item.classList.contains("active");
+            
+            // Close all others
+            document.querySelectorAll(".accordion-item").forEach(i => i.classList.remove("active"));
+            
+            // Toggle clicked
+            if (!isActive) item.classList.add("active");
+        };
 
+        item.appendChild(header);
+        item.appendChild(body);
         accordionContainer.appendChild(item);
-
-        // Add Click Event
-        const header = item.querySelector(".accordion-header");
-        const content = item.querySelector(".accordion-content");
-
-        header.addEventListener("click", () => {
-            // Toggle current
-            header.classList.toggle("active");
-            if (header.classList.contains("active")) {
-                content.style.maxHeight = content.scrollHeight + "px";
-            } else {
-                content.style.maxHeight = null;
-            }
-        });
     });
 
     
@@ -357,6 +456,7 @@ window.openProjectModal = function(card) {
         const img = document.createElement("img");
         img.src = imgSrc;
         img.className = "carousel-slide";
+        img.loading = "lazy"; // Optimization
         track.appendChild(img);
         
         // Create Dot
@@ -453,5 +553,303 @@ document.addEventListener("DOMContentLoaded", function() {
              setTimeout(() => isPaused = false, 1000);
         });
     }
+    // === PROJECT FILTERS ===
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.article-card');
+
+    if (filterBtns.length > 0) {
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 1. Remove active class from all
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // 2. Add active to clicked
+                btn.classList.add('active');
+
+                // 3. Get filter value
+                const filterValue = btn.textContent.trim();
+
+                // 4. Filter Items
+                projectCards.forEach(card => {
+                    const category = card.getAttribute('data-category');
+                    
+                    // Show if 'Todos' or category matches (safeguard against null)
+                    if (filterValue === 'Todos' || (category && category.includes(filterValue))) {
+                        card.style.display = 'block';
+                        // Add fade in animation reset
+                        card.classList.remove('reveal');
+                        void card.offsetWidth; // trigger reflow
+                        card.classList.add('reveal', 'active');
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
 });
 
+// === LIGHTBOX LOGIC (Global) ===
+document.addEventListener("DOMContentLoaded", () => {
+    // Inject Lightbox HTML if not exists
+    if (!document.getElementById("lightbox")) {
+        const lightboxHTML = `
+            <div id="lightbox" class="lightbox">
+                <button class="lightbox-close">&times;</button>
+                <div class="lightbox-container">
+                    <img id="lightbox-img" class="lightbox-content" src="" alt="Zoom">
+                    <div class="lightbox-footer">
+                        <h3 id="lightbox-title"></h3>
+                        <p id="lightbox-caption"></p>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML("beforeend", lightboxHTML);
+    }
+
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const lightboxTitle = document.getElementById("lightbox-title");
+    const lightboxCaption = document.getElementById("lightbox-caption");
+    const lightboxClose = document.querySelector(".lightbox-close");
+
+    // Close Functions
+    const closeLightbox = () => {
+        lightbox.classList.remove("active");
+        setTimeout(() => {
+            lightboxImg.src = "";
+            lightboxTitle.innerText = "";
+            lightboxCaption.innerText = "";
+        }, 300); 
+    };
+
+    lightboxClose.addEventListener("click", closeLightbox);
+    
+    // Close on background click
+    lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox || e.target.classList.contains('lightbox-container')) closeLightbox();
+    });
+
+    // Close on Escape
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && lightbox.classList.contains("active")) {
+            closeLightbox();
+        }
+    });
+
+    // Global Open Function
+    window.openLightbox = function(src, title, caption) {
+        lightboxImg.src = src;
+        lightboxTitle.innerText = title || "";
+        lightboxCaption.innerText = caption || "";
+        lightbox.classList.add("active");
+    };
+});
+
+
+// === NEWS PAGE LOGIC ===
+document.addEventListener("DOMContentLoaded", function() {
+    const filterBtns = document.querySelectorAll(".news-controls .filter-btn");
+    const newsGrid = document.getElementById("news-grid");
+    const loadMoreBtn = document.getElementById("load-more-btn");
+    const articles = document.querySelectorAll(".article-card");
+
+    // 1. Category Filtering
+    if (filterBtns.length > 0 && newsGrid) {
+        filterBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                // Remove active class
+                filterBtns.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+
+                const filter = btn.getAttribute("data-filter");
+
+                document.querySelectorAll(".article-card").forEach(card => {
+                    const category = card.getAttribute("data-category");
+
+                    if (filter === "all" || category === filter) {
+                        card.style.display = "flex"; // Restore display
+                        // Small animation reset
+                        card.style.animation = "none";
+                        card.offsetHeight; /* trigger reflow */
+                        card.style.animation = "fadeInUp 0.6s ease forwards";
+                    } else {
+                        card.style.display = "none";
+                    }
+                });
+            });
+        });
+    }
+
+    // 2. Load More Simulation
+    if (loadMoreBtn && newsGrid) {
+        loadMoreBtn.addEventListener("click", () => {
+            // Loading State
+            const originalText = loadMoreBtn.innerHTML;
+            loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Carregando...';
+            loadMoreBtn.disabled = true;
+
+            setTimeout(() => {
+                // Simulate fetching new data by cloning existing cards
+                const currentCards = document.querySelectorAll(".article-card");
+                const count = currentCards.length;
+                
+                // Clone the first 3 cards to simulate "new" old posts
+                if (count < 12) { // Limit total
+                    const cardsToClone = Array.from(articles).slice(0, 3);
+                    
+                    cardsToClone.forEach(card => {
+                        const clone = card.cloneNode(true);
+                        // Update date to look "older" or just random
+                        const dateEl = clone.querySelector(".meta-date");
+                        if(dateEl) dateEl.innerHTML = `<i class="far fa-calendar-alt"></i> 10 Dez, 2025`;
+                        
+                        newsGrid.appendChild(clone);
+                    });
+
+                    // Restore Button
+                    loadMoreBtn.innerHTML = originalText;
+                    loadMoreBtn.disabled = false;
+                } else {
+                    // No more content
+                    loadMoreBtn.innerHTML = "Não há mais notícias";
+                    loadMoreBtn.disabled = true;
+                }
+
+            }, 1500); // 1.5s simulated delay
+        });
+    }
+    
+    // 3. Search Bar Mock
+    const searchInput = document.querySelector(".search-bar input");
+    if (searchInput) {
+        searchInput.addEventListener("keyup", (e) => {
+            const term = e.target.value.toLowerCase();
+            document.querySelectorAll(".article-card").forEach(card => {
+                const title = card.querySelector(".article-title").innerText.toLowerCase();
+                if (title.includes(term)) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        });
+    }
+
+    // === NEWS PAGE MODAL LOGIC ===
+    let newsCarouselInterval;
+    let currentNewsSlide = 0;
+
+    window.openNewsModal = function(card) {
+        const modal = document.getElementById("news-modal");
+        if (!modal) return;
+
+        // Get Data
+        const title = card.getAttribute("data-title");
+        const category = card.getAttribute("data-category");
+        const date = card.getAttribute("data-date");
+        const content = card.getAttribute("data-content");
+        const images = JSON.parse(card.getAttribute("data-images") || "[]");
+
+        // Populate Info
+        document.getElementById("news-modal-title").innerText = title;
+        document.getElementById("news-modal-body").innerHTML = content;
+        document.getElementById("news-modal-date").innerHTML = `<i class="far fa-calendar-alt"></i> ${date}`;
+        
+        const catSpan = document.getElementById("news-modal-category");
+        catSpan.innerText = category;
+        // Reset classes and add specific color class based on category
+        catSpan.className = "tag"; 
+        if (category === "saude") catSpan.classList.add("tag-green");
+        else if (category === "educacao") catSpan.classList.add("tag-red");
+        else catSpan.classList.add("tag-primary");
+
+        // Setup Carousel
+        setupNewsCarousel(images);
+
+        // Show Modal
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+    };
+
+    window.closeNewsModal = function() {
+        const modal = document.getElementById("news-modal");
+        modal.classList.remove("active");
+        document.body.style.overflow = "auto";
+        stopNewsCarousel();
+    };
+
+    function setupNewsCarousel(images) {
+        const track = document.getElementById("news-carousel-track");
+        const dotsContainer = document.getElementById("news-carousel-dots");
+        
+        track.innerHTML = "";
+        dotsContainer.innerHTML = "";
+        currentNewsSlide = 0;
+
+        // If no images, use a placeholder or hide?
+        if (images.length === 0) {
+            images = ["assets/img/instituto-eixos-logo.png"];
+        }
+
+        images.forEach((src, index) => {
+            const img = document.createElement("img");
+            img.src = src;
+            img.className = "carousel-slide";
+            track.appendChild(img);
+
+            const dot = document.createElement("div");
+            dot.className = index === 0 ? "carousel-dot active" : "carousel-dot";
+            dot.onclick = () => goToNewsSlide(index);
+            dotsContainer.appendChild(dot);
+        });
+
+        // Start Auto Play
+        stopNewsCarousel(); // clear any existing
+        newsCarouselInterval = setInterval(nextNewsSlide, 3000); // 3 seconds
+    }
+
+    function nextNewsSlide() {
+        const track = document.getElementById("news-carousel-track");
+        const slides = track.children;
+        if (slides.length <= 1) return;
+
+        currentNewsSlide = (currentNewsSlide + 1) % slides.length;
+        updateNewsCarousel();
+    }
+
+    window.goToNewsSlide = function(index) {
+        currentNewsSlide = index;
+        updateNewsCarousel();
+        // Reset timer on manual interaction
+        stopNewsCarousel();
+        newsCarouselInterval = setInterval(nextNewsSlide, 3000);
+    }
+
+    function updateNewsCarousel() {
+        const track = document.getElementById("news-carousel-track");
+        track.style.transform = `translateX(-${currentNewsSlide * 100}%)`;
+
+        const dots = document.getElementById("news-carousel-dots").children;
+        Array.from(dots).forEach((dot, idx) => {
+            dot.classList.toggle("active", idx === currentNewsSlide);
+        });
+    }
+
+    function stopNewsCarousel() {
+        if (newsCarouselInterval) clearInterval(newsCarouselInterval);
+    }
+
+    // Close on outside click
+    document.getElementById("news-modal")?.addEventListener("click", (e) => {
+        if (e.target.id === "news-modal") closeNewsModal();
+    });
+
+    // Close on Escape
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && document.getElementById("news-modal").classList.contains("active")) {
+            closeNewsModal();
+        }
+    });
+
+});
