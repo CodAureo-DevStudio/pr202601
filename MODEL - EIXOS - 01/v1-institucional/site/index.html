@@ -37,10 +37,16 @@
       <nav class="nav-menu">
         <a href="index.html" class="nav-link active">Início</a>
         <a href="quem-somos.html" class="nav-link">Quem Somos</a>
-        <a href="projetos.html" class="nav-link">
-          Projetos
-          <span class="mobile-desc">Nossas iniciativas</span>
-        </a>
+        <div class="nav-item-dropdown">
+          <a href="projetos.html" class="nav-link">
+            Projetos
+            <span class="mobile-desc">Nossas iniciativas</span>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+          </a>
+          <div class="dropdown-menu">
+            <a href="todos-projetos.html" class="dropdown-link">Todos os Projetos</a>
+          </div>
+        </div>
         <a href="galeria.html" class="nav-link">Galeria</a>
         <a href="editais.html" class="nav-link">
           Transparência
@@ -55,7 +61,7 @@
 
   <!-- Hero Slider Section -->
   <section class="hero-slider">
-    <div class="hero-slide-bg" style="background-image: url('assets/img/ong-instituto-eixos-1024x682.webp')"></div>
+    <div class="hero-slide-bg" style="background-image: url('assets/img/Street_Billboard_Mockup_1.png')"></div>
     <div class="container">
       <div class="hero-content reveal" style="text-align: center; margin: 0 auto; max-width: 1200px;">
         <h1 class="hero-title" style="font-size: 3.5rem; text-transform: uppercase;">
@@ -251,7 +257,7 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
           ">
-        <!-- Dynamic Content Loaded Here -->
+        <p class="text-center w-100 py-5 text-muted">Carregando últimas notícias...</p>
       </div>
 
       <!-- Fixed "View All" Button -->
@@ -416,73 +422,9 @@
     </div>
   </footer>
 
-  <script src="assets/js/script.js"></script>
-  <!-- Firebase & Dynamic Content -->
-  <script type="module" src="../admin/assets/js/firebase-config.js" id="firebase-init"></script>
-  <script type="module">
-    import { db } from '../admin/assets/js/firebase-config.js';
-    import { collection, query, orderBy, limit, onSnapshot, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-    // Helper for Dates
-    const formatDate = (timestamp) => {
-      if (!timestamp) return 'Recente';
-      const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-      return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
-    };
-
-    // --- DYNAMIC NEWS INJECTION ---
-    const newsGrid = document.querySelector('.news-grid');
-    if (newsGrid) {
-      const qNews = query(collection(db, "noticias"), orderBy("createdAt", "desc"), limit(3));
-      onSnapshot(qNews, (snapshot) => {
-        if (!snapshot.empty) {
-          newsGrid.innerHTML = '';
-          snapshot.forEach((docSnap) => {
-            const data = docSnap.data();
-            const card = `
-                            <article class="article-card reveal">
-                                <div class="article-image">
-                                    <span class="tag tag-primary" style="position: absolute; top: 1rem; left: 1rem">${data.category || 'Novidade'}</span>
-                                    <img src="${(data.imageUrl || 'assets/img/projeto-brasilia-2025-1.png').replace('../', '')}" alt="${data.title}" loading="lazy">
-                                </div>
-                                <div class="article-content">
-                                    <h3 class="article-title">${data.title}</h3>
-                                    <p class="article-excerpt">${data.excerpt || ''}</p>
-                                    <a href="noticias.html" style="color: var(--primary); font-weight: 600">
-                                        Ler mais <i class="fas fa-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </article>
-                        `;
-            newsGrid.insertAdjacentHTML('beforeend', card);
-          });
-        }
-      });
-    }
-
-    // --- DYNAMIC IMPACT STATS ---
-    const updateStats = () => {
-      // This could be made smarter by counting docs, but for now we'll keep the static design 
-      // unless requested otherwise, as it's purely stylistic in the current HTML.
-    };
-
-    // --- DYNAMIC PROJECTS HIGHLIGHTS (O QUE FAZEMOS) ---
-    // We'll replace the image in the 'O Que Fazemos' section with the latest project image dynamically
-    const featuredProjectImg = document.querySelector('.split-section.bg-white .split-image img');
-    if (featuredProjectImg) {
-      // Fetch Main Project
-      const qProj = query(collection(db, "projetos"), where("isMain", "==", true), limit(1));
-      onSnapshot(qProj, (snapshot) => {
-        if (!snapshot.empty) {
-          const data = snapshot.docs[0].data();
-          if (data.imageUrl) featuredProjectImg.src = data.imageUrl.replace('../', '');
-        } else {
-          // Fallback to latest if no main project is set
-          // (Optional logic, but good for safety)
-        }
-      });
-    }
-  </script>
+  <script src="assets/js/site-common.js"></script>
+  <script src="assets/js/home.js"></script>
+  <script type="module" src="assets/js/index-page.js"></script>
 </body>
 
 </html>

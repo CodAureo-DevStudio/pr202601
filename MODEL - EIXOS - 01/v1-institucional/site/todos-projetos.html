@@ -34,10 +34,16 @@
             <nav class="nav-menu">
                 <a href="index.html" class="nav-link">Início</a>
                 <a href="quem-somos.html" class="nav-link">Quem Somos</a>
-                <a href="projetos.html" class="nav-link active">
-                    Projetos
-                    <span class="mobile-desc">Nossas iniciativas</span>
-                </a>
+                <div class="nav-item-dropdown">
+                    <a href="projetos.html" class="nav-link active">
+                        Projetos
+                        <span class="mobile-desc">Nossas iniciativas</span>
+                        <i class="fas fa-chevron-down dropdown-icon"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="todos-projetos.html" class="dropdown-link">Todos os Projetos</a>
+                    </div>
+                </div>
                 <a href="galeria.html" class="nav-link">Galeria</a>
                 <a href="editais.html" class="nav-link">
                     Transparência
@@ -86,66 +92,9 @@
         </div>
 
         <!-- Firebase & Dynamic Content -->
-        <script type="module" src="../admin/assets/js/firebase-config.js" id="firebase-init"></script>
-        <script type="module">
-            import { db } from '../admin/assets/js/firebase-config.js';
-            import { collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-            const allProjectsGrid = document.getElementById('all-projects-grid');
-            let loadedProjects = [];
-
-            if (allProjectsGrid) {
-                const q = query(collection(db, "projetos"), orderBy("createdAt", "desc"));
-                onSnapshot(q, (snapshot) => {
-                    allProjectsGrid.innerHTML = '';
-                    
-                    if (snapshot.empty) {
-                        allProjectsGrid.innerHTML = '<div class="col-12 text-center py-5"><p class="lead text-muted">Aguardando novos projetos serem cadastrados...</p></div>';
-                        return;
-                    }
-
-                    loadedProjects = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-                    loadedProjects.forEach((proj) => {
-                        const card = `
-                            <div class="article-card reveal" style="cursor: pointer" onclick="openProjectFromId('${proj.id}')">
-                                <div class="article-image">
-                                    <span class="tag tag-primary card-tag">${proj.category || 'Geral'}</span>
-                                    <img src="${(proj.imageUrl || 'assets/img/projeto-brasilia-2025-1.png').replace('../', '')}" alt="${proj.title}" loading="lazy">
-                                </div>
-                                <div class="article-content">
-                                    <h3 class="article-title">${proj.title}</h3>
-                                    <div class="card-stats-preview">
-                                        <span><i class="fas fa-chart-line"></i> ${proj.stat_main || ''}</span>
-                                    </div>
-                                    <p class="article-excerpt">${proj.excerpt || ''}</p>
-                                    <button class="btn btn-outline btn-sm mt-auto">Ver Detalhes</button>
-                                </div>
-                            </div>
-                        `;
-                        allProjectsGrid.insertAdjacentHTML('beforeend', card);
-                    });
-                });
-            }
-
-            window.openProjectFromId = (id) => {
-                const project = loadedProjects.find(p => p.id === id);
-                if (project && typeof openProjectModal === 'function') {
-                    const mockElement = {
-                        getAttribute: (attr) => {
-                            if (attr === 'data-title') return project.title;
-                            if (attr === 'data-category') return project.category;
-                            if (attr === 'data-description') return project.excerpt;
-                            if (attr === 'data-stats') return `${project.stat_main} | ${project.stat_sec}`;
-                            if (attr === 'data-full-description') return project.full_description;
-                            if (attr === 'data-images') return JSON.stringify([project.imageUrl.replace('../', '')]);
-                            return '';
-                        }
-                    };
-                    openProjectModal(mockElement);
-                }
-            };
-        </script>
+        <script src="assets/js/site-common.js"></script>
+        <script src="assets/js/projects.js"></script>
+        <script type="module" src="assets/js/all-projects-page.js"></script>
         </div>
 
 
@@ -171,7 +120,6 @@
 
                         <!-- Meta Data (Tags & Stats) - Below Image -->
                         <div class="modal-meta" style="margin-top: 1.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
-                            <span class="tag tag-primary" id="modal-category" style="margin-bottom: 0;">Categoria</span>
                             <div id="modal-stats" style="font-weight: 600; color: var(--secondary); font-size: 0.9rem;">Stats</div>
                         </div>
                     </div>
@@ -308,6 +256,6 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="assets/js/script.js"></script>
+
 </body>
 </html>

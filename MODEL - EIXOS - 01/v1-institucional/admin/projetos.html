@@ -29,37 +29,34 @@
             <img src="../assets/img/instituto-eixos-logo.png" alt="Instituto Eixos" class="sidebar-logo-img">
         </div>
         <ul class="sidebar-menu">
-            <li class="menu-item"><a href="dashboard.html" class="menu-link"><i class="fas fa-chart-pie"></i> Visão
-                    Geral</a></li>
-            <li class="menu-item"><a href="projetos.html" class="menu-link active"><i
-                        class="fas fa-project-diagram"></i> Projetos</a></li>
-            <li class="menu-item"><a href="galeria.html" class="menu-link"><i class="fas fa-images"></i> Galeria</a>
-            </li>
-            <li class="menu-item"><a href="transparencia.html" class="menu-link"><i
-                        class="fas fa-file-invoice-dollar"></i> Transparência</a></li>
-            <li class="menu-item"><a href="noticias.html" class="menu-link"><i class="fas fa-newspaper"></i>
-                    Notícias</a></li>
-            <li class="menu-item"><a href="mensagens.html" class="menu-link"><i class="fas fa-envelope"></i>
-                    Mensagens</a></li>
-            <li class="menu-item"><a href="usuarios.html" class="menu-link"><i class="fas fa-users-cog"></i>
-                    Usuários</a></li>
-            <li class="menu-item"><a href="configuracoes.html" class="menu-link"><i class="fas fa-cog"></i>
-                    Configurações</a></li>
+            <li class="menu-item"><a href="dashboard.html" class="menu-link"><i class="fas fa-chart-pie"></i> Visão Geral</a></li>
+            <li class="menu-item"><a href="projetos.html" class="menu-link active"><i class="fas fa-project-diagram"></i> Projetos</a></li>
+            <li class="menu-item"><a href="galeria.html" class="menu-link"><i class="fas fa-images"></i> Galeria</a></li>
+            <li class="menu-item"><a href="transparencia.html" class="menu-link"><i class="fas fa-file-invoice-dollar"></i> Transparência</a></li>
+            <li class="menu-item"><a href="noticias.html" class="menu-link"><i class="fas fa-newspaper"></i> Notícias</a></li>
+            <li class="menu-item"><a href="mensagens.html" class="menu-link"><i class="fas fa-envelope"></i> Mensagens</a></li>
+            <li class="menu-item"><a href="usuarios.html" class="menu-link"><i class="fas fa-users-cog"></i> Usuários</a></li>
+            <li class="menu-item"><a href="configuracoes.html" class="menu-link"><i class="fas fa-cog"></i> Configurações</a></li>
         </ul>
+
         <div class="user-profile">
-            <div class="user-avatar"><img src="https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff"
-                    alt="Admin"></div>
+            <div class="user-avatar">
+                <img src="https://ui-avatars.com/api/?name=Admin+User&background=2563eb&color=fff" alt="Admin">
+            </div>
             <div style="flex: 1;">
                 <h4 style="font-size: 0.9rem; color: white;">Administrador</h4>
                 <p style="font-size: 0.8rem; color: #94a3b8;">admin@eixos.org</p>
             </div>
-            <a href="../site/index.html" title="Voltar ao Site" style="color: #94a3b8;"><i class="fas fa-home"></i></a>
+            <a href="../site/index.html" title="Voltar ao Site" style="color: #94a3b8; padding: 0.5rem; transition: color 0.2s;">
+                <i class="fas fa-home"></i>
+            </a>
         </div>
     </aside>
 
     <!-- Main Content -->
     <main class="main-content">
         <header class="top-bar">
+            <button class="menu-toggle-admin"><i class="fas fa-bars"></i></button>
             <h1 class="page-title">Gerenciar Projetos</h1>
             <div style="display: flex; gap: 1rem; align-items: center;">
                 <input type="text" placeholder="Buscar projetos..." class="form-input" style="width: 250px;">
@@ -171,7 +168,7 @@
         </div>
     </main>
 
-    <script type="module" src="assets/js/admin.js"></script>
+    <script type="module" src="assets/js/projects.js"></script>
 </body>
 
 </html>

@@ -34,10 +34,16 @@
             <nav class="nav-menu">
                 <a href="index.html" class="nav-link">Início</a>
                 <a href="quem-somos.html" class="nav-link">Quem Somos</a>
-                <a href="projetos.html" class="nav-link active">
-                    Projetos
-                    <span class="mobile-desc">Nossas iniciativas</span>
-                </a>
+                <div class="nav-item-dropdown">
+                    <a href="projetos.html" class="nav-link active">
+                        Projetos
+                        <span class="mobile-desc">Nossas iniciativas</span>
+                        <i class="fas fa-chevron-down dropdown-icon"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="todos-projetos.html" class="dropdown-link">Todos os Projetos</a>
+                    </div>
+                </div>
                 <a href="galeria.html" class="nav-link">Galeria</a>
                 <a href="editais.html" class="nav-link">
                     Transparência
@@ -254,7 +260,6 @@
 
                         <!-- Meta Data (Tags & Stats) - Below Image -->
                         <div class="modal-meta" style="margin-top: 1.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
-                            <span class="tag tag-primary" id="modal-category" style="margin-bottom: 0;">Categoria</span>
                             <div id="modal-stats" style="font-weight: 600; color: var(--secondary); font-size: 0.9rem;">Stats</div>
                         </div>
                     </div>
@@ -393,153 +398,8 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="assets/js/script.js"></script>
-    <!-- Firebase & Dynamic Content -->
-    <script type="module" src="../admin/assets/js/firebase-config.js" id="firebase-init"></script>
-    <script type="module">
-        import { db } from '../admin/assets/js/firebase-config.js';
-        import { collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const projectsGrid = document.querySelector('.page-grid');
-        const heroProjectContent = document.querySelector('.hero-project-content');
-        const heroProjectImage = document.querySelector('.hero-project-image img');
-        
-        let loadedProjects = [];
-
-        if (projectsGrid) {
-            const q = query(collection(db, "projetos"), orderBy("createdAt", "desc"));
-            onSnapshot(q, (snapshot) => {
-                projectsGrid.innerHTML = '';
-                
-                if (snapshot.empty) {
-                    projectsGrid.innerHTML = '<div class="col-12 text-center py-5"><p class="lead text-muted">Aguardando novos projetos serem cadastrados...</p></div>';
-                    if (heroProjectContent) {
-                        heroProjectContent.innerHTML = '<h2>Nossos Projetos</h2><p>Confira em breve as atualizações de nossas iniciativas.</p>';
-                    }
-                    return;
-                }
-
-                loadedProjects = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                
-                // 1. Find the Featured Project (isMain === true) or Fallback to Newest
-                // Robust check for boolean true or string "true"
-                let featured = loadedProjects.find(p => p.isMain === true || p.isMain === "true");
-                
-                if (!featured && loadedProjects.length > 0) {
-                    featured = loadedProjects[0]; // Fallback to newest
-                }
-
-                // 2. Render Featured Project
-                if (heroProjectContent && featured) {
-                    // Update Image
-                    if (heroProjectImage) {
-                         const mainImg = featured.imageUrl || 'assets/img/projeto-brasilia-2025-1.png';
-                         heroProjectImage.src = mainImg.replace('../', '');
-                         heroProjectImage.alt = featured.title;
-                    }
-
-                    // Update Content
-                    heroProjectContent.innerHTML = `
-                        <span class="tag tag-primary mb-3 d-inline-block">Projeto Destaque</span>
-                        <h2>${featured.title}</h2>
-                        <p class="lead">${featured.excerpt || ''}</p>
-                        <div class="d-flex gap-3">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="fas fa-home text-primary"></i>
-                                <span>${featured.stat_main || 'N/A'}</span>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="fas fa-map-marker-alt text-primary"></i>
-                                <span>${featured.stat_sec || 'N/A'}</span>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary mt-4" onclick="openProjectFromId('${featured.id}')">
-                            Conhecer Projeto
-                        </button>
-                    `;
-                }
-
-                // 3. Render Remaining Projects in Grid
-                // Filter out the featured one to avoid duplication
-                const gridProjects = loadedProjects.filter(p => p.id !== featured?.id);
-                
-                projectsGrid.innerHTML = ''; // Ensure clean slate
-                
-                if (gridProjects.length === 0) {
-                     // If only 1 project exists (displayed as Main), grid is empty.
-                     // Optional: Show message or nothing.
-                }
-
-                gridProjects.forEach((proj) => {
-                    // Logic for Images
-                    let imagesArray = [];
-                    if (proj.gallery && Array.isArray(proj.gallery) && proj.gallery.length > 0) {
-                        imagesArray = proj.gallery;
-                    } else {
-                        imagesArray = [proj.imageUrl || 'assets/img/projeto-brasilia-2025-1.png'];
-                    }
-                    
-                    // Prepare data for modal
-                    const imagesJson = JSON.stringify(imagesArray.map(url => url.replace('../', ''))); 
-                    
-                    // Render Card
-                    const card = `
-                        <div class="article-card reveal" style="cursor: pointer" onclick="openProjectFromId('${proj.id}')">
-                            <div class="article-image">
-                                <span class="tag tag-primary card-tag">${proj.category || 'Geral'}</span>
-                                <img src="${imagesArray[0].replace('../', '')}" alt="${proj.title}" loading="lazy">
-                                ${imagesArray.length > 1 ? '<div style="position:absolute; bottom:10px; right:10px; background:rgba(0,0,0,0.6); color:white; padding:2px 8px; border-radius:10px; font-size:0.7rem;"><i class="fas fa-images"></i> '+imagesArray.length+'</div>' : ''}
-                            </div>
-                            <div class="article-content">
-                                <h3 class="article-title">${proj.title}</h3>
-                                <div class="card-stats-preview">
-                                    <span><i class="fas fa-chart-line"></i> ${proj.stat_main || '-'}</span>
-                                    <span><i class="fas fa-map-marker-alt"></i> ${proj.stat_sec || '-'}</span>
-                                </div>
-                                <p class="article-excerpt">${proj.excerpt || ''}</p>
-                                <button class="btn btn-outline btn-sm mt-auto">Ver Detalhes</button>
-                            </div>
-                        </div>
-                    `;
-                    projectsGrid.insertAdjacentHTML('beforeend', card);
-                });
-                
-                // Trigger animation reveal if needed (simple hack)
-                setTimeout(() => {
-                    const reveals = document.querySelectorAll('.reveal');
-                    reveals.forEach(r => r.classList.add('active'));
-                }, 100);
-            });
-        }
-
-        window.openProjectFromId = (id) => {
-            const project = loadedProjects.find(p => p.id === id);
-            if (project) {
-                // Logic for Images regarding this project
-                let imagesArray = [];
-                if (project.gallery && Array.isArray(project.gallery) && project.gallery.length > 0) {
-                    imagesArray = project.gallery;
-                } else {
-                    imagesArray = [project.imageUrl || 'assets/img/projeto-brasilia-2025-1.png'];
-                }
-                const cleanedImages = imagesArray.map(url => url.replace('../', ''));
-
-                const mockElement = {
-                    getAttribute: (attr) => {
-                        if (attr === 'data-title') return project.title;
-                        if (attr === 'data-category') return project.category;
-                        if (attr === 'data-description') return project.excerpt;
-                        if (attr === 'data-stats') return `${project.stat_main} | ${project.stat_sec}`;
-                        if (attr === 'data-full-description') return project.full_description;
-                        if (attr === 'data-images') return JSON.stringify(cleanedImages);
-                        return '';
-                    }
-                };
-                if (typeof openProjectModal === 'function') {
-                    openProjectModal(mockElement);
-                }
-            }
-        };
-    </script>
+    <script src="assets/js/site-common.js"></script>
+    <script src="assets/js/projects.js"></script>
+    <script type="module" src="assets/js/projects-page.js"></script>
 </body>
 </html>

@@ -5,214 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transparência - Painel Admin | Instituto Eixos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            display: flex;
-            min-height: 100vh;
-            background: #f1f5f9;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 260px;
-            background: #0f172a;
-            color: white;
-            padding: 1.5rem 0;
-            display: flex;
-            flex-direction: column;
-            z-index: 100;
-        }
-
-        .sidebar-brand {
-            padding: 0 1.5rem 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .sidebar-logo-img {
-            max-width: 150px;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-            padding: 1rem 0.5rem;
-            flex: 1;
-        }
-
-        .menu-item {
-            margin: 0.25rem 0;
-        }
-
-        .menu-link {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.85rem 1.25rem;
-            color: #94a3b8;
-            text-decoration: none;
-            border-radius: 0.5rem;
-            transition: all 0.2s;
-        }
-
-        .menu-link:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
-        }
-
-        .menu-link.active {
-            background: rgba(59, 130, 246, 0.15);
-            color: #60a5fa;
-        }
-
-        .menu-link i {
-            width: 20px;
-            text-align: center;
-        }
-
-        .user-profile {
-            padding: 1rem 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            overflow: hidden;
-        }
-
-        .user-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .main-content {
-            margin-left: 260px;
-            padding: 2rem;
-            flex: 1;
-        }
-
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .page-title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: #1e293b;
-        }
-
-        .content-card {
-            background: white;
-            border-radius: 1rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-        }
-
-        .card-header {
-            padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid #f1f5f9;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .card-header h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #334155;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            padding: 1rem 1.5rem;
-            text-align: left;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        th {
-            font-weight: 600;
-            color: #64748b;
-            font-size: 0.875rem;
-            background: #f8fafc;
-        }
-
-        .btn-sm {
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
-            border-radius: 0.5rem;
-            border: none;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            color: white;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 1px solid #e2e8f0;
-            color: #475569;
-        }
-
-        .btn-action {
-            width: 36px;
-            height: 36px;
-            border-radius: 0.5rem;
-            border: 1px solid #e2e8f0;
-            background: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #64748b;
-            transition: all 0.2s;
-        }
-
-        .btn-action:hover {
-            background: #f1f5f9;
-        }
-
-        .btn-action.btn-delete:hover {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-
         .status-badge {
             display: inline-flex;
             align-items: center;
@@ -233,145 +31,581 @@
             color: #1e40af;
         }
 
-        .form-input {
-            padding: 0.6rem 1rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
-            transition: border-color 0.2s;
+        /* Estilos Premium para Documentos Institucionais */
+        .inst-docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem;
         }
 
-        .form-input:focus {
-            outline: none;
+        .inst-doc-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .inst-doc-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.05);
+            border-color: #2563eb;
+        }
+
+        .inst-doc-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: #2563eb;
+            opacity: 0.1;
+        }
+
+        .inst-doc-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .inst-doc-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .inst-doc-info h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .current-link-btn {
+            font-size: 0.75rem;
+            color: #2563eb;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .current-link-btn:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
+        }
+
+        .upload-wrapper {
+            position: relative;
+        }
+
+        .custom-file-upload {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: #f8fafc;
+            border: 2px dashed #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            color: #64748b;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .custom-file-upload:hover {
+            background: #f1f5f9;
+            border-color: #2563eb;
+            color: #2563eb;
+        }
+
+        .file-selected-name {
+            display: block;
+            font-size: 0.7rem;
+            color: #10b981;
+            margin-top: 0.5rem;
+            font-weight: 500;
+            text-align: center;
+            min-height: 1rem;
+        }
+
+        .inst-doc-card input[type="file"] {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* Cores temáticas por card */
+        .card-estatuto .inst-doc-icon { background: #fee2e2; color: #ef4444; }
+        .card-ata .inst-doc-icon { background: #f1f5f9; color: #64748b; }
+        .card-oscip .inst-doc-icon { background: #dcfce7; color: #10b981; }
+        .card-cnpj .inst-doc-icon { background: #dbeafe; color: #2563eb; }
+
+        /* Estilos para o Dashboard Financeiro Editável */
+        .stats-edit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .stat-edit-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 1.25rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .stat-edit-card:hover {
             border-color: #3b82f6;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-edit-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .stat-edit-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .stat-input-group {
+            display: flex;
+            align-items: center;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 0 0.75rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .stat-input-group:focus-within {
+            background: white;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .stat-currency-prefix {
+            font-weight: 700;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+        }
+
+        .stat-main-input {
+            border: none;
+            background: transparent;
+            width: 100%;
+            padding: 0.6rem 0;
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        .stat-subtext-input {
+            width: 100%;
+            font-size: 0.8rem;
+            color: #64748b;
+            border: 1px solid transparent;
+            background: transparent;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.4rem;
+            outline: none;
+        }
+
+        .stat-subtext-input:focus {
+            background: #f1f5f9;
+            border-color: #e2e8f0;
         }
     </style>
 </head>
 
 <body>
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-brand">
             <img src="../assets/img/instituto-eixos-logo.png" alt="Instituto Eixos" class="sidebar-logo-img">
         </div>
         <ul class="sidebar-menu">
-            <li class="menu-item"><a href="dashboard.html" class="menu-link"><i class="fas fa-chart-pie"></i> Visão
-                    Geral</a></li>
-            <li class="menu-item"><a href="projetos.html" class="menu-link"><i class="fas fa-project-diagram"></i>
-                    Projetos</a></li>
-            <li class="menu-item"><a href="galeria.html" class="menu-link"><i class="fas fa-images"></i> Galeria</a>
-            </li>
-            <li class="menu-item"><a href="transparencia.html" class="menu-link active"><i
-                        class="fas fa-file-invoice-dollar"></i> Transparência</a></li>
-            <li class="menu-item"><a href="noticias.html" class="menu-link"><i class="fas fa-newspaper"></i>
-                    Notícias</a></li>
-            <li class="menu-item"><a href="mensagens.html" class="menu-link"><i class="fas fa-envelope"></i>
-                    Mensagens</a></li>
-            <li class="menu-item"><a href="usuarios.html" class="menu-link"><i class="fas fa-users-cog"></i>
-                    Usuários</a></li>
-            <li class="menu-item"><a href="configuracoes.html" class="menu-link"><i class="fas fa-cog"></i>
-                    Configurações</a></li>
+            <li class="menu-item"><a href="dashboard.html" class="menu-link"><i class="fas fa-chart-pie"></i> Visão Geral</a></li>
+            <li class="menu-item"><a href="projetos.html" class="menu-link"><i class="fas fa-project-diagram"></i> Projetos</a></li>
+            <li class="menu-item"><a href="galeria.html" class="menu-link"><i class="fas fa-images"></i> Galeria</a></li>
+            <li class="menu-item"><a href="transparencia.html" class="menu-link active"><i class="fas fa-file-invoice-dollar"></i> Transparência</a></li>
+            <li class="menu-item"><a href="noticias.html" class="menu-link"><i class="fas fa-newspaper"></i> Notícias</a></li>
+            <li class="menu-item"><a href="mensagens.html" class="menu-link"><i class="fas fa-envelope"></i> Mensagens</a></li>
+            <li class="menu-item"><a href="usuarios.html" class="menu-link"><i class="fas fa-users-cog"></i> Usuários</a></li>
+            <li class="menu-item"><a href="configuracoes.html" class="menu-link"><i class="fas fa-cog"></i> Configurações</a></li>
         </ul>
+
         <div class="user-profile">
-            <div class="user-avatar"><img src="https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff"
-                    alt="Admin"></div>
+            <div class="user-avatar">
+                <img src="https://ui-avatars.com/api/?name=Admin+User&background=2563eb&color=fff" alt="Admin">
+            </div>
             <div style="flex: 1;">
                 <h4 style="font-size: 0.9rem; color: white;">Administrador</h4>
                 <p style="font-size: 0.8rem; color: #94a3b8;">admin@eixos.org</p>
             </div>
-            <a href="../site/index.html" title="Voltar ao Site" style="color: #94a3b8;"><i class="fas fa-home"></i></a>
+            <a href="../site/index.html" title="Voltar ao Site" style="color: #94a3b8; padding: 0.5rem; transition: color 0.2s;">
+                <i class="fas fa-home"></i>
+            </a>
         </div>
     </aside>
 
     <main class="main-content">
         <header class="top-bar">
+            <button class="menu-toggle-admin"><i class="fas fa-bars"></i></button>
             <h1 class="page-title">Portal da Transparência</h1>
             <div style="display: flex; gap: 1rem; align-items: center;">
                 <input type="text" placeholder="Buscar documentos..." class="form-input" style="width: 250px;">
-                <button class="btn-sm btn-primary"><i class="fas fa-plus"></i> Novo Documento</button>
+                <button class="btn-sm btn-primary" onclick="window.openModal('modal-new-doc')"><i class="fas fa-plus"></i> Novo Documento</button>
             </div>
         </header>
 
+        <!-- DASHBOARD MANAGEMENT -->
+        <div class="content-card" style="margin-bottom: 2rem;">
+            <div class="card-header" style="justify-content: space-between; display: flex; align-items: center;">
+                <div>
+                    <h3>Dashboard Financeiro</h3>
+                    <p style="font-size: 0.8rem; color: #64748b; margin-top: 0.25rem;">Atualize os números que aparecem no topo do portal público.</p>
+                </div>
+                <button class="btn-sm btn-primary" id="btn-save-stats" onclick="window.saveDashboardStats()" style="background: #1e293b; color: white;">
+                    <i class="fas fa-sync-alt"></i> Atualizar Painel
+                </button>
+            </div>
+            
+            <form id="form-dashboard-stats" class="stats-edit-grid">
+                <!-- Stat 1: Arrecadado -->
+                <div class="stat-edit-card" style="border-top: 4px solid #3b82f6;">
+                    <div class="stat-edit-icon" style="background: #eff6ff; color: #3b82f6;"><i class="fas fa-hand-holding-usd"></i></div>
+                    <label class="stat-edit-label">Total Arrecadado</label>
+                    <div class="stat-input-group">
+                        <span class="stat-currency-prefix">R$</span>
+                        <input type="text" name="stat_arrecadado_val" class="stat-main-input" placeholder="0,00">
+                    </div>
+                    <input type="text" name="stat_arrecadado_sub" class="stat-subtext-input" placeholder="Ex: +15% este ano">
+                </div>
+
+                <!-- Stat 2: Investido -->
+                <div class="stat-edit-card" style="border-top: 4px solid #10b981;">
+                    <div class="stat-edit-icon" style="background: #ecfdf5; color: #10b981;"><i class="fas fa-project-diagram"></i></div>
+                    <label class="stat-edit-label">Investido em Projetos</label>
+                    <div class="stat-input-group">
+                        <span class="stat-currency-prefix">R$</span>
+                        <input type="text" name="stat_investido_val" class="stat-main-input" placeholder="0,00">
+                    </div>
+                    <input type="text" name="stat_investido_sub" class="stat-subtext-input" placeholder="Ex: 82% do orçamento">
+                </div>
+
+                <!-- Stat 3: Famílias -->
+                <div class="stat-edit-card" style="border-top: 4px solid #ef4444;">
+                    <div class="stat-edit-icon" style="background: #fef2f2; color: #ef4444;"><i class="fas fa-users"></i></div>
+                    <label class="stat-edit-label">Famílias Impactadas</label>
+                    <div class="stat-input-group">
+                        <input type="text" name="stat_familias_val" class="stat-main-input" placeholder="0">
+                    </div>
+                    <input type="text" name="stat_familias_sub" class="stat-subtext-input" placeholder="Ex: Em todo o DF">
+                </div>
+
+                <!-- Stat 4: Voluntários -->
+                <div class="stat-edit-card" style="border-top: 4px solid #8b5cf6;">
+                    <div class="stat-edit-icon" style="background: #f5f3ff; color: #8b5cf6;"><i class="fas fa-user-friends"></i></div>
+                    <label class="stat-edit-label">Voluntários Ativos</label>
+                    <div class="stat-input-group">
+                        <input type="text" name="stat_voluntarios_val" class="stat-main-input" placeholder="0">
+                    </div>
+                    <input type="text" name="stat_voluntarios_sub" class="stat-subtext-input" placeholder="Ex: Equipe engajada">
+                </div>
+            </form>
+        </div>
+
+        <!-- DOCUMENTOS INSTITUCIONAIS -->
+        <div class="content-card" style="margin-bottom: 2rem;">
+            <div class="card-header" style="justify-content: space-between; display: flex; align-items: center;">
+                <div>
+                    <h3>Documentos Institucionais</h3>
+                    <p style="font-size: 0.8rem; color: #64748b; margin-top: 0.25rem;">Arquivos base fixos no topo do portal da transparência.</p>
+                </div>
+                <button class="btn-sm btn-primary" id="btn-save-institutional" onclick="window.saveInstitutionalDocs()" style="box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);">
+                    <i class="fas fa-cloud-upload-alt"></i> Salvar Documentos
+                </button>
+            </div>
+            
+            <div class="inst-docs-grid">
+                <!-- Card Estatuto -->
+                <div class="inst-doc-card card-estatuto">
+                    <div class="inst-doc-header">
+                        <div class="inst-doc-icon"><i class="fas fa-file-pdf"></i></div>
+                        <div class="inst-doc-info">
+                            <h4>Estatuto Social</h4>
+                            <div id="link-estatuto"></div>
+                        </div>
+                    </div>
+                    <div class="upload-wrapper">
+                        <label for="file-estatuto" class="custom-file-upload">
+                            <i class="fas fa-file-import"></i> Alterar PDF
+                        </label>
+                        <input type="file" id="file-estatuto" accept=".pdf" onchange="window.updateInstLabel(this, 'label-estatuto')">
+                        <span id="label-estatuto" class="file-selected-name"></span>
+                    </div>
+                </div>
+
+                <!-- Card Ata -->
+                <div class="inst-doc-card card-ata">
+                    <div class="inst-doc-header">
+                        <div class="inst-doc-icon"><i class="fas fa-file-alt"></i></div>
+                        <div class="inst-doc-info">
+                            <h4>Ata de Fundação</h4>
+                            <div id="link-ata"></div>
+                        </div>
+                    </div>
+                    <div class="upload-wrapper">
+                        <label for="file-ata" class="custom-file-upload">
+                            <i class="fas fa-file-import"></i> Alterar PDF
+                        </label>
+                        <input type="file" id="file-ata" accept=".pdf" onchange="window.updateInstLabel(this, 'label-ata')">
+                        <span id="label-ata" class="file-selected-name"></span>
+                    </div>
+                </div>
+
+                <!-- Card Certificado -->
+                <div class="inst-doc-card card-oscip">
+                    <div class="inst-doc-header">
+                        <div class="inst-doc-icon"><i class="fas fa-certificate"></i></div>
+                        <div class="inst-doc-info">
+                            <h4>Certificado OSCIP</h4>
+                            <div id="link-oscip"></div>
+                        </div>
+                    </div>
+                    <div class="upload-wrapper">
+                        <label for="file-oscip" class="custom-file-upload">
+                            <i class="fas fa-file-import"></i> Alterar PDF
+                        </label>
+                        <input type="file" id="file-oscip" accept=".pdf" onchange="window.updateInstLabel(this, 'label-oscip')">
+                        <span id="label-oscip" class="file-selected-name"></span>
+                    </div>
+                </div>
+
+                <!-- Card CNPJ -->
+                <div class="inst-doc-card card-cnpj">
+                    <div class="inst-doc-header">
+                        <div class="inst-doc-icon"><i class="fas fa-id-card"></i></div>
+                        <div class="inst-doc-info">
+                            <h4>Cartão CNPJ</h4>
+                            <div id="link-cnpj"></div>
+                        </div>
+                    </div>
+                    <div class="upload-wrapper">
+                        <label for="file-cnpj" class="custom-file-upload">
+                            <i class="fas fa-file-import"></i> Alterar PDF
+                        </label>
+                        <input type="file" id="file-cnpj" accept=".pdf" onchange="window.updateInstLabel(this, 'label-cnpj')">
+                        <span id="label-cnpj" class="file-selected-name"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-card" style="margin-bottom: 2rem;">
+            <div class="card-header" style="justify-content: space-between; display: flex; align-items: center;">
+                <h3>Registro de Ações e Projetos</h3>
+                <button class="btn-sm btn-primary" onclick="window.openModal('modal-new-acao')">
+                    <i class="fas fa-plus"></i> Novo Registro
+                </button>
+            </div>
+            <div style="overflow-x: auto;">
+                <table id="actions-table">
+                    <thead>
+                        <tr>
+                            <th>Projeto / Ação</th>
+                            <th>Localidade</th>
+                            <th>Status</th>
+                            <th>Valor Investido</th>
+                            <th>Data</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 2rem; color: #94a3b8;">
+                                <i class="fas fa-spinner fa-spin"></i> Carregando registros...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <div class="content-card">
             <div class="card-header">
-                <h3>Documentos Publicados</h3>
+                <h3>Documentos Publicados (Editais, Relatórios, etc)</h3>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th width="40%">Título do Documento</th>
-                        <th>Categoria</th>
-                        <th>Data</th>
-                        <th>Status</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                <i class="fas fa-file-pdf" style="color: #dc2626; font-size: 1.25rem;"></i>
-                                <div>
-                                    <strong>Edital de Chamamento 01/2026</strong>
-                                    <br><small style="color: #64748b;">Seleção de fornecedores...</small>
+            <div style="overflow-x: auto;">
+                <table id="transparency-table">
+                    <thead>
+                        <tr>
+                            <th width="40%">Título do Documento</th>
+                            <th>Categoria</th>
+                            <th>Data</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 3rem; color: #94a3b8;">
+                                <i class="fas fa-spinner fa-spin"></i> Carregando documentos...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- NEW DOC MODAL -->
+        <div class="admin-modal-overlay" id="modal-new-doc">
+            <div class="admin-modal">
+                <div class="admin-modal-header">
+                    <h3><i class="fas fa-file-upload" style="color: #3b82f6;"></i> Novo Documento</h3>
+                    <button class="admin-modal-close" onclick="window.closeModal('modal-new-doc')"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="admin-modal-body">
+                    <form id="form-new-doc">
+                        <div class="admin-form-group">
+                            <label>Título do Documento</label>
+                            <input type="text" name="doc_title" class="admin-form-input" placeholder="Ex: Edital 01/2026" required>
+                        </div>
+                        <div class="admin-form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div>
+                                <label>Categoria</label>
+                                <select name="doc_category" class="admin-form-select">
+                                    <option value="Editais">Edital</option>
+                                    <option value="Relatórios">Relatório</option>
+                                    <option value="Contratos">Contrato</option>
+                                    <option value="Financeiro">Financeiro</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Data de Publicação</label>
+                                <input type="date" name="doc_date" class="admin-form-input" required>
+                            </div>
+                        </div>
+                        <div class="admin-form-group">
+                            <label>Status</label>
+                            <select name="doc_status" class="admin-form-select">
+                                <option value="Aberto">Aberto / Vigente</option>
+                                <option value="Concluído">Concluído</option>
+                                <option value="Encerrado">Encerrado</option>
+                            </select>
+                        </div>
+                        <div class="admin-form-group">
+                            <label>Descrição Breve</label>
+                            <textarea name="doc_desc" class="admin-form-input" rows="2" placeholder="Resumo do documento..."></textarea>
+                        </div>
+                        <div class="admin-form-group">
+                            <label>Arquivo (PDF)</label>
+                            <div class="upload-zone" onclick="document.getElementById('doc-file-input').click()">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p id="doc-file-label">Clique para enviar o documento</p>
+                                <input type="file" id="doc-file-input" style="display: none;" onchange="window.updateDocFileLabel(this)" accept=".pdf,.doc,.docx">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="admin-modal-footer">
+                    <button class="btn-sm btn-outline" onclick="window.closeModal('modal-new-doc')">Cancelar</button>
+                    <button class="btn-sm btn-primary" onclick="window.submitDoc()">Salvar Documento</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW ACTION MODAL -->
+        <div class="admin-modal-overlay" id="modal-new-acao">
+            <div class="admin-modal">
+                <div class="admin-modal-header">
+                    <h3><i class="fas fa-hand-holding-heart" style="color: #3b82f6;"></i> Novo Registro de Ação</h3>
+                    <button class="admin-modal-close" onclick="window.closeModal('modal-new-acao')"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="admin-modal-body">
+                    <form id="form-new-acao">
+                        <div class="admin-form-group">
+                            <label>Projeto / Ação</label>
+                            <input type="text" name="acao_nome" class="admin-form-input" placeholder="Ex: Brasília 2025 - Distribuição de Cestas" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label>Localidade</label>
+                            <input type="text" name="acao_local" class="admin-form-input" placeholder="Ex: Sol Nascente / DF" required>
+                        </div>
+                        <div class="admin-form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div>
+                                <label>Valor Investido</label>
+                                <div style="display: flex; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding-left: 0.75rem;">
+                                    <span style="font-weight: 700; color: #64748b; font-size: 0.95rem;">R$</span>
+                                    <input type="text" name="acao_valor" class="admin-form-input" placeholder="0,00" style="border: none; background: transparent; font-weight: 700; flex: 1; box-shadow: none;">
                                 </div>
                             </div>
-                        </td>
-                        <td><span class="status-badge" style="background: #e0f2fe; color: #0369a1;">Editais</span></td>
-                        <td>15 Jan, 2026</td>
-                        <td><span class="status-badge open">Aberto</span></td>
-                        <td>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <button class="btn-action"><i class="fas fa-edit"></i></button>
-                                <button class="btn-action btn-delete"><i class="fas fa-trash"></i></button>
+                            <div>
+                                <label>Data (Ex: Jan/2026)</label>
+                                <input type="text" name="acao_data" class="admin-form-input" placeholder="Jan/2026" required>
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                <i class="fas fa-file-alt" style="color: #64748b; font-size: 1.25rem;"></i>
-                                <div>
-                                    <strong>Relatório Financeiro 2025</strong>
-                                </div>
-                            </div>
-                        </td>
-                        <td><span class="status-badge" style="background: #f0fdf4; color: #15803d;">Relatórios</span>
-                        </td>
-                        <td>30 Dez, 2025</td>
-                        <td><span class="status-badge active">Concluído</span></td>
-                        <td>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <button class="btn-action"><i class="fas fa-edit"></i></button>
-                                <button class="btn-action btn-delete"><i class="fas fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                <i class="fas fa-file-contract" style="color: #7c3aed; font-size: 1.25rem;"></i>
-                                <div>
-                                    <strong>Contrato de Parceria - Prefeitura</strong>
-                                </div>
-                            </div>
-                        </td>
-                        <td><span class="status-badge" style="background: #f3e8ff; color: #7c3aed;">Contratos</span>
-                        </td>
-                        <td>10 Dez, 2025</td>
-                        <td><span class="status-badge active">Vigente</span></td>
-                        <td>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <button class="btn-action"><i class="fas fa-edit"></i></button>
-                                <button class="btn-action btn-delete"><i class="fas fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        </div>
+                        <div class="admin-form-group">
+                            <label>Status</label>
+                            <select name="acao_status" class="admin-form-select">
+                                <option value="CONCLUÍDO">CONCLUÍDO</option>
+                                <option value="EM EXECUÇÃO">EM EXECUÇÃO</option>
+                                <option value="PLANEJADO">PLANEJADO</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="admin-modal-footer">
+                    <button class="btn-sm btn-outline" onclick="window.closeModal('modal-new-acao')">Cancelar</button>
+                    <button class="btn-sm btn-primary" onclick="window.submitAcao()">Salvar Registro</button>
+                </div>
+            </div>
         </div>
     </main>
 
-    <script type="module" src="assets/js/admin.js"></script>
+    <script type="module" src="assets/js/transparency.js"></script>
 </body>
 
 </html>

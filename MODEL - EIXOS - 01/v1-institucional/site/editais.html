@@ -34,10 +34,16 @@
             <nav class="nav-menu">
                 <a href="index.html" class="nav-link">Início</a>
                 <a href="quem-somos.html" class="nav-link">Quem Somos</a>
-                <a href="projetos.html" class="nav-link">
-                    Projetos
-                    <span class="mobile-desc">Nossas iniciativas</span>
-                </a>
+                <div class="nav-item-dropdown">
+                    <a href="projetos.html" class="nav-link">
+                        Projetos
+                        <span class="mobile-desc">Nossas iniciativas</span>
+                        <i class="fas fa-chevron-down dropdown-icon"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="todos-projetos.html" class="dropdown-link">Todos os Projetos</a>
+                    </div>
+                </div>
                 <a href="galeria.html" class="nav-link">Galeria</a>
                 <a href="editais.html" class="nav-link active">
                     Transparência
@@ -74,26 +80,26 @@
                     <!-- Card 1 -->
                     <div style="background: var(--surface); padding: 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border-top: 4px solid var(--primary);">
                         <h4 style="font-size: 0.9rem; color: var(--text-light); text-transform: uppercase;">Total Arrecadado</h4>
-                        <p style="font-size: 1.8rem; font-weight: 700; color: var(--secondary);">R$ 1.250.000</p>
-                        <small style="color: var(--accent-green);"><i class="fas fa-arrow-up"></i> 15% vs 2024</small>
+                        <p id="stat-arrecadado-val" style="font-size: 1.8rem; font-weight: 700; color: var(--secondary);"></p>
+                        <small id="stat-arrecadado-sub" style="color: var(--accent-green);"></small>
                     </div>
                     <!-- Card 2 -->
                     <div style="background: var(--surface); padding: 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border-top: 4px solid var(--accent-green);">
                         <h4 style="font-size: 0.9rem; color: var(--text-light); text-transform: uppercase;">Investido em Projetos</h4>
-                        <p style="font-size: 1.8rem; font-weight: 700; color: var(--secondary);">R$ 980.000</p>
-                        <small style="color: var(--text-light);">78% do orçamento</small>
+                        <p id="stat-investido-val" style="font-size: 1.8rem; font-weight: 700; color: var(--secondary);"></p>
+                        <small id="stat-investido-sub" style="color: var(--text-light);"></small>
                     </div>
                     <!-- Card 3 -->
                     <div style="background: var(--surface); padding: 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border-top: 4px solid var(--accent-red);">
                         <h4 style="font-size: 0.9rem; color: var(--text-light); text-transform: uppercase;">Famílias Impactadas</h4>
-                        <p style="font-size: 1.8rem; font-weight: 700; color: var(--secondary);">2.540</p>
-                        <small style="color: var(--text-light);">Cadastradas no sistema</small>
+                        <p id="stat-familias-val" style="font-size: 1.8rem; font-weight: 700; color: var(--secondary);"></p>
+                        <small id="stat-familias-sub" style="color: var(--text-light);"></small>
                     </div>
                      <!-- Card 4 -->
                     <div style="background: var(--surface); padding: 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border-top: 4px solid var(--accent-purple);">
                         <h4 style="font-size: 0.9rem; color: var(--text-light); text-transform: uppercase;">Voluntários Ativos</h4>
-                        <p style="font-size: 1.8rem; font-weight: 700; color: var(--secondary);">120</p>
-                        <small style="color: var(--text-light);">Em 5 estados</small>
+                        <p id="stat-voluntarios-val" style="font-size: 1.8rem; font-weight: 700; color: var(--secondary);"></p>
+                        <small id="stat-voluntarios-sub" style="color: var(--text-light);"></small>
                     </div>
                 </div>
             </div>
@@ -113,33 +119,11 @@
                             </tr>
                         </thead>
                         <tbody>
+                        <tbody id="actions-table-body">
                             <tr style="border-bottom: 1px solid #e2e8f0;">
-                                <td style="padding: 1rem;"><strong>Brasília 2025</strong> - Distribuição de Cestas</td>
-                                <td style="padding: 1rem;">Sol Nascente / DF</td>
-                                <td style="padding: 1rem;"><span class="tag tag-green">Concluído</span></td>
-                                <td style="padding: 1rem;">R$ 45.000,00</td>
-                                <td style="padding: 1rem;">Jan/2026</td>
-                            </tr>
-                            <tr style="border-bottom: 1px solid #e2e8f0;">
-                                <td style="padding: 1rem;"><strong>Mutirão da Visão</strong></td>
-                                <td style="padding: 1rem;">Ceilândia / DF</td>
-                                <td style="padding: 1rem;"><span class="tag tag-primary">Em Execução</span></td>
-                                <td style="padding: 1rem;">R$ 22.500,00</td>
-                                <td style="padding: 1rem;">Jan/2026</td>
-                            </tr>
-                            <tr style="border-bottom: 1px solid #e2e8f0;">
-                                <td style="padding: 1rem;"><strong>Curso Futuro Brilhante</strong> - Turma 01</td>
-                                <td style="padding: 1rem;">Taguatinga / DF</td>
-                                <td style="padding: 1rem;"><span class="tag tag-green">Concluído</span></td>
-                                <td style="padding: 1rem;">R$ 15.000,00</td>
-                                <td style="padding: 1rem;">Dez/2025</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 1rem;"><strong>Reforma Sede Social</strong></td>
-                                <td style="padding: 1rem;">Taguatinga / DF</td>
-                                <td style="padding: 1rem;"><span class="tag tag-green">Concluído</span></td>
-                                <td style="padding: 1rem;">R$ 120.000,00</td>
-                                <td style="padding: 1rem;">Nov/2025</td>
+                                <td colspan="5" style="padding: 2rem; text-align: center; color: var(--text-light);">
+                                    <i class="fas fa-spinner fa-spin"></i> Carregando registros...
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -155,7 +139,7 @@
                         <i class="fas fa-file-pdf" style="font-size: 2rem; color: var(--accent-red);"></i>
                         <div>
                             <h4 style="margin: 0;">Estatuto Social</h4>
-                            <a href="#" class="btn-text">Baixar PDF</a>
+                            <a href="#" id="link-view-estatuto" class="btn-text" target="_blank">Baixar PDF</a>
                         </div>
                     </div>
 
@@ -163,7 +147,7 @@
                         <i class="fas fa-file-alt" style="font-size: 2rem; color: var(--text-light);"></i>
                         <div>
                             <h4 style="margin: 0;">Ata de Fundação</h4>
-                            <a href="#" class="btn-text">Baixar PDF</a>
+                            <a href="#" id="link-view-ata" class="btn-text" target="_blank">Baixar PDF</a>
                         </div>
                     </div>
 
@@ -171,7 +155,7 @@
                         <i class="fas fa-certificate" style="font-size: 2rem; color: var(--accent-green);"></i>
                         <div>
                             <h4 style="margin: 0;">Certificado OSCIP</h4>
-                            <a href="#" class="btn-text">Baixar PDF</a>
+                            <a href="#" id="link-view-oscip" class="btn-text" target="_blank">Baixar PDF</a>
                         </div>
                     </div>
 
@@ -179,7 +163,7 @@
                         <i class="fas fa-id-card" style="font-size: 2rem; color: var(--primary);"></i>
                         <div>
                             <h4 style="margin: 0;">Cartão CNPJ</h4>
-                            <a href="#" class="btn-text">Baixar PDF</a>
+                            <a href="#" id="link-view-cnpj" class="btn-text" target="_blank">Baixar PDF</a>
                         </div>
                     </div>
 
@@ -240,58 +224,7 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="assets/js/script.js"></script>
-    <!-- Firebase & Dynamic Content -->
-    <script type="module" src="../admin/assets/js/firebase-config.js" id="firebase-init"></script>
-    <script type="module">
-        import { db } from '../admin/assets/js/firebase-config.js';
-        import { collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const editaisList = document.querySelector('.editais-list');
-        if (editaisList) {
-            const q = query(collection(db, "transparencia"), orderBy("date", "desc"));
-            onSnapshot(q, (snapshot) => {
-                editaisList.innerHTML = ''; // Clear hardcoded
-                
-                if (snapshot.empty) {
-                     editaisList.innerHTML = '<p class="text-center py-5 text-muted">Nenhum documento disponível no momento.</p>';
-                     return;
-                }
-
-                snapshot.forEach((docSnap) => {
-                    const data = docSnap.data();
-                    // Handle Date (String YYYY-MM-DD or Timestamp)
-                    let dateDisplay = 'Recente';
-                    if (data.date) {
-                         const parts = data.date.split('-'); // 2026-01-15
-                         if (parts.length === 3) dateDisplay = `${parts[2]}/${parts[1]}/${parts[0]}`;
-                    } else if (data.createdAt && data.createdAt.toDate) {
-                         dateDisplay = data.createdAt.toDate().toLocaleDateString('pt-BR');
-                    }
-
-                    // Status Colors
-                    let tagClass = 'tag-primary';
-                    if (data.status === 'Concluído') tagClass = 'tag-green';
-                    if (data.status === 'Encerrado') tagClass = 'tag-red';
-                    if (data.status === 'Em Execução') tagClass = 'tag-yellow'; // helper needed or custom style
-
-                    const item = `
-                        <div class="edital-item" style="display: flex; align-items: center; justify-content: space-between; padding: 1.5rem; border-bottom: 1px solid #e2e8f0;">
-                            <div class="edital-info">
-                                <span class="tag ${tagClass}" style="margin-bottom: 0.5rem;">${data.status || 'Aberto'}</span>
-                                <h3 style="font-size: 1.2rem; margin-bottom: 0.25rem;">${data.title}</h3>
-                                <p style="color: var(--text-light); font-size: 0.9rem;">${data.description || ''}</p>
-                                <small style="color: var(--text-light);"><i class="far fa-calendar-alt"></i> Publicado em: ${dateDisplay}</small>
-                            </div>
-                            <a href="${data.fileUrl || '#'}" class="btn btn-outline" style="font-size: 0.85rem;" target="_blank">
-                                <i class="fas fa-download"></i> Baixar PDF
-                            </a>
-                        </div>
-                    `;
-                    editaisList.insertAdjacentHTML('beforeend', item);
-                });
-            });
-        }
-    </script>
+    <script src="assets/js/site-common.js"></script>
+    <script type="module" src="assets/js/transparency-page.js"></script>
 </body>
 </html>

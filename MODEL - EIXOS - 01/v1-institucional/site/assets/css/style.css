@@ -269,6 +269,63 @@ ul {
 .nav-link:hover {
     color: var(--secondary); /* Keep text dark/neutral to not clash */
 }
+
+/* Dropdown Menu */
+.nav-item-dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-icon {
+    font-size: 0.7rem;
+    margin-left: 0.5rem;
+    transition: transform 0.3s ease;
+    opacity: 0.7;
+}
+
+.nav-item-dropdown:hover .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    min-width: 220px;
+    box-shadow: var(--shadow-lg);
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    padding: 0.75rem 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: var(--transition);
+    border-top: 3px solid var(--primary);
+    z-index: 1000;
+}
+
+.nav-item-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-link {
+    display: block;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-main);
+    transition: var(--transition);
+}
+
+.dropdown-link:hover {
+    background: rgba(37, 99, 235, 0.05);
+    color: var(--primary);
+    padding-left: 1.75rem;
+}
+
 .menu-toggle {
   display: none;
   font-size: 1.5rem;
@@ -1871,6 +1928,43 @@ ul {
     .nav-menu.active {
         transform: translateY(0);
     }
+
+    .nav-item-dropdown {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .dropdown-menu {
+        position: static !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        padding-left: 1.5rem !important;
+        border-top: none !important;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
+        width: 100%;
+    }
+
+    .nav-item-dropdown:hover .dropdown-menu,
+    .nav-item-dropdown:focus-within .dropdown-menu {
+        max-height: 200px;
+    }
+
+    .dropdown-link {
+        padding: 0.5rem 0 !important;
+        font-size: 0.85rem !important;
+        color: var(--text-light) !important;
+    }
+    
+    .dropdown-icon {
+        display: none !important;
+    }
+
     .menu-toggle {
         display: block;
         color: var(--secondary);
@@ -1990,9 +2084,16 @@ ul {
 }
 
 .modal-grid {
-    display: block; 
+    display: flex;
     height: 100%;
-    overflow-y: auto; 
+    overflow-y: auto;
+}
+
+.modal-left-col {
+    flex: 1.2;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Modal Carousel */
@@ -2000,12 +2101,10 @@ ul {
     position: relative;
     background: #000;
     overflow: hidden;
-    height: 500px; /* Increased height for larger card */
-    float: left;
-    width: 50%; /* Wider image area */
-    margin-right: 2rem;
-    margin-bottom: 0;
-    border-radius: 0; /* Flush with edge if desired, or keep radius? Keeping radius for now but flush left side effectively */
+    height: 500px;
+    width: 100%;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
 }
 
 .modal-carousel {
@@ -2059,9 +2158,10 @@ ul {
 
 /* Modal Info */
 .modal-info {
-    padding: 3rem;
-    display: block;
-    overflow-y: auto; /* Allow independent scroll if needed, though modal-grid handles it mostly */
+    flex: 1;
+    padding: 2rem 3rem 3rem 1rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .modal-stats-bar {
@@ -2085,20 +2185,16 @@ ul {
 /* Mobile Modal */
 @media (max-width: 900px) {
     .modal-grid {
-        display: block; /* Stack on mobile */
+        flex-direction: column;
     }
     .modal-left-col {
-        margin-bottom: 2rem;
+        padding: 1rem;
     }
     .modal-carousel-container {
-        height: 250px; /* Smaller height on mobile */
-        float: none;
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 1.5rem;
+        height: 250px;
     }
     .modal-info {
-        padding: 0 1.5rem 2rem;
+        padding: 1.5rem;
     }
     .modal-close {
         top: 0.5rem;
@@ -2627,6 +2723,127 @@ ul {
     display: flex;
     gap: 1rem;
     margin-top: 1.5rem;
+}
+
+/* === GALLERY MASONRY === */
+.gallery-masonry {
+    columns: 3 300px;
+    column-gap: 1.5rem;
+    width: 100%;
+}
+
+.gallery-item {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.gallery-item img {
+    width: 100%;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+.gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0) 70%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.gallery-overlay h4 {
+    color: white;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+}
+
+.gallery-overlay p {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.875rem;
+}
+
+/* === LIGHTBOX === */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.95);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+}
+
+.lightbox.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-content {
+    max-width: 1000px;
+    width: 100%;
+    position: relative;
+}
+
+.lightbox-content img {
+    width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+}
+
+.lightbox-info {
+    color: white;
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: -3rem;
+    right: 0;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+@media (max-width: 768px) {
+    .gallery-masonry {
+        columns: 2 200px;
+    }
+    .gallery-overlay {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-masonry {
+        columns: 1;
+    }
 }
 
 

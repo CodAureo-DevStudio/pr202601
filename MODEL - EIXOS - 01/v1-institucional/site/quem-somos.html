@@ -34,10 +34,16 @@
             <nav class="nav-menu">
                 <a href="index.html" class="nav-link">Início</a>
                 <a href="quem-somos.html" class="nav-link active">Quem Somos</a>
-                <a href="projetos.html" class="nav-link">
-                    Projetos
-                    <span class="mobile-desc">Nossas iniciativas</span>
-                </a>
+                <div class="nav-item-dropdown">
+                    <a href="projetos.html" class="nav-link">
+                        Projetos
+                        <span class="mobile-desc">Nossas iniciativas</span>
+                        <i class="fas fa-chevron-down dropdown-icon"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="todos-projetos.html" class="dropdown-link">Todos os Projetos</a>
+                    </div>
+                </div>
                 <a href="galeria.html" class="nav-link">Galeria</a>
                 <a href="editais.html" class="nav-link">
                     Transparência
@@ -332,6 +338,7 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="assets/js/script.js"></script>
+    <script src="assets/js/site-common.js"></script>
+    <script src="assets/js/home.js"></script>
 </body>
 </html>

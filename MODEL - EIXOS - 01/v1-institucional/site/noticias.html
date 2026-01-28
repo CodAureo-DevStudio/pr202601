@@ -34,10 +34,16 @@
             <nav class="nav-menu">
                 <a href="index.html" class="nav-link">Início</a>
                 <a href="quem-somos.html" class="nav-link">Quem Somos</a>
-                <a href="projetos.html" class="nav-link">
-                    Projetos
-                    <span class="mobile-desc">Nossas iniciativas</span>
-                </a>
+                <div class="nav-item-dropdown">
+                    <a href="projetos.html" class="nav-link">
+                        Projetos
+                        <span class="mobile-desc">Nossas iniciativas</span>
+                        <i class="fas fa-chevron-down dropdown-icon"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="todos-projetos.html" class="dropdown-link">Todos os Projetos</a>
+                    </div>
+                </div>
                 <a href="galeria.html" class="nav-link">Galeria</a>
                 <a href="editais.html" class="nav-link">
                     Transparência
@@ -72,6 +78,7 @@
                 <!-- Category Filters -->
                 <div class="filter-tabs">
                     <button class="filter-btn active" data-filter="all">Todas</button>
+                    <button class="filter-btn" data-filter="geral">Geral</button>
                     <button class="filter-btn" data-filter="institucional">Institucional</button>
                     <button class="filter-btn" data-filter="projetos">Projetos</button>
                     <button class="filter-btn" data-filter="saude">Saúde</button>
@@ -87,152 +94,13 @@
 
             <!-- Featured News (Redesigned) -->
             <div class="reveal delay-100 featured-news-wrapper">
-                <article 
-                    class="featured-article"
-                    data-category="Destaque"
-                    data-title="Nova Sede do Instituto Eixos é Inaugurada em Taguatinga"
-                    data-date="22 Jan, 2026"
-                    data-images='["assets/img/projeto-brasilia-2025-1.png", "assets/img/Front1.png", "assets/img/reuniao-equipe.jpg"]'
-                    data-content="<h3>Expansão e Impacto</h3><p>É com imenso orgulho que inauguramos nossa nova sede em Taguatinga Norte. Este espaço moderno de 500m² foi projetado para ser um verdadeiro centro de transformação social.</p><p>A nova estrutura conta com salas de aula equipadas, auditório para 100 pessoas, sala de atendimento psicossocial e um espaço de convivência comunitária. Com isso, nossa capacidade de atendimento será ampliada em mais de 50%, permitindo que novos projetos saiam do papel ainda este ano.</p><p>Agradecemos a todos que contribuíram para este sonho se tornar realidade.</p>"
-                    onclick="openNewsModal(this)">
-                    <div class="featured-article-image">
-                        <img src="assets/img/projeto-brasilia-2025-1.png" alt="Destaque">
-                        <span class="tag tag-primary">Destaque Principal</span>
-                    </div>
-                    <div class="featured-article-content">
-                        <div class="featured-meta">
-                            <span><i class="far fa-calendar-alt"></i> 22 Jan, 2026</span>
-                            <span><i class="far fa-user"></i> Assessoria de Imprensa</span>
-                        </div>
-                        <h2 class="featured-title">Nova Sede do Instituto Eixos é Inaugurada em Taguatinga</h2>
-                        <p class="featured-excerpt">Espaço moderno de 500m² será utilizado para cursos profissionalizantes, workshops e atendimento psicossocial à comunidade, ampliando nossa capacidade de atuação em mais de 50% ainda este ano.</p>
-                        <button class="btn btn-primary btn-pill">Ler Matéria Completa</button>
-                    </div>
-                </article>
+                <!-- Dynamic Featured News Loaded Here -->
             </div>
 
             <!-- News Cards Grid -->
             <div class="page-grid" id="news-grid">
-                
-                <!-- Article 1 -->
-                <article class="article-card reveal" 
-                    data-category="projetos"
-                    data-title="Projeto Brasília 2025 impacta mais de 2.000 famílias"
-                    data-date="20 Jan, 2026"
-                    data-images='["assets/img/projeto-brasilia-2025-1.png", "assets/img/IMG_7392.jpg", "assets/img/IMG_7256.jpg"]'
-                    data-content="<h3>Recorde de Atendimentos</h3><p>Nossa iniciativa de distribuição de alimentos e roupas alcançou um novo recorde histórico de atendimentos neste mês de janeiro. Com o apoio de nossos parceiros e doadores, conseguimos levar cestas básicas, kits de higiene e roupas para mais de 2.000 famílias em situação de vulnerabilidade em todo o Distrito Federal.</p><p>A ação contou com a participação de 50 voluntários que trabalharam incansavelmente na triagem e entrega dos materiais. O sorriso no rosto de cada beneficiado é o que nos move a continuar.</p>"
-                    onclick="openNewsModal(this)">
-                    <div class="article-image">
-                        <span class="tag tag-primary" style="position: absolute; top: 1rem; right: 1rem;">Projetos</span>
-                        <img src="assets/img/projeto-brasilia-2025-1.png" alt="Notícia 1" loading="lazy">
-                    </div>
-                    <div class="article-content">
-                        <span class="meta-date"><i class="far fa-calendar-alt"></i> 20 Jan, 2026</span>
-                        <h3 class="article-title">Projeto Brasília 2025 impacta mais de 2.000 famílias</h3>
-                        <p class="article-excerpt">Nossa iniciativa de distribuição de alimentos e roupas alcançou um novo recorde histórico de atendimentos.</p>
-                        <button class="read-more">Ler mais <i class="fas fa-arrow-right"></i></button>
-                    </div>
-                </article>
-
-                <!-- Article 2 -->
-                <article class="article-card reveal delay-100" 
-                    data-category="saude"
-                    data-title="A importância da saúde preventiva nas comunidades"
-                    data-date="18 Jan, 2026"
-                    data-images='["assets/img/quem-somos-r1nd93a231j678w13jhp92onbbjg4k3aktxfpo7pow.webp", "assets/img/acao-social.png", "assets/img/IMG_7437.jpg"]'
-                    data-content="<h3>Saúde em Primeiro Lugar</h3><p>Nossos mutirões de saúde têm se mostrado essenciais para a detecção precoce de doenças como hipertensão e diabetes. Levamos atendimento médico primário, aferição de pressão e testes de glicemia diretamente para as comunidades que mais precisam.</p><p>Além dos exames, realizamos palestras educativas sobre alimentação saudável e a importância da atividade física, empoderando a população a cuidar melhor de sua própria saúde.</p>"
-                    onclick="openNewsModal(this)">
-                    <div class="article-image">
-                        <span class="tag tag-green" style="position: absolute; top: 1rem; right: 1rem;">Saúde</span>
-                        <img src="assets/img/quem-somos-r1nd93a231j678w13jhp92onbbjg4k3aktxfpo7pow.webp" alt="Notícia 2" loading="lazy">
-                    </div>
-                    <div class="article-content">
-                        <span class="meta-date"><i class="far fa-calendar-alt"></i> 18 Jan, 2026</span>
-                        <h3 class="article-title">A importância da saúde preventiva nas comunidades</h3>
-                        <p class="article-excerpt">Como nossos mutirões de saúde estão ajudando a detectar e tratar problemas precocemente.</p>
-                        <button class="read-more">Ler mais <i class="fas fa-arrow-right"></i></button>
-                    </div>
-                </article>
-
-                <!-- Article 3 -->
-                <article class="article-card reveal delay-200" 
-                    data-category="educacao"
-                    data-title="Workshop de Capacitação Profissional Aberto"
-                    data-date="15 Jan, 2026"
-                    data-images='["assets/img/transparencia-r1nd963knjn162rxn2pkyjz13h5jrnehl7vw5i3j68.webp", "assets/img/APLICAÇÃO-PASTA-A4.png", "assets/img/APLICAÇÃO-CADERNETA.png"]'
-                    data-content="<h3>Oportunidade de Crescimento</h3><p>Estão abertas as inscrições para o nosso novo ciclo de workshops profissionalizantes. Oferecemos cursos gratuitos de informática básica, artesanato sustentável e noções de empreendedorismo.</p><p>O objetivo é fornecer ferramentas práticas para que os participantes possam gerar renda extra e conquistar autonomia financeira. As aulas acontecem na nossa sedem em Taguatinga, com todos os materiais inclusos.</p>"
-                    onclick="openNewsModal(this)">
-                    <div class="article-image">
-                        <span class="tag tag-red" style="position: absolute; top: 1rem; right: 1rem;">Educação</span>
-                        <img src="assets/img/transparencia-r1nd963knjn162rxn2pkyjz13h5jrnehl7vw5i3j68.webp" alt="Notícia 3" loading="lazy">
-                    </div>
-                    <div class="article-content">
-                        <span class="meta-date"><i class="far fa-calendar-alt"></i> 15 Jan, 2026</span>
-                        <h3 class="article-title">Workshop de Capacitação Profissional Aberto</h3>
-                        <p class="article-excerpt">Inscreva-se agora para nossos cursos gratuitos de tecnologia, artesanato e empreendedorismo.</p>
-                        <button class="read-more">Ler mais <i class="fas fa-arrow-right"></i></button>
-                    </div>
-                </article>
-
-                <!-- Article 4 (New) -->
-                <article class="article-card reveal" 
-                    data-category="institucional"
-                    data-title="Instituto Eixos recebe selo de Transparência"
-                    data-date="10 Jan, 2026"
-                    data-images='["assets/img/Front1.png", "assets/img/instituto-eixos-logo.png"]'
-                    data-content="<h3>Reconhecimento</h3><p>Com muita alegria comunicamos que o Instituto Eixos recebeu o Selo de Transparência e Boas Práticas de Gestão. Este reconhecimento reflete nosso compromisso inegociável com a ética e a responsabilidade na administração dos recursos.</p><p>Agradecemos a todos os parceiros, colaboradores e voluntários que fazem parte desta construção diária de credibilidade e impacto social.</p>"
-                    onclick="openNewsModal(this)">
-                    <div class="article-image">
-                         <span class="tag tag-primary" style="position: absolute; top: 1rem; right: 1rem;">Institucional</span>
-                        <img src="assets/img/Front1.png" alt="Sede" loading="lazy">
-                    </div>
-                    <div class="article-content">
-                        <span class="meta-date"><i class="far fa-calendar-alt"></i> 10 Jan, 2026</span>
-                        <h3 class="article-title">Instituto Eixos recebe selo de Transparência</h3>
-                        <p class="article-excerpt">Fomos reconhecidos pela gestão eficiente e ética dos recursos em prol da sociedade.</p>
-                        <button class="read-more">Ler mais <i class="fas fa-arrow-right"></i></button>
-                    </div>
-                </article>
-
-                 <!-- Article 5 (New) -->
-                <article class="article-card reveal delay-100" 
-                    data-category="projetos"
-                    data-title="Planejamento Estratégico 2026 Definido"
-                    data-date="05 Jan, 2026"
-                    data-images='["assets/img/APLICAÇÃO-INSTITUTO-EIXOS.png", "assets/img/reuniao-equipe.jpg"]'
-                    data-content="<h3>Novos Horizontes</h3><p>Nossa equipe de liderança concluiu o planejamento estratégico para o ano de 2026. Definimos metas ambiciosas de expansão de nossos projetos sociais e parcerias.</p><p>O foco principal será a ampliação do programa de educação para jovens e a estruturação de um novo núcleo de apoio à saúde mental.</p>"
-                    onclick="openNewsModal(this)">
-                    <div class="article-image">
-                        <span class="tag tag-primary" style="position: absolute; top: 1rem; right: 1rem;">Projetos</span>
-                        <img src="assets/img/APLICAÇÃO-INSTITUTO-EIXOS.png" alt="Reunião" loading="lazy">
-                    </div>
-                    <div class="article-content">
-                        <span class="meta-date"><i class="far fa-calendar-alt"></i> 05 Jan, 2026</span>
-                        <h3 class="article-title">Planejamento Estratégico 2026 Definido</h3>
-                        <p class="article-excerpt">Confira as metas ambiciosas que traçamos para expandir nosso impacto este ano.</p>
-                        <button class="read-more">Ler mais <i class="fas fa-arrow-right"></i></button>
-                    </div>
-                </article>
-
-                 <!-- Article 6 (New) -->
-                <article class="article-card reveal delay-200" 
-                    data-category="educacao"
-                    data-title="Doação de Material Escolar"
-                    data-date="02 Jan, 2026"
-                    data-images='["assets/img/APLICAÇÃO-PASTA-A4.png", "assets/img/material-escolar.jpg"]'
-                    data-content="<h3>Volta às Aulas Solidária</h3><p>Iniciamos o ano com o pé direito! A campanha 'Volta às Aulas Solidária' arrecadou e distribuiu mais de 500 kits completos de material escolar para crianças de baixa renda.</p><p>Cada kit contém caderno, lápis, canetas, borracha, apontador e lápis de cor, garantindo que essas crianças tenham condições dignas de aprendizado.</p>"
-                    onclick="openNewsModal(this)">
-                    <div class="article-image">
-                        <span class="tag tag-red" style="position: absolute; top: 1rem; right: 1rem;">Educação</span>
-                        <img src="assets/img/APLICAÇÃO-PASTA-A4.png" alt="Material" loading="lazy">
-                    </div>
-                    <div class="article-content">
-                        <span class="meta-date"><i class="far fa-calendar-alt"></i> 02 Jan, 2026</span>
-                        <h3 class="article-title">Doação de Material Escolar</h3>
-                        <p class="article-excerpt">Campanha 'Volta às Aulas Solidária' arrecada 500 kits para crianças carentes.</p>
-                        <button class="read-more btn-link">Ler mais <i class="fas fa-arrow-right"></i></button>
-                    </div>
-                </article>
+                <p class="text-center w-100 py-5 text-muted">Carregando notícias...</p>
+            </div>
 
             </div>
 
@@ -265,7 +133,7 @@
     </section>
 
     <!-- News Modal (Hidden) -->
-    <div id="news-modal" class="custom-modal">
+    <div id="news-modal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close" onclick="closeNewsModal()">&times;</button>
             
@@ -345,73 +213,8 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="assets/js/script.js"></script>
-    <!-- Firebase & Dynamic Content -->
-    <script type="module" src="../admin/assets/js/firebase-config.js" id="firebase-init"></script>
-    <script type="module">
-        import { db } from '../admin/assets/js/firebase-config.js';
-        import { collection, query, orderBy, onSnapshot, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const newsGrid = document.getElementById('news-grid');
-        const featuredWrapper = document.querySelector('.featured-news-wrapper');
-
-        if (newsGrid) {
-            const q = query(collection(db, "noticias"), orderBy("createdAt", "desc"));
-            onSnapshot(q, (snapshot) => {
-                newsGrid.innerHTML = '';
-                
-                if (snapshot.empty) {
-                    newsGrid.innerHTML = '<p class="text-center w-100 py-5 text-muted">Aguardando novas notícias...</p>';
-                    return;
-                }
-
-                const allNews = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    
-                    // Update Featured News
-                    const featured = allNews[0];
-                    if (featuredWrapper && featured) {
-                        const dateStr = featured.createdAt?.toDate ? featured.createdAt.toDate().toLocaleDateString('pt-BR') : 'Recente';
-                        featuredWrapper.innerHTML = `
-                            <article class="featured-article" onclick="openNewsModal('${featured.id}')">
-                                <div class="featured-article-image">
-                                    <img src="${(featured.imageUrl || 'assets/img/projeto-brasilia-2025-1.png').replace('../', '')}" alt="${featured.title}">
-                                    <span class="tag tag-primary">Destaque Principal</span>
-                                </div>
-                                <div class="featured-article-content">
-                                    <div class="featured-meta">
-                                        <span><i class="far fa-calendar-alt"></i> ${dateStr}</span>
-                                        <span><i class="far fa-user"></i> Assessoria</span>
-                                    </div>
-                                    <h2 class="featured-title">${featured.title}</h2>
-                                    <p class="featured-excerpt">${featured.excerpt || ''}</p>
-                                    <button class="btn btn-primary btn-pill">Ler Matéria Completa</button>
-                                </div>
-                            </article>
-                        `;
-                    }
-
-                    // Render Grid (skipping the first one if it's already featured, or showing all)
-                    newsGrid.innerHTML = '';
-                    allNews.forEach((item, index) => {
-                        const dateStr = item.createdAt?.toDate ? item.createdAt.toDate().toLocaleDateString('pt-BR') : 'Recente';
-                        const card = `
-                            <article class="article-card reveal" onclick="openNewsModal('${item.id}')">
-                                <div class="article-image">
-                                    <span class="tag tag-primary" style="position: absolute; top: 1rem; right: 1rem;">${item.category || 'Geral'}</span>
-                                    <img src="${(item.imageUrl || 'assets/img/projeto-brasilia-2025-1.png').replace('../', '')}" alt="${item.title}" loading="lazy">
-                                </div>
-                                <div class="article-content">
-                                    <span class="meta-date"><i class="far fa-calendar-alt"></i> ${dateStr}</span>
-                                    <h3 class="article-title">${item.title}</h3>
-                                    <p class="article-excerpt">${item.excerpt || ''}</p>
-                                    <button class="read-more">Ler mais <i class="fas fa-arrow-right"></i></button>
-                                </div>
-                            </article>
-                        `;
-                        newsGrid.insertAdjacentHTML('beforeend', card);
-                    });
-            });
-        }
-    </script>
+    <script src="assets/js/site-common.js"></script>
+    <script src="assets/js/news.js"></script>
+    <script type="module" src="assets/js/news-page.js"></script>
 </body>
 </html>

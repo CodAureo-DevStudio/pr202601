@@ -65,7 +65,7 @@ export const initialData = {
         { caption: "Mutirão de Saúde", date: "Atendimento Comunitário", imageUrl: "assets/img/quem-somos-r1nd93a231j678w13jhp92onbbjg4k3aktxfpo7pow.webp" },
         { caption: "Futuro Brilhante", date: "Jovens formados em TI", imageUrl: "assets/img/transparencia-r1nd963knjn162rxn2pkyjz13h5jrnehl7vw5i3j68.webp" }
     ],
-    editais: [
+    transparencia: [
         { title: "Edital de Chamamento 01/2026", category: "Aberto", status: "Ativo", description: "Seleção de fornecedores para o Projeto Brasília 2025.", fileUrl: "#" },
         { title: "Relatório Financeiro 2025", category: "Relatório", status: "Concluído", description: "Balanço patrimonial e demonstração de resultados.", fileUrl: "#" }
     ]

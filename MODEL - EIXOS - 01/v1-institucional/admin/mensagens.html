@@ -7,241 +7,164 @@
     <title>Mensagens - Painel Admin | Instituto Eixos</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Premium Inbox Styles */
+        .messages-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            background: white;
+            border-radius: 1.25rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            min-height: calc(100vh - 180px);
         }
 
-        body {
-            display: flex;
-            min-height: 100vh;
-            background: #f1f5f9;
-            font-family: 'Inter', sans-serif;
+        .inbox-sidebar {
+            border-right: 1px solid #f1f5f9;
+            background: #f8fafc;
+            padding: 1.5rem;
+            display: none; /* Can be enabled for categories later */
         }
 
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 260px;
-            background: #0f172a;
-            color: white;
-            padding: 1.5rem 0;
+        .messages-list-wrapper {
             display: flex;
             flex-direction: column;
-            z-index: 100;
         }
 
-        .sidebar-brand {
-            padding: 0 1.5rem 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .sidebar-logo-img {
-            max-width: 150px;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-            padding: 1rem 0.5rem;
-            flex: 1;
-        }
-
-        .menu-item {
-            margin: 0.25rem 0;
-        }
-
-        .menu-link {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.85rem 1.25rem;
-            color: #94a3b8;
-            text-decoration: none;
-            border-radius: 0.5rem;
-            transition: all 0.2s;
-        }
-
-        .menu-link:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
-        }
-
-        .menu-link.active {
-            background: rgba(59, 130, 246, 0.15);
-            color: #60a5fa;
-        }
-
-        .menu-link i {
-            width: 20px;
-            text-align: center;
-        }
-
-        .user-profile {
+        .inbox-toolbar {
             padding: 1rem 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            overflow: hidden;
-        }
-
-        .user-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .main-content {
-            margin-left: 260px;
-            padding: 2rem;
-            flex: 1;
-        }
-
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .page-title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: #1e293b;
-        }
-
-        .content-card {
-            background: white;
-            border-radius: 1rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-        }
-
-        .card-header {
-            padding: 1.25rem 1.5rem;
             border-bottom: 1px solid #f1f5f9;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .card-header h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #334155;
-        }
-
-        .message-list {
-            padding: 0;
+            background: #ffffff;
         }
 
         .message-item {
             padding: 1.25rem 1.5rem;
             border-bottom: 1px solid #f1f5f9;
-            display: flex;
-            gap: 1rem;
-            transition: background 0.2s;
+            display: grid;
+            grid-template-columns: 48px 1fr 120px 80px;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.2s;
             cursor: pointer;
+            background: white;
+            position: relative;
         }
 
         .message-item:hover {
             background: #f8fafc;
+            transform: scale(1.002);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            z-index: 1;
         }
 
         .message-item.unread {
-            background: #eff6ff;
-            border-left: 3px solid #3b82f6;
+            background: #f0f7ff;
         }
 
-        .message-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
+        .message-item.unread::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #2563eb;
+        }
+
+        .msg-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             background: #e2e8f0;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #64748b;
+            font-weight: 700;
+            color: #475569;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .unread .msg-avatar {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .msg-info {
+            min-width: 0;
+        }
+
+        .msg-sender {
+            display: block;
             font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.2rem;
         }
 
-        .message-content {
-            flex: 1;
+        .unread .msg-sender {
+            color: #0f172a;
         }
 
-        .message-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.25rem;
+        .msg-subject {
+            font-size: 0.875rem;
+            color: #475569;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .message-sender {
-            font-weight: 600;
+        .unread .msg-subject {
+            font-weight: 700;
             color: #1e293b;
         }
 
-        .message-date {
-            font-size: 0.875rem;
+        .msg-date {
+            font-size: 0.8rem;
             color: #94a3b8;
+            text-align: right;
         }
 
-        .message-subject {
-            font-weight: 500;
+        .msg-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .message-item:hover .msg-actions {
+            opacity: 1;
+        }
+
+        .status-pill {
+            padding: 0.25rem 0.6rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-unread { background: #dbeafe; color: #2563eb; }
+        .status-read { background: #f1f5f9; color: #64748b; }
+
+        /* Detail Modal Styles */
+        .msg-detail-header {
+            border-bottom: 1px solid #f1f5f9;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+
+        .msg-detail-body {
+            line-height: 1.6;
             color: #475569;
-            margin-bottom: 0.25rem;
-        }
-
-        .message-preview {
-            font-size: 0.875rem;
-            color: #64748b;
-        }
-
-        .btn-sm {
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
-            border-radius: 0.5rem;
-            border: none;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-
-        .btn-outline {
-            background: transparent;
+            white-space: pre-wrap;
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 1rem;
             border: 1px solid #e2e8f0;
-            color: #475569;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 4rem;
-            color: #94a3b8;
-        }
-
-        .empty-state i {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
-
-        select.form-input {
-            padding: 0.6rem 1rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
         }
     </style>
 </head>
@@ -282,75 +205,80 @@
 
     <main class="main-content">
         <header class="top-bar">
+            <button class="menu-toggle-admin"><i class="fas fa-bars"></i></button>
             <h1 class="page-title">Caixa de Entrada</h1>
             <div style="display: flex; gap: 1rem; align-items: center;">
-                <select class="form-input" style="width: 200px;">
-                    <option value="all">Todas as Mensagens</option>
-                    <option value="unread" selected>Não Lidas</option>
-                    <option value="read">Lidas</option>
-                </select>
+                <div class="search-box-admin" style="background: white; padding: 0.5rem 1rem; border-radius: 0.75rem; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-search" style="color: #94a3b8;"></i>
+                    <input type="text" id="msg-search" placeholder="Pesquisar mensagens..." style="border: none; outline: none; font-size: 0.85rem; width: 250px;">
+                </div>
             </div>
         </header>
 
-        <div class="content-card">
-            <div class="card-header">
-                <h3>Mensagens do Fale Conosco</h3>
-                <span
-                    style="background: #fee2e2; color: #dc2626; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.875rem; font-weight: 500;">3
-                    não lidas</span>
+        <div class="messages-container">
+            <div class="messages-list-wrapper">
+                <div class="inbox-toolbar">
+                    <div style="display: flex; gap: 0.75rem;">
+                        <select class="form-input" id="msg-filter" style="border-radius: 0.5rem; padding: 0.4rem 1rem; border: 1px solid #e2e8f0;">
+                            <option value="all">Todas</option>
+                            <option value="unread" selected>Não Lidas</option>
+                            <option value="read">Lidas</option>
+                        </select>
+                        <button class="btn-sm btn-outline" id="btn-reload-msg" title="Atualizar"><i class="fas fa-redo-alt"></i></button>
+                    </div>
+                    <div id="msg-count-badge" style="font-size: 0.85rem; color: #64748b; font-weight: 500;">
+                        Carregando mensagens...
+                    </div>
+                </div>
+
+                <div id="messages-list-body">
+                    <!-- Dynamic Messages injected here -->
+                    <div class="empty-state">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Carregando sua caixa de entrada...</p>
+                    </div>
+                </div>
             </div>
-            <div class="message-list">
-                <div class="message-item unread">
-                    <div class="message-avatar">JC</div>
-                    <div class="message-content">
-                        <div class="message-header">
-                            <span class="message-sender">João Carlos</span>
-                            <span class="message-date">Hoje, 14:30</span>
+        </div>
+
+        <!-- View Message Modal -->
+        <div id="modal-view-msg" class="admin-modal-overlay">
+            <div class="admin-modal" style="max-width: 700px;">
+                <div class="admin-modal-header">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <i class="fas fa-envelope-open-text" style="color: #2563eb; font-size: 1.2rem;"></i>
+                        <h3 id="view-msg-subject">Assunto da Mensagem</h3>
+                    </div>
+                    <button class="modal-close-btn" onclick="closeModal('modal-view-msg')">&times;</button>
+                </div>
+                <div class="admin-modal-body" style="padding: 2rem;">
+                    <div class="msg-detail-header">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div id="view-msg-avatar" class="msg-avatar" style="width: 50px; height: 50px; font-size: 1.2rem;">JD</div>
+                                <div>
+                                    <strong id="view-msg-sender" style="display: block; font-size: 1.1rem;">Nome do Remetente</strong>
+                                    <span id="view-msg-email" style="color: #64748b; font-size: 0.9rem;">email@exemplo.com</span>
+                                </div>
+                            </div>
+                            <div id="view-msg-date" style="color: #94a3b8; font-size: 0.85rem;">Hoje às 14:30</div>
                         </div>
-                        <div class="message-subject">Dúvida sobre voluntariado</div>
-                        <div class="message-preview">Olá, gostaria de saber como posso me tornar voluntário do
-                            instituto...</div>
+                    </div>
+                    
+                    <div id="view-msg-content" class="msg-detail-body">
+                        Conteúdo da mensagem aqui...
                     </div>
                 </div>
-                <div class="message-item unread">
-                    <div class="message-avatar">MS</div>
-                    <div class="message-content">
-                        <div class="message-header">
-                            <span class="message-sender">Maria Silva</span>
-                            <span class="message-date">Hoje, 10:15</span>
-                        </div>
-                        <div class="message-subject">Parceria institucional</div>
-                        <div class="message-preview">Represento a empresa XYZ e gostaríamos de propor uma parceria...
-                        </div>
-                    </div>
-                </div>
-                <div class="message-item unread">
-                    <div class="message-avatar">PO</div>
-                    <div class="message-content">
-                        <div class="message-header">
-                            <span class="message-sender">Pedro Oliveira</span>
-                            <span class="message-date">Ontem, 18:45</span>
-                        </div>
-                        <div class="message-subject">Solicitação de doação</div>
-                        <div class="message-preview">Boa tarde, como posso fazer uma doação para o instituto?...</div>
-                    </div>
-                </div>
-                <div class="message-item">
-                    <div class="message-avatar">AF</div>
-                    <div class="message-content">
-                        <div class="message-header">
-                            <span class="message-sender">Ana Ferreira</span>
-                            <span class="message-date">20 Jan 2026</span>
-                        </div>
-                        <div class="message-subject">Agradecimento</div>
-                        <div class="message-preview">Quero agradecer pela ajuda que recebi do instituto durante...</div>
-                    </div>
+                <div class="admin-modal-footer">
+                    <button class="btn-sm btn-delete" id="btn-delete-viewing" style="margin-right: auto;"><i class="fas fa-trash"></i> Excluir</button>
+                    <button class="btn-sm btn-outline" onclick="closeModal('modal-view-msg')">Fechar</button>
+                    <a href="#" id="btn-reply-msg" class="btn-sm btn-primary"><i class="fas fa-reply"></i> Responder por E-mail</a>
                 </div>
             </div>
         </div>
     </main>
 
-    <script type="module" src="assets/js/admin.js"></script>
+    <script type="module" src="assets/js/messages.js"></script>
 </body>
 
 </html>

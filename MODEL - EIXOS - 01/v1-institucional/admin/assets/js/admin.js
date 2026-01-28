@@ -153,27 +153,26 @@ const initAdmin = () => {
     // Auth State Observer Removed
 
     // --- DASHBOARD REAL-TIME STATS ---
-    const updateDashboardStats = () => {
-        // News count (Stat 3 - was incorrectly mapped)
+    // --- DASHBOARD REAL-TIME STATS ---
+    async function updateDashboardStats() {
+        // News count (for internal sections if needed, not card 2 anymore)
         onSnapshot(collection(db, "noticias"), (snapshot) => {
-            // We'll update the "Notícias" part of the news dashboard section if needed, 
-            // but for the 4 dashboard cards:
-            // Let's use indexes based on admin/index.html (1=Visits, 2=Families, 3=Donations, 4=Messages)
-            // Wait, looking at the HTML:
-            // 1. Visitas (Stat 1)
-            // 2. Famílias Impactadas (Stat 2)
-            // 3. Doações (Stat 3)
-            // 4. Fale Conosco (Stat 4)
-            // Let's update Projects total in Stat 2 instead of "Families" mock value
-            const projectStat = document.querySelector('.stats-grid .stat-card:nth-child(2) .stat-value');
-            if (projectStat) projectStat.textContent = snapshot.size; 
-            // Wait, no. Projects should be Stat 2.
+            const newsStat = document.querySelector('.stats-grid .stat-card:nth-child(1) .stat-value');
+            const newsLabel = document.querySelector('.stats-grid .stat-card:nth-child(1) .stat-label');
+            if (newsStat) newsStat.textContent = snapshot.size;
+            if (newsLabel) newsLabel.textContent = "Notícias Publicadas";
         });
 
-        // Genuine Projects count
+        // Projects count - Stat 2
         onSnapshot(collection(db, "projetos"), (snapshot) => {
             const projectStat = document.querySelector('.stats-grid .stat-card:nth-child(2) .stat-value');
             if (projectStat) projectStat.textContent = snapshot.size;
+        });
+
+        // Gallery count - Stat 3
+        onSnapshot(collection(db, "galeria"), (snapshot) => {
+            const galleryStat = document.querySelector('.stats-grid .stat-card:nth-child(3) .stat-value');
+            if (galleryStat) galleryStat.textContent = snapshot.size;
         });
         
         // Messages count (unread) - Stat 4
@@ -183,11 +182,16 @@ const initAdmin = () => {
             if (msgDashboardStat) msgDashboardStat.textContent = count;
         });
 
+        // Site Visits - Stat 1 (Mock or real if tracked)
+        const visitsStat = document.querySelector('.stats-grid .stat-card:nth-child(1) .stat-value');
+        if (visitsStat && !visitsStat.textContent) visitsStat.textContent = "1.2k"; 
+    }
+
         // Check for migration card
         checkAndShowMigration();
     };
 
-    const checkAndShowMigration = async () => {
+    async function checkAndShowMigration() {
         const snap = await getDocs(collection(db, "projetos"));
         if (snap.empty) {
             const container = document.querySelector('.stats-grid');
@@ -197,10 +201,10 @@ const initAdmin = () => {
             migrateBtn.style.background = 'var(--primary)';
             migrateBtn.style.color = 'white';
             migrateBtn.innerHTML = `
-                <div class="stat-icon" style="color: white;"><i class="fas fa-file-import"></i></div>
+                <div class="stat-icon" style="color: white;"><i class="fas fa-sync-alt"></i></div>
                 <div class="stat-info">
-                    <div class="stat-value" style="font-size: 1.2rem;">Migrar Dados</div>
-                    <div class="stat-label" style="color: rgba(255,255,255,0.8);">Importar conteúdo estático</div>
+                    <div class="stat-value" style="font-size: 1.2rem;">Sincronizar Dados</div>
+                    <div class="stat-label" style="color: rgba(255,255,255,0.8);">Restaurar conteúdo padrão</div>
                 </div>
             `;
             migrateBtn.onclick = runMigration;
@@ -208,14 +212,14 @@ const initAdmin = () => {
         }
     };
 
-    const runMigration = async (event) => {
-        if (!confirm('Deseja importar o conteúdo estático original para o Firebase?')) return;
+    async function runMigration(event) {
+        if (!confirm('Deseja sincronizar o conteúdo padrão para o banco de dados?')) return;
         
         // Find the button element correctly
         let btn = event?.currentTarget || document.getElementById('btn-migrate-now');
         // If triggered via the dashboard card that was injected:
-        if (!btn && document.querySelector('.fa-file-import')) {
-            btn = document.querySelector('.fa-file-import').closest('.stat-card');
+        if (!btn && document.querySelector('.fa-sync-alt')) {
+            btn = document.querySelector('.fa-sync-alt').closest('.stat-card');
         }
 
         if (btn) {
@@ -227,7 +231,7 @@ const initAdmin = () => {
 
         try {
             for (const [collName, items] of Object.entries(initialData)) {
-                console.log(`Migrando ${collName}...`);
+                console.log(`Sincronizando ${collName}...`);
                 for (const item of items) {
                     await addDoc(collection(db, collName), {
                         ...item,
@@ -235,20 +239,20 @@ const initAdmin = () => {
                     });
                 }
             }
-            alert('Sucesso! Dados migrados com sucesso.');
+            alert('Sucesso! Dados sincronizados com sucesso.');
             const statusDiv = document.getElementById('migration-status');
             if (statusDiv) {
                 statusDiv.style.display = 'block';
                 statusDiv.style.color = 'var(--success)';
-                statusDiv.textContent = 'Migração concluída com sucesso!';
+                statusDiv.textContent = 'Sincronização concluída com sucesso!';
             }
             // Remove the dashboard button if it exists
-            const dashboardBtn = document.querySelector('.fa-file-import')?.closest('.stat-card');
+            const dashboardBtn = document.querySelector('.fa-sync-alt')?.closest('.stat-card');
             if (dashboardBtn) dashboardBtn.remove();
             
         } catch (error) {
             console.error(error);
-            alert('Erro na migração: ' + error.message);
+            alert('Erro na sincronização: ' + error.message);
         } finally {
             if (btn) {
                 btn.style.opacity = '1';
@@ -798,15 +802,135 @@ const initAdmin = () => {
             await addDoc(collection(db, "editais"), newDoc);
             alert('Documento publicado com sucesso!');
             closeModal('modal-new-doc');
-            form.reset();
         } catch (error) {
-            console.error(error);
-            alert("Erro ao salvar documento.");
+            console.error("Erro ao salvar edital:", error);
+        }
+    };
+
+    // --- USERS MANAGEMENT ---
+    const usersTable = document.getElementById('users-table')?.querySelector('tbody');
+    
+    // Load Users
+    if (usersTable) {
+        const qUsers = query(collection(db, "users"), orderBy("createdAt", "desc"));
+        
+        onSnapshot(qUsers, (snapshot) => {
+            if (snapshot.empty) {
+                usersTable.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 2rem; color: #64748b;">
+                            Nenhum usuário cadastrado.
+                        </td>
+                    </tr>`;
+                return;
+            }
+
+            usersTable.innerHTML = '';
+            snapshot.forEach(docSnap => {
+                const user = docSnap.data();
+                const createdAt = user.createdAt?.toDate ? user.createdAt.toDate().toLocaleDateString('pt-BR') : 'Hoje';
+                
+                // Role Badge Logic
+                let roleBadge = '<span class="status-badge" style="background: #e2e8f0; color: #475569;">Desconhecido</span>';
+                if (user.role === 'admin') roleBadge = '<span class="badge-role-admin">Administrador</span>';
+                if (user.role === 'editor') roleBadge = '<span class="badge-role-editor">Editor</span>';
+                if (user.role === 'viewer') roleBadge = '<span class="status-badge">Visualizador</span>';
+
+                const row = `
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <div class="user-avatar" style="width: 32px; height: 32px; border: 1px solid #e2e8f0;">
+                                    <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random" alt="${user.name}">
+                                </div>
+                                <div>
+                                    <div style="font-weight: 500; color: #1e293b;">${user.name}</div>
+                                    <small style="color: #64748b;">${user.email}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${roleBadge}</td>
+                        <td>${createdAt}</td>
+                        <td><span class="status-badge active">Ativo</span></td>
+                        <td>
+                            <button class="btn-action" title="Editar (Em breve)"><i class="fas fa-edit"></i></button>
+                            <button class="btn-action btn-delete" onclick="deleteUser('${docSnap.id}')" title="Remover Acesso"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+                usersTable.insertAdjacentHTML('beforeend', row);
+            });
+        });
+    }
+
+    // Submit New User
+    window.submitNewUser = async function() {
+        const form = document.getElementById('form-new-user');
+        if (!form) return;
+
+        const formData = new FormData(form);
+        const name = formData.get('name');
+        const email = formData.get('email');
+        const role = formData.get('role');
+
+        if (!name || !email) {
+            alert("Por favor, preencha todos os campos obrigatórios.");
+            return;
+        }
+
+        const btn = form.closest('.admin-modal').querySelector('.admin-modal-footer .btn-primary');
+        const originalText = btn.innerHTML;
+
+        try {
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvando...';
+            btn.disabled = true;
+
+            // Check if email already exists (simple check)
+            const qCheck = query(collection(db, "users"), where("email", "==", email));
+            const checkSnap = await getDocs(qCheck);
+            
+            if (!checkSnap.empty) {
+                alert("Este e-mail já está cadastrado no sistema.");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                return;
+            }
+
+            await addDoc(collection(db, "users"), {
+                name,
+                email,
+                role,
+                createdAt: serverTimestamp(),
+                status: 'active',
+                createdBy: 'admin' // In a real app this would be the current auth user ID
+            });
+            
+            // NOTE: In a real app, this would trigger a Cloud Function to create the Auth User
+            // or send an invite email. here we just store the record.
+
+            alert(`Usuário ${name} cadastrado com sucesso!`);
+            closeModal('modal-new-user');
+            form.reset();
+
+        } catch (error) {
+            console.error("Erro ao criar usuário:", error);
+            alert("Erro ao criar usuário. Tente novamente.");
         } finally {
-            btn.innerText = originalText;
+            btn.innerHTML = originalText;
             btn.disabled = false;
         }
     };
+
+    window.deleteUser = async function(id) {
+        if(confirm('Tem certeza que deseja remover este usuário? Ele perderá o acesso ao sistema.')) {
+            try {
+                await deleteDoc(doc(db, "users", id));
+            } catch (error) {
+                console.error("Erro ao excluir usuário:", error);
+            }
+        }
+    };
+
 
     // --- PREVIEW IMAGES ---
     window.previewImages = function() {
@@ -1175,19 +1299,8 @@ const initAdmin = () => {
             }
         };
 
-        // Dentro de assets/js/admin.js
-
-import { toggleProjectForm, runFullMigration, /* outras funções */ } from './suas-funcoes.js';
-
-// ... seu código ...
-
-// TORNA GLOBAL PARA O HTML ENXERGAR
-window.toggleProjectForm = toggleProjectForm;
-window.openModal = openModal;
-window.closeModal = closeModal;
-window.runFullMigration = runFullMigration;
-window.runDeduplication = runDeduplication;
-
+    // Exproting functions to window is mostly handled by defining them as window.func = ...
+    // Finalizing initAdmin block.
 };
 
-initAdmin();
+document.addEventListener('DOMContentLoaded', initAdmin);
