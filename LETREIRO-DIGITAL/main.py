@@ -261,8 +261,8 @@ class MarqueeApp:
              if show_banner:
                  self.tv_right_box.pack(side="left", fill="both", expand=True)
                  self.tv_headline.config(text=self.current_text) 
-                 # Ticker logic
-                 ticker_txt = self.current_lead if self.current_lead and self.current_lead.strip() != "" else self.current_text
+                 self.recalculate_tv_height()
+                 ticker_txt = self.current_text
                  self.tv_ticker_label.config(text=ticker_txt + "   -   " + ticker_txt + "   -   " + ticker_txt)
                  self.tv_ticker_x = self.root.winfo_width()
              else:
@@ -454,6 +454,62 @@ class MarqueeApp:
         self.label.config(font=("Arial", font_size, "bold"))
         self.update_geometry()
 
+    def set_tv_headline_size(self, size):
+        if hasattr(self, 'tv_headline'):
+            self.tv_headline.config(font=("Arial", int(size), "bold"))
+            self.recalculate_tv_height()
+
+    def set_tv_ticker_size(self, size):
+        if hasattr(self, 'tv_ticker_label'):
+            self.tv_ticker_label.config(font=("Arial", int(size)))
+            self.recalculate_tv_height()
+
+    def recalculate_tv_height(self):
+        if not self.tv_mode_active: return
+        
+        # Force update to measure elements
+        self.root.update_idletasks()
+        
+        # Calculate ideal heights with balanced padding
+        h_headline = self.tv_headline.winfo_reqheight() + 20
+        h_ticker = self.tv_ticker_label.winfo_reqheight() + 12
+        
+        # Ensure minimum heights for visual stability
+        h_headline = max(h_headline, 40)
+        h_ticker = max(h_ticker, 30)
+        
+        # Update Ticker Frame container
+        self.tv_ticker_frame.config(height=h_ticker)
+        
+        # Re-center label vertically inside frame
+        ticker_y = (h_ticker - self.tv_ticker_label.winfo_reqheight()) // 2
+        self.tv_ticker_label.place(x=self.tv_ticker_x, y=ticker_y)
+        
+        # Align Left Clock Bar padding with Ticker height for a seamless look
+        if hasattr(self, 'tv_clock_bar'):
+             clock_h_base = self.tv_clock_bar.winfo_reqheight()
+             # Adjust internal padding to match ticker height
+             pad_y = max(0, (h_ticker - clock_h_base) // 2)
+             self.tv_clock_bar.config(pady=pad_y)
+
+        new_total_h = h_headline + h_ticker
+        
+        # Sync with Control Panel var so the preview/sliders reflect the real size
+        if self.control_panel:
+            self.control_panel.var_banner_height.set(new_total_h)
+            self.control_panel.update_preview()
+        
+        # Detection of bottom pinning
+        # If the banner is already at the bottom of the screen, keep it pinned there while growing upwards
+        was_at_bottom = abs(self.banner_y + self.bar_height - (self.monitor_y + self.monitor_height)) < 20
+        
+        self.bar_height = new_total_h
+        
+        if was_at_bottom:
+             self.banner_y = self.monitor_y + self.monitor_height - new_total_h
+             
+        self.update_geometry()
+
     def create_clock(self):
         self.clock_win = tk.Toplevel(self.root)
         self.clock_win.overrideredirect(True)
@@ -479,11 +535,12 @@ class MarqueeApp:
             text="00:00:00", 
             font=("Consolas", 30, "bold"), 
             bg=self.bg_color, 
-            fg=self.text_color,
+            fg="white",
             anchor="e"
         )
         self.clock_label.pack(padx=20, pady=(0, 10), fill="x")
 
+        self.clock_win.withdraw()
         self.update_clock()
         self.update_timer()
 
@@ -727,6 +784,15 @@ class MarqueeApp:
     def stop_timer(self):
         self.timer_running = False
         self.timer_display.config(text="")
+        # Reset colors to mode defaults
+        self.root.configure(bg=self.bg_color)
+        self.label.configure(bg=self.bg_color, fg=self.text_color)
+        if hasattr(self, 'clock_win'):
+            self.clock_win.configure(bg=self.bg_color)
+            self.timer_display.configure(bg=self.bg_color, fg="#00FF00")
+            self.clock_label.configure(bg=self.bg_color, fg="white")
+        if hasattr(self, 'tv_timer_label'):
+            self.tv_timer_label.config(text="--:--", fg="white", bg="#002366")
 
     def update_timer(self):
         if self.timer_running and self.timer_seconds > 0:
@@ -749,36 +815,48 @@ class MarqueeApp:
         # Dynamic Color Logic
         if self.timer_running:
             if self.timer_seconds <= 30:
-                # Blink Red/Off
-                if self.blink_state:
-                     color = "#FF0000"
-                else:
-                     color = "#330000" # Dim red instead of black for readability? Or just off? Let's go dim.
+                # Blink Background (Faixa) - Toggle Red/Original
+                blink_color = "#FF0000" if self.blink_state else self.bg_color
                 self.blink_state = not self.blink_state
                 
-                self.timer_display.config(fg=color)
-                self.label.config(fg=color)
-            elif self.timer_seconds <= 60:
-                # Red
-                self.timer_display.config(fg="#FF0000")
-                self.label.config(fg="#FF0000")
-            else:
-                # Green (Default)
-                self.timer_display.config(fg="#00FF00")
-                # Marquee Text Color - Should it be Green too? User said "fiquem verde".
-                self.label.config(fg="#00FF00")
+                # Maintain white text
+                text_color = "white"
                 
-            # Update TV Timer Label color
-            if hasattr(self, 'tv_timer_label'):
-                self.tv_timer_label.config(fg=self.timer_display.cget("fg"))
+                # Apply to Windows and Labels
+                self.root.configure(bg=blink_color)
+                self.label.configure(bg=blink_color, fg=text_color)
+                self.clock_win.configure(bg=blink_color)
+                self.timer_display.configure(bg=blink_color, fg=text_color)
+                self.clock_label.configure(bg=blink_color, fg=text_color)
+                
+                if hasattr(self, 'tv_timer_label'):
+                    self.tv_timer_label.config(bg=blink_color, fg=text_color)
+
+            elif self.timer_seconds <= 60:
+                # Static Red Background (Faixa) with White Text
+                target_bg = "#AA0000"
+                self.root.configure(bg=target_bg)
+                self.label.configure(bg=target_bg, fg="white")
+                self.clock_win.configure(bg=target_bg)
+                self.timer_display.configure(bg=target_bg, fg="white")
+                self.clock_label.configure(bg=target_bg, fg="white")
+                
+                if hasattr(self, 'tv_timer_label'):
+                    self.tv_timer_label.config(bg=target_bg, fg="white")
+            else:
+                # Normal State: Green Text, Mode Background
+                self.root.configure(bg=self.bg_color)
+                self.label.configure(bg=self.bg_color, fg="#00FF00")
+                self.clock_win.configure(bg=self.bg_color)
+                self.timer_display.configure(bg=self.bg_color, fg="#00FF00")
+                # Clock label stays with its current color or green
+                self.clock_label.configure(bg=self.bg_color, fg="white")
+                
+                if hasattr(self, 'tv_timer_label'):
+                    self.tv_timer_label.config(bg="#002366", fg="#00FF00")
 
         else:
-             # Reset to defaults if not running? Or keep last state?
-             if hasattr(self, 'tv_timer_label'):
-                  self.tv_timer_label.config(text="--:--", fg="white")
-             # Let's reset to default text color defined by item when stopped or manually?
-             # But update_timer runs every second.
-             # If not running, we shouldn't force colors overrides.
+             # If not running, ensure colors are reset (already handled in stop_timer but for safety)
              pass
 
         self.root.after(1000 if not (self.timer_running and self.timer_seconds <= 30) else 500, self.update_timer)
@@ -791,7 +869,7 @@ class ControlPanel:
     def __init__(self, root):
         self.root = root
         self.root.title("Painel de Controle - Lagoinha Digital")
-        self.root.geometry("1100x850") 
+        self.root.geometry("1280x900") 
         self.root.configure(bg="#121212")
 
         
@@ -822,6 +900,10 @@ class ControlPanel:
         self.var_show_schedule = tk.BooleanVar(value=False)
         self.var_schedule_size = tk.DoubleVar(value=12)
         self.var_schedule_width = tk.IntVar(value=300)
+        
+        # TV Mode Specific Font Vars
+        self.var_tv_headline_size = tk.IntVar(value=22)
+        self.var_tv_ticker_size = tk.IntVar(value=14)
         
         # Background Preview Vars
         self.var_show_bg = tk.BooleanVar(value=False)
@@ -867,9 +949,10 @@ class ControlPanel:
                 "text_mode": "full", "bg_color": "#00B140" # Chroma Green default
             },
             "TV_MODE": {
-                "show_clock": True, "show_timer": True, "show_banner": True, "show_schedule": False,
+                "show_clock": False, "show_timer": False, "show_banner": False, "show_schedule": False,
                 "clock_size": 30, "clock_scale": 1.0, "banner_height": 90, "schedule_size": 12, "schedule_width": 300,
-                "text_mode": "simple", "bg_color": "#002366" # TV News Blue
+                "text_mode": "simple", "bg_color": "#002366", # TV News Blue
+                "tv_headline_size": 22, "tv_ticker_size": 14
             }
         }
         
@@ -900,7 +983,9 @@ class ControlPanel:
         # Apply Loaded Mode or Default
         self.apply_mode(self.current_mode)
         
-        self.refresh_display()
+        # --- PREVENT AUTO-START ---
+        # Ensure nothing starts visible on launch, regardless of saved config
+        self.emergency_stop()
         # messagebox.showinfo("Preset Salvo", f"Configurações salvas no Slot {slot_id}")
 
     def reset_presets(self):
@@ -1055,10 +1140,13 @@ class ControlPanel:
         left_panel = tk.Frame(self.root, bg=PANEL_BG, width=340, relief="flat", borderwidth=0)
         left_panel.pack(side="left", fill="y", expand=False, padx=0, pady=0)
         
-        # --- LOGO SECTION ---
-        logo_frame = tk.Frame(left_panel, bg=PANEL_BG, height=150)
-        logo_frame.pack(fill="x", pady=(25, 15), padx=20)
-        logo_frame.pack_propagate(False)
+        # --- LOGO & INFO SECTION ---
+        logo_container = tk.Frame(left_panel, bg=PANEL_BG, height=160)
+        logo_container.pack(fill="x", pady=(25, 10), padx=15)
+        logo_container.pack_propagate(False)
+        
+        logo_frame = tk.Frame(logo_container, bg=PANEL_BG)
+        logo_frame.pack(side="left", fill="both", expand=True)
         
         # Try to load a logo image if it exists, otherwise placeholder text
         logo_path = os.path.join(os.path.dirname(__file__), "lagoinha.jpg")
@@ -1084,15 +1172,36 @@ class ControlPanel:
                  
                  # Use PANEL_BG to blend edges if transparency exists (it does now)
                  lbl_logo = tk.Label(logo_frame, image=self.logo_img, bg=PANEL_BG)
-                 lbl_logo.pack(expand=True)
+                 lbl_logo.pack(side="left", padx=(5, 0))
                  
              except Exception as e:
                  print(f"Error loading logo: {e}")
-                 lbl_logo = tk.Label(logo_frame, text="LOGO LAGOINHA", font=("Segoe UI", 10, "bold"), bg="#333333", fg=TEXT_GRAY)
-                 lbl_logo.pack(fill="both", expand=True)
+                 lbl_logo = tk.Label(logo_frame, text="LOGO LAGOINHA", font=("Segoe UI", 9, "bold"), bg="#333333", fg=TEXT_GRAY)
+                 lbl_logo.pack(side="left", expand=True, fill="both")
         else:
-             lbl_logo = tk.Label(logo_frame, text="LOGO LAGOINHA\n(Espaço Reservado)", font=("Segoe UI", 10, "bold"), bg="#333333", fg=TEXT_GRAY)
-             lbl_logo.pack(fill="both", expand=True)
+             lbl_logo = tk.Label(logo_frame, text="LOGO\nLAGOINHA", font=("Segoe UI", 9, "bold"), bg="#333333", fg=TEXT_GRAY)
+             lbl_logo.pack(side="left", expand=True, fill="both")
+
+        # --- INFO MINI PANEL (Next to Logo) ---
+        info_mini_card = tk.Frame(logo_container, bg=CARD_BG, padx=10, pady=10, highlightthickness=1, highlightbackground=BORDER_COLOR)
+        info_mini_card.pack(side="right", fill="y", padx=(10, 0))
+        
+        tk.Label(info_mini_card, text="SISTEMA V2.1", font=("Segoe UI", 8, "bold"), bg=CARD_BG, fg=ACCENT_COLOR).pack(anchor="w")
+        tk.Label(info_mini_card, text="Digital Signage", font=("Segoe UI", 7), bg=CARD_BG, fg=TEXT_GRAY).pack(anchor="w")
+        
+        btn_app_settings = tk.Button(
+            info_mini_card, 
+            text="⚙️ AJUSTES", 
+            font=("Segoe UI", 7, "bold"), 
+            bg="#333333", 
+            fg="white", 
+            relief="flat", 
+            padx=5, 
+            pady=3,
+            cursor="hand2",
+            command=self.show_app_info
+        )
+        btn_app_settings.pack(side="bottom", fill="x", pady=(5, 0))
         
         header_frame = tk.Frame(left_panel, bg=PANEL_BG)
         header_frame.pack(fill="x", pady=(15, 12), padx=20)
@@ -1325,22 +1434,34 @@ class ControlPanel:
             return s
 
         # --- CLOCK & BANNER ---
-        cb_frame = tk.LabelFrame(settings_frame, text="Relógio / Letreiro", bg=PANEL_BG, fg=ACCENT_COLOR, font=("Segoe UI", 9, "bold"), padx=5, pady=5)
-        cb_frame.pack(fill="x", pady=(0, 10))
+        self.cb_frame = tk.LabelFrame(settings_frame, text="Relógio / Letreiro", bg=PANEL_BG, fg=ACCENT_COLOR, font=("Segoe UI", 9, "bold"), padx=5, pady=5)
+        self.cb_frame.pack(fill="x", pady=(0, 10))
         
-        create_slider(cb_frame, "Tam. Relógio:", self.var_clock_size, 20, 200, self.change_clock_font_size)
-        create_slider(cb_frame, "Fundo Relógio:", self.var_clock_window_scale, 0.5, 3.0, self.change_clock_window_scale, 0.1)
-        create_slider(cb_frame, "Alt. Letreiro:", self.var_banner_height, 50, 300, self.change_banner_height)
+        # Group Standard Clock controls to hide them in TV Mode
+        self.standard_clock_frame = tk.Frame(self.cb_frame, bg=PANEL_BG)
+        self.standard_clock_frame.pack(fill="x")
+        
+        create_slider(self.standard_clock_frame, "Tam. Relógio:", self.var_clock_size, 20, 200, self.change_clock_font_size)
+        create_slider(self.standard_clock_frame, "Fundo Relógio:", self.var_clock_window_scale, 0.5, 3.0, self.change_clock_window_scale, 0.1)
+        
+        # General Banner height (Controls TV total height too)
+        create_slider(self.cb_frame, "Alt. Letreiro:", self.var_banner_height, 50, 300, self.change_banner_height)
+
+        # --- TV MODE SPECIFIC CONTROLS ---
+        self.tv_font_frame = tk.Frame(self.cb_frame, bg=PANEL_BG)
+        # Hidden by default, packed in apply_mode
+        create_slider(self.tv_font_frame, "Fonte Título (Azul):", self.var_tv_headline_size, 10, 80, self.change_tv_headline_size)
+        create_slider(self.tv_font_frame, "Fonte Ticker (Branco):", self.var_tv_ticker_size, 8, 60, self.change_tv_ticker_size)
 
         # --- SCHEDULE ---
-        sch_frame = tk.LabelFrame(settings_frame, text="Cronograma", bg=PANEL_BG, fg=ACCENT_COLOR, font=("Segoe UI", 9, "bold"), padx=5, pady=5)
-        sch_frame.pack(fill="x", pady=(0, 0))
+        self.sch_frame = tk.LabelFrame(settings_frame, text="Cronograma", bg=PANEL_BG, fg=ACCENT_COLOR, font=("Segoe UI", 9, "bold"), padx=5, pady=5)
+        self.sch_frame.pack(fill="x", pady=(0, 0))
         
-        create_slider(sch_frame, "Tam. Fonte:", self.var_schedule_size, 8, 40, self.change_schedule_size)
-        create_slider(sch_frame, "Largura Janela:", self.var_schedule_width, 200, 1000, self.change_schedule_width)
+        create_slider(self.sch_frame, "Tam. Fonte:", self.var_schedule_size, 8, 40, self.change_schedule_size)
+        create_slider(self.sch_frame, "Largura Janela:", self.var_schedule_width, 200, 1000, self.change_schedule_width)
         
-        tk.Label(sch_frame, text="Modo Texto:", bg=PANEL_BG, fg=TEXT_GRAY, font=("Segoe UI", 9), width=15, anchor="w").pack(anchor="w", pady=(5, 0))
-        text_f = tk.Frame(sch_frame, bg=PANEL_BG)
+        tk.Label(self.sch_frame, text="Modo Texto:", bg=PANEL_BG, fg=TEXT_GRAY, font=("Segoe UI", 9), width=15, anchor="w").pack(anchor="w", pady=(5, 0))
+        text_f = tk.Frame(self.sch_frame, bg=PANEL_BG)
         text_f.pack(fill="x", pady=(0, 5))
         tk.Radiobutton(text_f, text="Completo", variable=self.var_text_mode, value="full", bg=PANEL_BG, fg="white", selectcolor="#444444", activebackground=PANEL_BG, activeforeground="white", command=self.refresh_display).pack(side="left")
         tk.Radiobutton(text_f, text="Simples", variable=self.var_text_mode, value="simple", bg=PANEL_BG, fg="white", selectcolor="#444444", activebackground=PANEL_BG, activeforeground="white", command=self.refresh_display).pack(side="left", padx=10)
@@ -1422,9 +1543,9 @@ class ControlPanel:
         total_w = max_x - min_x
         total_h = max_y - min_y
         
-        # 2. Calculate Scale to fit in (Larger now: 600x400)
-        max_preview_w = 600 
-        max_preview_h = 400 
+        # 2. Calculate Scale to fit in (Larger: 800x550)
+        max_preview_w = 800 
+        max_preview_h = 550 
         
         scale_w = max_preview_w / total_w
         scale_h = max_preview_h / total_h
@@ -1926,11 +2047,18 @@ class ControlPanel:
         self.app.set_schedule_width(int(value))
         self.update_preview()
         
+    def change_tv_headline_size(self, value):
+        self.app.set_tv_headline_size(int(value))
+
+    def change_tv_ticker_size(self, value):
+        self.app.set_tv_ticker_size(int(value))
+        
     def emergency_stop(self, event=None):
         """Immediately hides all displays and stops activity."""
         self.var_show_banner.set(False)
         self.var_show_clock.set(False)
         self.var_show_timer.set(False)
+        self.var_show_schedule.set(False)
         
         # Stop timer
         self.app.stop_timer()
@@ -1992,7 +2120,7 @@ class ControlPanel:
              self.var_show_timer.set(True)
              
         if self.var_text_mode.get() == "full":
-             display_text = f"{item['time']} - {item['content']} ({item['lead']})"
+             display_text = f"{item['time']} - {item['content']}"
         else:
              display_text = item['content']
 
@@ -2052,7 +2180,7 @@ class ControlPanel:
         # Update text format based on selection
         if hasattr(self, 'current_item') and self.current_item:
              if self.var_text_mode.get() == "full":
-                 display_text = f"{self.current_item['time']} - {self.current_item['content']} ({self.current_item['lead']})"
+                 display_text = f"{self.current_item['time']} - {self.current_item['content']}"
              else:
                  display_text = self.current_item['content']
                  
@@ -2184,6 +2312,66 @@ class ControlPanel:
             
         messagebox.showinfo("Carregado", f"Preset {slot_id} carregado com sucesso!")
 
+    def show_app_info(self):
+        info_win = tk.Toplevel(self.root)
+        info_win.title("Configurações do Sistema & Info")
+        info_win.geometry("600x750")
+        info_win.configure(bg="#1A1A1A")
+        info_win.attributes("-topmost", True)
+        
+        # Header
+        header = tk.Frame(info_win, bg="#111111", pady=20)
+        header.pack(fill="x")
+        
+        tk.Label(header, text="LETREIRO DIGITAL LAGOINHA", font=("Segoe UI", 14, "bold"), bg="#111111", fg="#FFD700").pack()
+        tk.Label(header, text="Versão 2.1.0 - Estável", font=("Segoe UI", 9), bg="#111111", fg="#888888").pack()
+        
+        # Content Scrollable
+        content = tk.Frame(info_win, bg="#1A1A1A", padx=25, pady=20)
+        content.pack(fill="both", expand=True)
+        
+        # --- Seção: Informações ---
+        tk.Label(content, text="INFORMAÇÕES DO APP", font=("Segoe UI", 10, "bold"), bg="#1A1A1A", fg="#4CAF50").pack(anchor="w", pady=(0, 10))
+        
+        details = [
+            ("Desenvolvedor:", "CodAureo-DevStudio"),
+            ("Hardware detected:", f"{len(self.monitors)} Monitor(es)"),
+            ("Sistema Base:", "Python Tkinter & Win32API"),
+            ("Última Atualização:", "31 Jan 2026")
+        ]
+        
+        for key, val in details:
+            f = tk.Frame(content, bg="#1A1A1A")
+            f.pack(fill="x", pady=2)
+            tk.Label(f, text=key, font=("Segoe UI", 9, "bold"), bg="#1A1A1A", fg="#B0B0B0", width=18, anchor="w").pack(side="left")
+            tk.Label(f, text=val, font=("Segoe UI", 9), bg="#1A1A1A", fg="white").pack(side="left")
+            
+        tk.Frame(content, height=1, bg="#333333").pack(fill="x", pady=20)
+        
+        # --- Seção: Configurações Extras ---
+        tk.Label(content, text="CONFIGURAÇÕES AVANÇADAS", font=("Segoe UI", 10, "bold"), bg="#1A1A1A", fg="#4CAF50").pack(anchor="w", pady=(0, 10))
+        
+        # Example toggles (not all need to be functional if they are more complex)
+        self.var_auto_hide = tk.BooleanVar(value=True)
+        tk.Checkbutton(content, text="Ocultar Painel ao Iniciar Display", variable=self.var_auto_hide, 
+                       bg="#1A1A1A", fg="white", selectcolor="#333333", activebackground="#1A1A1A", 
+                       activeforeground="white", font=("Segoe UI", 9)).pack(anchor="w", pady=5)
+                       
+        self.var_lock_pos = tk.BooleanVar(value=False)
+        tk.Checkbutton(content, text="Bloquear Movimentação de Janelas", variable=self.var_lock_pos, 
+                       bg="#1A1A1A", fg="white", selectcolor="#333333", activebackground="#1A1A1A", 
+                       activeforeground="white", font=("Segoe UI", 9)).pack(anchor="w", pady=5)
+
+        self.var_high_perf = tk.BooleanVar(value=False)
+        tk.Checkbutton(content, text="Modo Alta Performance (Reduz Scroll Preview)", variable=self.var_high_perf, 
+                       bg="#1A1A1A", fg="white", selectcolor="#333333", activebackground="#1A1A1A", 
+                       activeforeground="white", font=("Segoe UI", 9)).pack(anchor="w", pady=5)
+        
+        # Footer
+        tk.Button(info_win, text="FECHAR E APLICAR", bg="#4CAF50", fg="white", font=("Segoe UI", 10, "bold"), 
+                  relief="flat", pady=12, command=info_win.destroy).pack(side="bottom", fill="x")
+
+
 
     def quit_app(self):
         self.root.quit()
@@ -2203,17 +2391,16 @@ class ControlPanel:
         
     def save_current_to_config(self, mode):
         cfg = self.mode_configs[mode]
-        cfg["show_clock"] = self.var_show_clock.get()
-        cfg["show_timer"] = self.var_show_timer.get()
-        cfg["show_banner"] = self.var_show_banner.get()
-        cfg["show_schedule"] = self.var_show_schedule.get()
-        
-        cfg["clock_size"] = self.var_clock_size.get()
-        cfg["clock_scale"] = self.var_clock_window_scale.get()
-        cfg["banner_height"] = self.var_banner_height.get()
         cfg["schedule_size"] = self.var_schedule_size.get()
         cfg["schedule_width"] = self.var_schedule_width.get()
         cfg["text_mode"] = self.var_text_mode.get()
+        
+        # We NO LONGER save cfg["show_..."] here to prevent auto-start on reload.
+        # This keeps the "Show" state session-only.
+        
+        if mode == "TV_MODE":
+            cfg["tv_headline_size"] = self.var_tv_headline_size.get()
+            cfg["tv_ticker_size"] = self.var_tv_ticker_size.get()
         # Save positions? 
         # Ideally yes, but positions are in App. 
         # For now let's just save settings. Positions are per-monitor in App usually.
@@ -2302,51 +2489,44 @@ class ControlPanel:
                   self.app.schedule_x = cfg["schedule_x"]
                   self.app.schedule_y = cfg["schedule_y"]
                   self.app.banner_y = cfg["pos_banner_y"]
-                  
-                  # Still need to calc bar/monitor layout for internal logic?
-                  # Just ensure monitor dims are set
-                  if not self.app.monitor_width: self.change_screen()
              else:
-                 # TV MODE LOGIC: "Lower Third" Style
-                 if not self.app.monitor_width:
-                     self.change_screen() # Force load
-                     
-                 b_height = cfg["banner_height"]
-                 mon_w = self.app.monitor_width
-                 mon_h = self.app.monitor_height
-                 mx = self.app.monitor_x
-                 my = self.app.monitor_y
-                 
-                 self.app.banner_x = mx
-                 self.app.banner_y = my + mon_h - b_height
-                 self.app.bar_height = b_height
-                 
-                 # 3. HIDE Floating Clock
-                 # (Handled generically below)
-                 
-        else:
-             # PROJECTION
+                  self.change_screen() # Resets to defaults
+             # ADAPTIVE UI FOR TV MODE
+             self.sch_frame.pack_forget()
+             self.standard_clock_frame.pack_forget()
+             self.tv_font_frame.pack(fill="x", pady=5)
+             self.cb_frame.config(text="Ajustes de Layout TV")
+        else: # This 'else' block handles PROJECTION mode
+             # PROJECTION OR STREAMING
              self.app.set_display_mode("standard")
              work_area_mgr.restore()
              
-             if "clock_x" in cfg and cfg["clock_x"] is not None:
-                  self.app.clock_x = cfg["clock_x"]
-                  self.app.clock_y = cfg["clock_y"]
-                  self.app.schedule_x = cfg["schedule_x"]
-                  self.app.schedule_y = cfg["schedule_y"]
-                  self.app.banner_y = cfg["pos_banner_y"]
-             else:
-                  self.change_screen() # Resets to defaults
+             # ADAPTIVE UI FOR STANDARD MODES
+             self.sch_frame.pack(fill="x", pady=(0, 10))
+             self.tv_font_frame.pack_forget()
+             self.standard_clock_frame.pack(fill="x")
+             self.cb_frame.config(text="Relógio / Letreiro")
         
         # Apply Coords to Windows
         self.app.update_geometry()
         
-        # Update Variables
-        self.var_show_clock.set(cfg["show_clock"])
-        self.var_show_timer.set(cfg["show_timer"])
-        self.var_show_banner.set(cfg["show_banner"])
-        self.var_show_schedule.set(cfg["show_schedule"])
+        # Update Variables (Avoid updating show_... flags from config during initialization)
+        if mode == "TV_MODE":
+            self.var_tv_headline_size.set(cfg.get("tv_headline_size", 22))
+            self.var_tv_ticker_size.set(cfg.get("tv_ticker_size", 14))
+            self.app.set_tv_headline_size(self.var_tv_headline_size.get())
+            self.app.set_tv_ticker_size(self.var_tv_ticker_size.get())
+            
+        # ALWAYS force all display elements to HIDDEN when switching modes
+        # regardless of what the previous configuration was for that mode.
+        self.var_show_clock.set(False)
+        self.var_show_timer.set(False)
+        self.var_show_banner.set(False)
+        self.var_show_schedule.set(False)
         
+        # Mark as initialized to prevent further forced resets if needed
+        self._initialized = True
+
         self.var_clock_size.set(cfg["clock_size"])
         self.var_clock_window_scale.set(cfg["clock_scale"])
         self.var_banner_height.set(cfg["banner_height"])
@@ -2488,11 +2668,6 @@ class MiniController:
             # Main Content
             lbl_main = tk.Label(content_frame, text=item['content'], font=("Segoe UI", 11, "bold"), fg="white", bg="#333333", anchor="w")
             lbl_main.pack(fill="x")
-            
-            # Lead/Details
-            if item.get('lead'):
-                lbl_lead = tk.Label(content_frame, text=item['lead'], font=("Segoe UI", 8, "italic"), fg="#888888", bg="#333333", anchor="w")
-                lbl_lead.pack(fill="x")
             
             # Bind Clicks
             for w in [frame, bar, content_frame, lbl_top, lbl_main]:
