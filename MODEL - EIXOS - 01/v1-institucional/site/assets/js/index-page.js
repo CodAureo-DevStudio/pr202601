@@ -2,34 +2,64 @@ import { db } from './firebase-config.js';
 import { collection, query, orderBy, limit, onSnapshot, where, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Dynamic News
-    const newsGrid = document.querySelector('.news-grid');
+    // 1. Dynamic News - Premium Cards
+    const newsGrid = document.getElementById('newsGridHome');
     if (newsGrid) {
-        const qNews = query(collection(db, "noticias"), orderBy("createdAt", "desc"), limit(3));
+        const qNews = query(collection(db, "noticias"), orderBy("createdAt", "desc"), limit(6));
         onSnapshot(qNews, (snapshot) => {
             if (!snapshot.empty) {
                 newsGrid.innerHTML = '';
                 snapshot.forEach((docSnap) => {
                     const data = docSnap.data();
+                    
+                    // Format date
+                    let dateStr = 'Recente';
+                    if (data.createdAt) {
+                        const date = data.createdAt.toDate();
+                        dateStr = date.toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });
+                    }
+                    
+                    // Default image
+                    const imageUrl = (data.imageUrl || 'assets/img/projeto-brasilia-2025-1.webp').replace('../', '');
+                    
                     const card = `
-                        <article class="article-card reveal">
-                            <div class="article-image">
-                                <span class="tag tag-primary" style="position: absolute; top: 1rem; left: 1rem">${data.category || 'Novidade'}</span>
-                                <img src="${(data.imageUrl || 'assets/img/projeto-brasilia-2025-1.png').replace('../', '')}" alt="${data.title}" loading="lazy">
+                        <article class="news-card-premium animated-card">
+                            <div class="news-card-image">
+                                <span class="news-category-badge">${data.category || 'Novidade'}</span>
+                                <img src="${imageUrl}" alt="${data.title}" loading="lazy">
                             </div>
-                            <div class="article-content">
-                                <h3 class="article-title">${data.title}</h3>
-                                <p class="article-excerpt">${data.excerpt || ''}</p>
-                                <a href="noticias.html" style="color: var(--primary); font-weight: 600">
-                                    Ler mais <i class="fas fa-arrow-right"></i>
-                                </a>
+                            <div class="news-card-content">
+                                <h3 class="news-card-title">${data.title}</h3>
+                                <p class="news-card-excerpt">${data.excerpt || data.content?.substring(0, 150) + '...' || ''}</p>
+                                <div class="news-card-meta">
+                                    <div class="news-card-date">
+                                        <div class="icon-wrapper sm blue">
+                                            <img src="assets/icons/calendario.svg" alt="Data">
+                                        </div>
+                                        <span>${dateStr}</span>
+                                    </div>
+                                    <a href="noticias.html" class="news-card-link">
+                                        Ler mais
+                                        <div class="icon-wrapper sm blue">
+                                            <img src="assets/icons/noticias.svg" alt="Ler">
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
                         </article>
                     `;
                     newsGrid.insertAdjacentHTML('beforeend', card);
                 });
             } else {
-                newsGrid.innerHTML = '<p class="text-center w-100 py-5 text-muted">Acompanhe nossas próximas notícias em breve!</p>';
+                newsGrid.innerHTML = `
+                    <div class="news-empty-state">
+                        <div class="icon-wrapper xl blue">
+                            <img src="assets/icons/noticias.svg" alt="Sem notícias">
+                        </div>
+                        <h3 style="font-size: 1.5rem; color: var(--secondary); margin-bottom: 0.5rem;">Nenhuma notícia publicada</h3>
+                        <p style="color: var(--text-light);">Acompanhe nossas próximas novidades em breve!</p>
+                    </div>
+                `;
             }
         });
     }
@@ -70,4 +100,45 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
     updateHomeStats();
+
+    // 4. Dynamic Fluid Gallery (Random 30 images from galeria collection)
+    const fluidGalleryTrack = document.getElementById('fluidGalleryTrack');
+    if (fluidGalleryTrack) {
+        const qGallery = query(collection(db, "galeria"), orderBy("createdAt", "desc"));
+        onSnapshot(qGallery, (snapshot) => {
+            if (!snapshot.empty) {
+                // Get all images
+                const allImages = [];
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    if (data.imageUrl) {
+                        allImages.push({
+                            url: data.imageUrl.replace('../', ''),
+                            title: data.title || 'Galeria'
+                        });
+                    }
+                });
+
+                // Shuffle and limit to 30
+                const shuffled = allImages.sort(() => 0.5 - Math.random());
+                const selected = shuffled.slice(0, 30);
+
+                // Render images
+                if (selected.length > 0) {
+                    fluidGalleryTrack.innerHTML = '';
+                    selected.forEach(img => {
+                        const imgElement = document.createElement('img');
+                        imgElement.src = img.url;
+                        imgElement.alt = img.title;
+                        imgElement.loading = 'lazy';
+                        fluidGalleryTrack.appendChild(imgElement);
+                    });
+                } else {
+                    fluidGalleryTrack.innerHTML = '<p style="text-align: center; padding: 2rem; color: var(--text-light);">Nenhuma imagem na galeria</p>';
+                }
+            } else {
+                fluidGalleryTrack.innerHTML = '<p style="text-align: center; padding: 2rem; color: var(--text-light);">Nenhuma imagem na galeria</p>';
+            }
+        });
+    }
 });

@@ -1,0 +1,25 @@
+<!-- Ícone: Galeria/Fotos - Identidade Visual -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Frame principal -->
+  <rect x="15" y="25" width="70" height="55" rx="4" 
+        stroke="#3D6446" 
+        stroke-width="5" 
+        fill="none"/>
+  
+  <!-- Montanhas -->
+  <polyline points="15,65 30,50 45,60 60,45 75,55 85,50" 
+            stroke="#005B89" 
+            stroke-width="4" 
+            stroke-linecap="round" 
+            stroke-linejoin="round" 
+            fill="none"/>
+  
+  <!-- Sol/Lua -->
+  <circle cx="65" cy="38" r="6" fill="#F7AA2C"/>
+  
+  <!-- Pontos de destaque nos cantos -->
+  <circle cx="20" cy="30" r="3" fill="#3D6446"/>
+  <circle cx="80" cy="30" r="3" fill="#3D6446"/>
+  <circle cx="20" cy="75" r="3" fill="#3D6446"/>
+  <circle cx="80" cy="75" r="3" fill="#3D6446"/>
+</svg>

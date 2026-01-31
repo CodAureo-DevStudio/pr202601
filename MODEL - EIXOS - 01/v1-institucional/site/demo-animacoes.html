@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Sistema de Animações | Instituto Eix
+
+os</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/global-animations.css">
+    
+    <style>
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .demo-section {
+            padding: 4rem 0;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .demo-section:last-child {
+            border-bottom: none;
+        }
+        
+        .code-preview {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body style="padding-top: 2rem;">
+
+    <!-- Header de Demonstração -->
+    <header style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 3rem 0; text-align: center;">
+        <div class="container">
+            <h1 class="text-gradient-full" style="font-size: 3rem; margin-bottom: 1rem;">
+                Sistema de Animações Premium
+            </h1>
+            <p style="font-size: 1.2rem; opacity: 0.9;">
+                Instituto Eixos - Demonstração Completa de Recursos
+            </p>
+        </div>
+    </header>
+
+    <!-- 1. ÍCONES ANIMADOS -->
+    <section class="demo-section">
+        <div class="container">
+            <h2 data-animation="animate-fade-in-down">1. Ícones Animados com Cores dos Pilares</h2>
+            <p>Ícones com glassmorphism, glow effect e animações de flutuação</p>
+            
+            <div class="demo-grid" data-stagger>
+                <div style="text-align: center;">
+                    <div class="icon-wrapper xl red animate-float" style="margin: 0 auto 1rem;">
+                        <img src="assets/img/saude.png" alt="Saúde">
+                    </div>
+                    <h4>Saúde (Vermelho)</h4>
+                    <code class="code-preview">&lt;div class="icon-wrapper xl red animate-float"&gt;
+  &lt;img src="saude.png"&gt;
+&lt;/div&gt;</code>
+                </div>
+
+                <div style="text-align: center;">
+                    <div class="icon-wrapper xl yellow animate-bounce" style="margin: 0 auto 1rem;">
+                        <img src="assets/img/educacao.png" alt="Educação">
+                    </div>
+                    <h4>Educação (Amarelo)</h4>
+                    <code class="code-preview">&lt;div class="icon-wrapper xl yellow animate-bounce"&gt;
+  &lt;img src="educacao.png"&gt;
+&lt;/div&gt;</code>
+                </div>
+
+                <div style="text-align: center;">
+                    <div class="icon-wrapper xl green animate-pulse" style="margin: 0 auto 1rem;">
+                        <img src="assets/img/sustentabilidade.png" alt="Sustentabilidade">
+                    </div>
+                    <h4>Sustentabilidade (Verde)</h4>
+                    <code class="code-preview">&lt;div class="icon-wrapper xl green animate-pulse"&gt;
+  &lt;img src="sustentabilidade.png"&gt;
+&lt;/div&gt;</code>
+                </div>
+
+                <div style="text-align: center;">
+                    <div class="icon-wrapper xl blue" style="margin: 0 auto 1rem;">
+                        <img src="assets/img/cultura.png" alt="Cultura">
+                    </div>
+                    <h4>Cultura (Azul)</h4>
+                    <code class="code-preview">&lt;div class="icon-wrapper xl blue"&gt;
+  &lt;img src="cultura.png"&gt;
+&lt;/div&gt;</code>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. CARDS ANIMADOS -->
+    <section class="demo-section section-bg-animated">
+        <div class="container">
+            <h2 data-animation="animate-fade-in-down">2. Cards Animados com Hover 3D</h2>
+            <p>Passe o mouse sobre os cards para ver o efeito tilt 3D</p>
+            
+            <div class="demo-grid" data-stagger>
+                <div class="animated-card red" data-animation="animate-scale-in">
+                    <div class="icon-wrapper md red" style="margin-bottom: 1rem;">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Card Vermelho</h3>
+                    <p>Card com efeito hover, borda animada e sombra vermelha.</p>
+                    <span class="badge-animated red">
+                        <i class="fas fa-check"></i> Ativo
+                    </span>
+                </div>
+
+                <div class="animated-card yellow" data-animation="animate-scale-in">
+                    <div class="icon-wrapper md yellow" style="margin-bottom: 1rem;">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Card Amarelo</h3>
+                    <p>Hover suave com elevação e efeito de borda no topo.</p>
+                    <span class="badge-animated yellow">
+                        <i class="fas fa-star"></i> Premium
+                    </span>
+                </div>
+
+                <div class="animated-card green" data-animation="animate-scale-in">
+                    <div class="icon-wrapper md green" style="margin-bottom: 1rem;">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Card Verde</h3>
+                    <p>Efeito tilt 3D baseado na posição do mouse.</p>
+                    <span class="badge-animated green">
+                        <i class="fas fa-fire"></i> Novo
+                    </span>
+                </div>
+
+                <div class="animated-card blue" data-animation="animate-scale-in">
+                    <div class="icon-wrapper md blue" style="margin-bottom: 1rem;">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Card Azul</h3>
+                    <p>Sombra colorida e transição butter-smooth.</p>
+                    <span class="badge-animated blue">
+                        <i class="fas fa-bolt"></i> Rápido
+                    </span>
+                </div>
+            </div>
+
+            <div class="code-preview">
+&lt;div class="animated-card red"&gt;
+  &lt;div class="icon-wrapper md red"&gt;
+    &lt;i class="fas fa-heart"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;h3&gt;Título&lt;/h3&gt;
+  &lt;p&gt;Conteúdo...&lt;/p&gt;
+  &lt;span class="badge-animated red"&gt;Ativo&lt;/span&gt;
+&lt;/div&gt;
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. TEXTO COM GRADIENT -->
+    <section class="demo-section">
+        <div class="container" style="text-align: center;">
+            <h2 data-animation="animate-fade-in-down">3. Texto com Gradiente Animado</h2>
+            
+            <h1 class="text-gradient-full" style="font-size: 3rem; margin: 2rem 0;">
+                Gradiente Completo Animado
+            </h1>
+            
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 3rem;">
+                <div>
+                    <h2 class="text-gradient-red" style="font-size: 2rem;">
+                        Gradiente Vermelho
+                    </h2>
+                    <code class="code-preview">&lt;h2 class="text-gradient-red"&gt;...&lt;/h2&gt;</code>
+                </div>
+                
+                <div>
+                    <h2 class="text-gradient-blue" style="font-size: 2rem;">
+                        Gradiente Azul
+                    </h2>
+                    <code class="code-preview">&lt;h2 class="text-gradient-blue"&gt;...&lt;/h2&gt;</code>
+                </div>
+                
+                <div>
+                    <h2 class="text-gradient-yellow" style="font-size: 2rem;">
+                        Gradiente Amarelo
+                    </h2>
+                    <code class="code-preview">&lt;h2 class="text-gradient-yellow"&gt;...&lt;/h2&gt;</code>
+                </div>
+                
+                <div>
+                    <h2 class="text-gradient-green" style="font-size: 2rem;">
+                        Gradiente Verde
+                    </h2>
+                    <code class="code-preview">&lt;h2 class="text-gradient-green"&gt;...&lt;/h2&gt;</code>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. CONTADORES ANIMADOS -->
+    <section class="demo-section" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white;">
+        <div class="container">
+            <h2 data-animation="animate-fade-in-down" style="color: white; text-align: center; margin-bottom: 3rem;">
+                4. Contadores Animados
+            </h2>
+            
+            <div class="demo-grid">
+                <div class="animated-card blue" style="text-align: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                    <div class="icon-wrapper lg blue" style="margin: 0 auto 1.5rem;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div style="font-size: 3rem; font-weight: 800; color: white;" data-count="2500">0</div>
+                    <p style="color: rgba(255,255,255,0.8); margin-top: 0.5rem;">Famílias Atendidas</p>
+                </div>
+
+                <div class="animated-card red" style="text-align: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                    <div class="icon-wrapper lg red" style="margin: 0 auto 1.5rem;">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <div style="font-size: 3rem; font-weight: 800; color: white;" data-count="47" data-duration="1500">0</div>
+                    <p style="color: rgba(255,255,255,0.8); margin-top: 0.5rem;">Projetos Ativos</p>
+                </div>
+
+                <div class="animated-card yellow" style="text-align: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                    <div class="icon-wrapper lg yellow" style="margin: 0 auto 1.5rem;">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <div style="font-size: 3rem; font-weight: 800; color: white;" data-count="320">0</div>
+                    <p style="color: rgba(255,255,255,0.8); margin-top: 0.5rem;">Voluntários</p>
+                </div>
+            </div>
+
+            <div class="code-preview" style="margin-top: 3rem;">
+&lt;div data-count="2500" data-duration="2000"&gt;0&lt;/div&gt;
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. BADGES E TAGS -->
+    <section class="demo-section">
+        <div class="container">
+            <h2 data-animation="animate-fade-in-down">5. Badges e Tags Animados</h2>
+            
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin: 2rem 0;">
+                <span class="badge-animated red">
+                    <i class="fas fa-heart"></i> Saúde
+                </span>
+                <span class="badge-animated yellow">
+                    <i class="fas fa-graduation-cap"></i> Educação
+                </span>
+                <span class="badge-animated green">
+                    <i class="fas fa-leaf"></i> Sustentabilidade
+                </span>
+                <span class="badge-animated blue">
+                    <i class="fas fa-palette"></i> Cultura
+                </span>
+                <span class="badge-animated red">
+                    <i class="fas fa-fire"></i> Destaque
+                </span>
+                <span class="badge-animated yellow">
+                    <i class="fas fa-star"></i> Premium
+                </span>
+                <span class="badge-animated green">
+                    <i class="fas fa-check"></i> Ativo
+                </span>
+                <span class="badge-animated blue">
+                    <i class="fas fa-bolt"></i> Novo
+                </span>
+            </div>
+
+            <div class="code-preview">
+&lt;span class="badge-animated red"&gt;
+  &lt;i class="fas fa-heart"&gt;&lt;/i&gt; Saúde
+&lt;/span&gt;
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. STAGGER EFFECT -->
+    <section class="demo-section">
+        <div class="container">
+            <h2 data-animation="animate-fade-in-down">6. Efeito Stagger (Cascata)</h2>
+            <p>Elementos aparecem em sequência com o atributo <code>data-stagger</code> no container pai</p>
+            
+            <div data-stagger style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+                <div class="animated-card red" style="text-align: center;">
+                    <h4>1º Item</h4>
+                    <p>Delay: 0.1s</p>
+                </div>
+                <div class="animated-card yellow" style="text-align: center;">
+                    <h4>2º Item</h4>
+                    <p>Delay: 0.2s</p>
+                </div>
+                <div class="animated-card green" style="text-align: center;">
+                    <h4>3º Item</h4>
+                    <p>Delay: 0.3s</p>
+                </div>
+                <div class="animated-card blue" style="text-align: center;">
+                    <h4>4º Item</h4>
+                    <p>Delay: 0.4s</p>
+                </div>
+            </div>
+
+            <div class="code-preview">
+&lt;div data-stagger&gt;
+  &lt;div&gt;Item 1&lt;/div&gt;
+  &lt;div&gt;Item 2&lt;/div&gt;
+  &lt;div&gt;Item 3&lt;/div&gt;
+&lt;/div&gt;
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. LOADING SPINNER -->
+    <section class="demo-section">
+        <div class="container">
+            <h2 data-animation="animate-fade-in-down">7. Loading Spinners</h2>
+            
+            <div style="display: flex; gap: 3rem; justify-content: center; align-items: center; padding: 3rem 0;">
+                <div>
+                    <div class="spinner red"></div>
+                    <p style="text-align: center; margin-top: 1rem;">Vermelho</p>
+                </div>
+                <div>
+                    <div class="spinner yellow"></div>
+                    <p style="text-align: center; margin-top: 1rem;">Amarelo</p>
+                </div>
+                <div>
+                    <div class="spinner green"></div>
+                    <p style="text-align: center; margin-top: 1rem;">Verde</p>
+                </div>
+                <div>
+                    <div class="spinner blue"></div>
+                    <p style="text-align: center; margin-top: 1rem;">Azul</p>
+                </div>
+            </div>
+
+            <div class="code-preview">
+&lt;div class="spinner blue"&gt;&lt;/div&gt;
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. TIMELINE ANIMADA -->
+    <section class="demo-section">
+        <div class="container">
+            <h2 data-animation="animate-fade-in-down">8. Timeline Animada</h2>
+            
+            <div class="timeline-animated" style="max-width: 600px;">
+                <div class="timeline-item-animated">
+                    <h3 style="color: var(--pillar-blue);">Janeiro 2024</h3>
+                    <p>Fundação do Instituto Eixos com foco em desenvolvimento social.</p>
+                </div>
+                <div class="timeline-item-animated">
+                    <h3 style="color: var(--pillar-yellow);">Março 2024</h3>
+                    <p>Lançamento do primeiro projeto de educação profissionalizante.</p>
+                </div>
+                <div class="timeline-item-animated">
+                    <h3 style="color: var(--pillar-red);">Junho 2024</h3>
+                    <p>Início dos mutirões de saúde nas comunidades.</p>
+                </div>
+                <div class="timeline-item-animated">
+                    <h3 style="color: var(--pillar-green);">Dezembro 2024</h3>
+                    <p>Expansão para 5 estados e 2.500 famílias atendidas.</p>
+                </div>
+            </div>
+
+            <div class="code-preview">
+&lt;div class="timeline-animated"&gt;
+  &lt;div class="timeline-item-animated"&gt;
+    &lt;h3&gt;2024&lt;/h3&gt;
+    &lt;p&gt;Evento importante&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer style="background: #0f172a; color: white; padding: 3rem 0; text-align: center; margin-top: 4rem;">
+        <div class="container">
+            <h3 class="text-gradient-full" style="margin-bottom: 1rem;">Sistema de Animações Premium</h3>
+            <p style="opacity: 0.8;">Instituto Eixos - Transformando Vidas com Design Premium</p>
+            <p style="margin-top: 2rem; opacity: 0.6; font-size: 0.9rem;">
+                Scroll para ver a barra de progresso colorida no topo da página
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/global-animations.js"></script>
+</body>
+</html>

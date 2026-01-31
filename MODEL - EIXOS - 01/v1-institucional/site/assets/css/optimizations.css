@@ -1,0 +1,85 @@
+/* ============================================
+   FLUID PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* 1. Smooth Entry Reveals */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 2. Fluid Gallery Row */
+.fluid-gallery-row {
+    padding: 4rem 0;
+    overflow: hidden;
+    background: #fff;
+    border-top: 1px solid #f1f5f9;
+}
+
+.fluid-track {
+    display: flex;
+    gap: 20px;
+    animation: scrollTrack 40s linear infinite;
+    width: max-content;
+}
+
+@keyframes scrollTrack {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.fluid-track img {
+    height: 150px;
+    width: auto;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
+}
+
+.fluid-track img:hover {
+    transform: scale(1.05);
+    z-index: 2;
+}
+
+/* 3. Performance Boosts */
+img {
+    content-visibility: auto; /* Browser optimization for off-screen images */
+}
+
+.stat-card-premium, .pillar-card-3d, .testimonial-slide {
+    contain: layout style; /* Isolates layout calculations */
+}
+
+/* 4. Scroll Fluidity */
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+/* 5. SVG Optimization */
+.animated-lines-bg path {
+    vector-effect: non-scaling-stroke;
+}
+
+/* 6. Typography Refinement for Fluidity */
+h1, h2, h3 {
+    letter-spacing: -0.02em;
+}
+
+p {
+    text-rendering: optimizeSpeed;
+}
+
+/* Ensure bubbles don't interfere with scroll performance */
+.photo-bubbles-container {
+    contain: strict;
+}

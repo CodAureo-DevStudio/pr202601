@@ -472,212 +472,82 @@
     </div>
   </section>
 
-  <!-- Premium News Section with Dynamic Loading -->
-  <section class="premium-news-section" style="padding: 6rem 0; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); position: relative; overflow: hidden;">
-    <!-- Background decoration -->
-    <div style="position: absolute; top: -50px; right: -50px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(0, 91, 137, 0.05) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
-    
-    <div class="container">
-      <!-- Section Header -->
-      <div class="text-center" style="margin-bottom: 4rem;" data-animation="animate-fade-in-down">
-        
-        <h2 style="font-size: 2.5rem; font-weight: 800; color: var(--secondary); margin-bottom: 1rem;">
-          Últimas Notícias
-        </h2>
-        <p style="font-size: 1.1rem; color: var(--text-light); max-width: 600px; margin: 0 auto;">
-          Fique por dentro das novidades e conquistas do Instituto Eixos
-        </p>
+  <!-- Recent News List -->
+  <section style="padding: 6rem 0; background: white;">
+    <div class="container" style="max-width: 900px;">
+      <div style="margin-bottom: 3rem;">
+        <h2 style="font-size: 2rem; font-weight: 700; color: var(--secondary); margin-bottom: 1rem;">Notícias Recentes</h2>
+        <div style="width: 60px; height: 4px; background: linear-gradient(90deg, var(--primary), var(--accent-green)); border-radius: 2px;"></div>
       </div>
 
-      <!-- News Grid (Dynamic) -->
-      <div class="news-grid-dynamic" id="newsGridHome" data-stagger>
-        <!-- Loading state -->
-        <div class="loading-news" style="grid-column: 1 / -1; text-align: center; padding: 4rem 0;">
-          <div class="spinner blue" style="margin: 0 auto 1rem;"></div>
-          <p style="color: var(--text-light);">Carregando notícias...</p>
+      <div style="display: flex; flex-direction: column; gap: 2rem;">
+        <!-- News Item 1 -->
+        <div class="news-item-compact reveal" style="display: flex; gap: 1.5rem; padding-bottom: 2rem; border-bottom: 1px solid #e2e8f0;">
+          <img src="assets/img/projeto-brasilia-2025-1.webp" alt="Brasília 2025" 
+               style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; flex-shrink: 0;">
+          <div style="flex: 1;">
+            <h3 style="font-size: 1.1rem; font-weight: 600; color: var(--secondary); margin-bottom: 0.5rem; line-height: 1.4;">
+              Brasília 2025 Atinge Marca de 2.500 Famílias Atendidas
+            </h3>
+            <p style="color: var(--text-light); font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+              <i class="far fa-calendar" style="color: var(--primary);"></i>
+              24 de janeiro de 2026
+            </p>
+          </div>
+        </div>
+
+        <!-- News Item 2 -->
+        <div class="news-item-compact reveal delay-100" style="display: flex; gap: 1.5rem; padding-bottom: 2rem; border-bottom: 1px solid #e2e8f0;">
+          <img src="assets/img/projeto-brasilia-2025-1.webp" alt="Mutirão Saúde" 
+               style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; flex-shrink: 0;">
+          <div style="flex: 1;">
+            <h3 style="font-size: 1.1rem; font-weight: 600; color: var(--secondary); margin-bottom: 0.5rem; line-height: 1.4;">
+              Mutirão da Saúde Realiza 1.200 Atendimentos
+            </h3>
+            <p style="color: var(--text-light); font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+              <i class="far fa-calendar" style="color: var(--primary);"></i>
+              19 de janeiro de 2026
+            </p>
+          </div>
+        </div>
+
+        <!-- News Item 3 -->
+        <div class="news-item-compact reveal delay-200" style="display: flex; gap: 1.5rem; padding-bottom: 2rem; border-bottom: 1px solid #e2e8f0;">
+          <img src="assets/img/projeto-brasilia-2025-1.webp" alt="Certificação" 
+               style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; flex-shrink: 0;">
+          <div style="flex: 1;">
+            <h3 style="font-size: 1.1rem; font-weight: 600; color: var(--secondary); margin-bottom: 0.5rem; line-height: 1.4;">
+              Instituto Eixos Recebe Certificação de Transparência
+            </h3>
+            <p style="color: var(--text-light); font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+              <i class="far fa-calendar" style="color: var(--primary);"></i>
+              14 de janeiro de 2026
+            </p>
+          </div>
+        </div>
+
+        <!-- News Item 4 -->
+        <div class="news-item-compact reveal delay-300" style="display: flex; gap: 1.5rem;">
+          <img src="assets/img/projeto-brasilia-2025-1.webp" alt="Futuro Brilhante" 
+               style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; flex-shrink: 0;">
+          <div style="flex: 1;">
+            <h3 style="font-size: 1.1rem; font-weight: 600; color: var(--secondary); margin-bottom: 0.5rem; line-height: 1.4;">
+              Futuro Brilhante Forma 350 Alunos em Cursos Profissionalizantes
+            </h3>
+            <p style="color: var(--text-light); font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+              <i class="far fa-calendar" style="color: var(--primary);"></i>
+              09 de janeiro de 2026
+            </p>
+          </div>
         </div>
       </div>
 
       <!-- View All Button -->
-      <div class="text-center" style="margin-top: 3rem;" data-animation="animate-scale-in">
-        <a href="noticias.html" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.1rem; display: inline-flex; align-items: center; gap: 0.75rem;">
-          Ver Todas as Notícias
-          <div class="icon-wrapper sm blue" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);">
-            <img src="assets/icons/noticias.svg" alt="Ver mais">
-          </div>
+      <div class="text-center reveal delay-400" style="margin-top: 3rem;">
+        <a href="noticias.html" class="btn btn-outline" style="padding: 1rem 2.5rem;">
+          Ver Todas as Notícias <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
         </a>
       </div>
-    </div>
-  </section>
-
-  <!-- News Grid Styles -->
-  <style>
-    .news-grid-dynamic {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    .news-card-premium {
-      background: white;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .news-card-premium:hover {
-      transform: translateY(-12px);
-      box-shadow: 0 20px 60px rgba(0, 91, 137, 0.15);
-    }
-
-    .news-card-image {
-      position: relative;
-      width: 100%;
-      height: 220px;
-      overflow: hidden;
-      background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
-    }
-
-    .news-card-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-
-    .news-card-premium:hover .news-card-image img {
-      transform: scale(1.1);
-    }
-
-    .news-category-badge {
-      position: absolute;
-      top: 1rem;
-      left: 1rem;
-      padding: 0.5rem 1rem;
-      background: rgba(0, 91, 137, 0.95);
-      backdrop-filter: blur(10px);
-      color: white;
-      font-size: 0.85rem;
-      font-weight: 600;
-      border-radius: 50px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      z-index: 2;
-    }
-
-    .news-card-content {
-      padding: 1.5rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .news-card-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--secondary);
-      margin-bottom: 0.75rem;
-      line-height: 1.4;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .news-card-excerpt {
-      color: var(--text-light);
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin-bottom: 1rem;
-      flex: 1;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .news-card-meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid #e2e8f0;
-    }
-
-    .news-card-date {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.9rem;
-      color: var(--text-light);
-    }
-
-    .news-card-date .icon-wrapper {
-      background: linear-gradient(135deg, var(--pillar-blue), var(--pillar-green));
-    }
-
-    .news-card-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--primary);
-      font-weight: 600;
-      font-size: 0.95rem;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-
-    .news-card-link:hover {
-      gap: 0.75rem;
-      color: var(--accent-green);
-    }
-
-    .news-card-link .icon-wrapper {
-      background: linear-gradient(135deg, var(--pillar-blue), var(--pillar-green));
-      transition: transform 0.3s ease;
-    }
-
-    .news-card-link:hover .icon-wrapper {
-      transform: translateX(4px);
-    }
-
-    /* Empty state */
-    .news-empty-state {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 4rem 2rem;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    }
-
-    .news-empty-state .icon-wrapper {
-      margin: 0 auto 1.5rem;
-      opacity: 0.5;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .news-grid-dynamic {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-
-      .news-card-image {
-        height: 180px;
-      }
-
-      .news-card-title {
-        font-size: 1.1rem;
-      }
-    }
-  </style>
     </div>
   </section>
 
@@ -790,13 +660,13 @@
     </div>
   </section>
 
-  <!-- Dynamic Fluid Gallery Row (From Firebase) -->
-  <section class="fluid-gallery-row reveal" id="fluidGallerySection">
-    <div class="fluid-track" id="fluidGalleryTrack">
-      <!-- Loading state -->
-      <div class="gallery-loading" style="width: 100%; display: flex; justify-content: center; align-items: center; padding: 3rem; background: #f8fafc;">
-        <div class="spinner blue" style="margin: 0 auto;"></div>
-      </div>
+  <!-- Image Grid Row (Fluid addition) -->
+  <section class="fluid-gallery-row reveal">
+    <div class="fluid-track">
+       <img src="assets/img/projeto-brasilia-2025-1.webp" alt="Social Impact" loading="lazy">
+       <img src="assets/img/gallery-hero.png" alt="Moment" loading="lazy">
+       <img src="assets/img/Street_Billboard_Mockup_1.png" alt="Visibility" loading="lazy">
+       <img src="assets/img/projeto-brasilia-2025-1.webp" alt="Community" loading="lazy">
     </div>
   </section>
 
@@ -815,7 +685,31 @@
   </section>
 
   <!-- Premium Newsletter Section -->
-  
+  <section class="newsletter-premium">
+    <div class="container">
+      <div class="newsletter-content">
+        <div class="newsletter-icon">
+          <i class="fas fa-envelope-open-text"></i>
+        </div>
+        <h2>Fique por Dentro</h2>
+        <p>
+          Cadastre-se para receber novidades, relatórios de impacto e histórias inspiradoras diretamente no seu e-mail.
+        </p>
+        <form class="newsletter-form-premium">
+          <input type="text" class="newsletter-input" placeholder="Seu nome" required />
+          <input type="email" class="newsletter-input" placeholder="Seu melhor e-mail" required />
+          <button type="submit" class="newsletter-submit">
+            <i class="fas fa-paper-plane" style="margin-right: 8px;"></i>
+            INSCREVER
+          </button>
+        </form>
+        <p style="font-size: 0.85rem; margin-top: 1.5rem; opacity: 0.7;">
+          <i class="fas fa-lock" style="margin-right: 4px;"></i>
+          Seus dados estão seguros. Não compartilhamos com terceiros.
+        </p>
+      </div>
+    </div>
+  </section>
 
   <!-- Footer -->
   <footer class="footer">

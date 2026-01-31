@@ -21,7 +21,6 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="assets/css/style.css" />
-    <link rel="stylesheet" href="assets/css/global-animations.css" />
     <link rel="stylesheet" href="assets/css/theme-test.css" id="theme-test" />
     <link rel="stylesheet" href="assets/css/quem-somos-premium.css" />
     <link rel="stylesheet" href="assets/css/custom-icons.css" />
@@ -904,7 +903,6 @@
     <!-- Scripts -->
     <script type="module" src="assets/js/site-common.js"></script>
     <script src="assets/js/home.js"></script>
-    <script src="assets/js/global-animations.js"></script>
     <script src="assets/js/quem-somos-premium.js"></script>
   </body>
 </html>

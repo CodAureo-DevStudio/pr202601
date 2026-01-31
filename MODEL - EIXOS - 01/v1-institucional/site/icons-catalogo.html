@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Ícones - Instituto Eixos</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <style>
+        :root {
+            --pillar-red: #E42836;
+            --pillar-blue: #005B89;
+            --pillar-yellow: #F7AA2C;
+            --pillar-green: #3D6446;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3rem;
+            background: linear-gradient(90deg, var(--pillar-red) 0%, var(--pillar-yellow) 25%, var(--pillar-green) 50%, var(--pillar-blue) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #64748b;
+        }
+        
+        .category {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .category-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--pillar-blue);
+        }
+        
+        .icons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .icon-card {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        
+        .icon-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+            border-color: var(--pillar-blue);
+        }
+        
+        .icon-wrapper {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            padding: 15px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .icon-card:hover .icon-wrapper {
+            transform: scale(1.1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+        
+        .icon-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .icon-name {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+        
+        .icon-file {
+            font-size: 0.85rem;
+            color: #64748b;
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+        
+        .color-badge {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin: 0 2px;
+        }
+        
+        .badge.red { background: var(--pillar-red); }
+        .badge.blue { background: var(--pillar-blue); }
+        .badge.yellow { background: var(--pillar-yellow); }
+        .badge.green { background: var(--pillar-green); }
+        
+        .usage-example {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--pillar-blue), var(--pillar-green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: #64748b;
+            margin-top: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .icons-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Catálogo de Ícones</h1>
+            <p class="subtitle">Sistema de Ícones Personalizado - Instituto Eixos</p>
+            <p style="margin-top: 1rem; color: #64748b;">
+                Todos os ícones seguem a identidade visual com as cores dos pilares
+            </p>
+        </header>
+
+        <!-- Estatísticas -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">32</div>
+                <div class="stat-label">Ícones Disponíveis</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Cores dos Pilares</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">SVG</div>
+                <div class="stat-label">Formato Vetorial</div>
+            </div>
+        </div>
+
+        <!-- Cores dos Pilares -->
+        <div class="category">
+            <h2 class="category-title">🎨 Cores da Identidade Visual</h2>
+            <div class="icons-grid">
+                <div class="icon-card">
+                    <div class="color-badge badge red" style="width: 60px; height: 60px; margin: 0 auto 1rem;"></div>
+                    <div class="icon-name">Vermelho</div>
+                    <code class="icon-file">#E42836</code>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #64748b;">Saúde</p>
+                </div>
+                <div class="icon-card">
+                    <div class="color-badge badge yellow" style="width: 60px; height: 60px; margin: 0 auto 1rem;"></div>
+                    <div class="icon-name">Amarelo</div>
+                    <code class="icon-file">#F7AA2C</code>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #64748b;">Educação</p>
+                </div>
+                <div class="icon-card">
+                    <div class="color-badge badge green" style="width: 60px; height: 60px; margin: 0 auto 1rem;"></div>
+                    <div class="icon-name">Verde</div>
+                    <code class="icon-file">#3D6446</code>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #64748b;">Sustentabilidade</p>
+                </div>
+                <div class="icon-card">
+                    <div class="color-badge badge blue" style="width: 60px; height: 60px; margin: 0 auto 1rem;"></div>
+                    <div class="icon-name">Azul</div>
+                    <code class="icon-file">#005B89</code>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #64748b;">Cultura</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pilares Principais -->
+        <div class="category">
+            <h2 class="category-title">🎯 Ícones dos Pilares</h2>
+            <div class="icons-grid">
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/saude.svg" alt="Saúde">
+                    </div>
+                    <div class="icon-name">Saúde</div>
+                    <div>
+                        <span class="color-badge badge red"></span>
+                        <span class="color-badge badge blue"></span>
+                    </div>
+                    <code class="icon-file">saude.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/educacao.svg" alt="Educação">
+                    </div>
+                    <div class="icon-name">Educação</div>
+                    <div>
+                        <span class="color-badge badge yellow"></span>
+                        <span class="color-badge badge blue"></span>
+                    </div>
+                    <code class="icon-file">educacao.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/cultura.svg" alt="Cultura">
+                    </div>
+                    <div class="icon-name">Cultura</div>
+                    <div>
+                        <span class="color-badge badge blue"></span>
+                        <span class="color-badge badge yellow"></span>
+                    </div>
+                    <code class="icon-file">cultura.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/sustentabilidade.svg" alt="Sustentabilidade">
+                    </div>
+                    <div class="icon-name">Sustentabilidade</div>
+                    <div>
+                        <span class="color-badge badge green"></span>
+                        <span class="color-badge badge blue"></span>
+                    </div>
+                    <code class="icon-file">sustentabilidade.svg</code>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegação e Páginas -->
+        <div class="category">
+            <h2 class="category-title">🧭 Navegação e Páginas</h2>
+            <div class="icons-grid">
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/projetos.svg" alt="Projetos">
+                    </div>
+                    <div class="icon-name">Projetos</div>
+                    <code class="icon-file">projetos.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/galeria.svg" alt="Galeria">
+                    </div>
+                    <div class="icon-name">Galeria</div>
+                    <code class="icon-file">galeria.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/transparencia.svg" alt="Transparência">
+                    </div>
+                    <div class="icon-name">Transparência</div>
+                    <code class="icon-file">transparencia.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/noticias.svg" alt="Notícias">
+                    </div>
+                    <div class="icon-name">Notícias</div>
+                    <code class="icon-file">noticias.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/doacao.svg" alt="Doação">
+                    </div>
+                    <div class="icon-name">Doação</div>
+                    <code class="icon-file">doacao.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/contato.svg" alt="Contato">
+                    </div>
+                    <div class="icon-name">Contato</div>
+                    <code class="icon-file">contato.svg</code>
+                </div>
+            </div>
+        </div>
+
+        <!-- Institucional -->
+        <div class="category">
+            <h2 class="category-title">🏢 Institucional</h2>
+            <div class="icons-grid">
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/missao.svg" alt="Missão">
+                    </div>
+                    <div class="icon-name">Missão</div>
+                    <code class="icon-file">missao.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/visao.svg" alt="Visão">
+                    </div>
+                    <div class="icon-name">Visão</div>
+                    <code class="icon-file">visao.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/valores.svg" alt="Valores">
+                    </div>
+                    <div class="icon-name">Valores</div>
+                    <code class="icon-file">valores.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/alvo.svg" alt="Objetivos">
+                    </div>
+                    <div class="icon-name">Objetivos</div>
+                    <code class="icon-file">alvo.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/trofeu.svg" alt="Conquistas">
+                    </div>
+                    <div class="icon-name">Conquistas</div>
+                    <code class="icon-file">trofeu.svg</code>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pessoas e Comunidade -->
+        <div class="category">
+            <h2 class="category-title">👥 Pessoas e Comunidade</h2>
+            <div class="icons-grid">
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/usuarios.svg" alt="Usuários">
+                    </div>
+                    <div class="icon-name">Usuários</div>
+                    <code class="icon-file">usuarios.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/voluntarios.svg" alt="Voluntários">
+                    </div>
+                    <div class="icon-name">Voluntários</div>
+                    <code class="icon-file">voluntarios.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/coracao.svg" alt="Apoio">
+                    </div>
+                    <div class="icon-name">Apoio</div>
+                    <code class="icon-file">coracao.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/ajuda.svg" alt="Ajuda">
+                    </div>
+                    <div class="icon-name">Ajuda</div>
+                    <code class="icon-file">ajuda.svg</code>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ferramentas e Utilidades -->
+       <div class="category">
+            <h2 class="category-title">🔧 Ferramentas e Utilidades</h2>
+            <div class="icons-grid">
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/calendario.svg" alt="Calendário">
+                    </div>
+                    <div class="icon-name">Calendário</div>
+                    <code class="icon-file">calendario.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/relogio.svg" alt="Relógio">
+                    </div>
+                    <div class="icon-name">Relógio</div>
+                    <code class="icon-file">relogio.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/localizacao.svg" alt="Localização">
+                    </div>
+                    <div class="icon-name">Localização</div>
+                    <code class="icon-file">localizacao.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/telefone.svg" alt="Telefone">
+                    </div>
+                    <div class="icon-name">Telefone</div>
+                    <code class="icon-file">telefone.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/email.svg" alt="E-mail">
+                    </div>
+                    <div class="icon-name">E-mail</div>
+                    <code class="icon-file">email.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/busca.svg" alt="Busca">
+                    </div>
+                    <div class="icon-name">Busca</div>
+                    <code class="icon-file">busca.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/check.svg" alt="Check">
+                    </div>
+                    <div class="icon-name">Check</div>
+                    <code class="icon-file">check.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/download.svg" alt="Download">
+                    </div>
+                    <div class="icon-name">Download</div>
+                    <code class="icon-file">download.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/compartilhar.svg" alt="Compartilhar">
+                    </div>
+                    <div class="icon-name">Compartilhar</div>
+                    <code class="icon-file">compartilhar.svg</code>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documentos e Mídia -->
+        <div class="category">
+            <h2 class="category-title">📄 Documentos e Mídia</h2>
+            <div class="icons-grid">
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/documento.svg" alt="Documento">
+                    </div>
+                    <div class="icon-name">Documento</div>
+                    <code class="icon-file">documento.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/imagem.svg" alt="Imagem">
+                    </div>
+                    <div class="icon-name">Imagem</div>
+                    <code class="icon-file">imagem.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/grafico.svg" alt="Gráfico">
+                    </div>
+                    <div class="icon-name">Gráfico</div>
+                    <code class="icon-file">grafico.svg</code>
+                </div>
+
+                <div class="icon-card">
+                    <div class="icon-wrapper">
+                        <img src="assets/icons/impacto.svg" alt="Impacto">
+                    </div>
+                    <div class="icon-name">Impacto</div>
+                    <code class="icon-file">impacto.svg</code>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exemplo de Uso -->
+        <div class="category">
+            <h2 class="category-title">💻 Exemplo de Uso</h2>
+            <div class="usage-example">
+&lt;!-- Uso básico --&gt;
+&lt;img src="assets/icons/saude.svg" alt="Saúde" width="48"&gt;
+
+&lt;!-- Com wrapper animado --&gt;
+&lt;div class="icon-wrapper lg red animate-float"&gt;
+    &lt;img src="assets/icons/saude.svg" alt="Saúde"&gt;
+&lt;/div&gt;
+
+&lt;!-- Em card --&gt;
+&lt;div class="animated-card red"&gt;
+    &lt;div class="icon-wrapper md red"&gt;
+        &lt;img src="assets/icons/saude.svg" alt="Saúde"&gt;
+    &lt;/div&gt;
+    &lt;h3&gt;Saúde&lt;/h3&gt;
+    &lt;p&gt;Promovendo o bem-estar...&lt;/p&gt;
+&lt;/div&gt;
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer style="text-align: center; margin-top: 4rem; padding: 2rem; color: #64748b;">
+            <p>📦 Total de 32 ícones customizados no padrão da identidade visual</p>
+            <p style="margin-top: 0.5rem;">Instituto Eixos - 2026</p>
+        </footer>
+    </div>
+</body>
+</html>
