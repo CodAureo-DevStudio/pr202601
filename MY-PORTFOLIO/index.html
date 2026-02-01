@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dev Portfolio | Jordan Araujo</title>
-    <meta name="description" content="Portfólio de Jordan Araujo - Desenvolvedor Fullstack especializado em Python, Automação e Dashboards Interativos.">
-    <meta property="og:title" content="Dev Portfolio | Jordan Araujo">
-    <meta property="og:description" content="Construindo sistemas digitais com precisão. Python, Web & Data.">
+    <title>CodAureo DevStudio | Portfolio</title>
+    <meta name="description" content="Portfólio de CodAureo DevStudio - Especialista em Desenvolvimento Web Premium, Automação e Soluções Digitais.">
+    <meta property="og:title" content="CodAureo DevStudio | Portfolio">
+    <meta property="og:description" content="Transformando ideias em código áureo. Desenvolvimento Premium & Automação.">
     <meta property="og:image" content="https://via.placeholder.com/1200x630.png?text=Jordan+Portfolio">
     <meta property="og:type" content="website">
     
@@ -20,7 +20,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="JA Portfolio">
+    <meta name="apple-mobile-web-app-title" content="CodAureo">
     <link rel="apple-touch-icon" href="icon-180.png">
     
     <!-- Mobile Optimization -->
@@ -29,16 +29,16 @@
 
     <style>
         :root {
-            --bg-base: #F2EAD3;
-            --bg-gradient: #E6DCC0;
+            --bg-base: #0a0a0a;
+            --bg-gradient: #141414;
             
-            --text-main: #2C241F;       
-            --text-muted: #6B5D52;      
-            --accent-blue: #28547A;     
-            --accent-green: #4E7043;    
+            --text-main: #f0f0f0;       
+            --text-muted: #a0a0a0;      
+            --accent-blue: #D4AF37; /* Gold */    
+            --accent-green: #C5A028; /* Darker Gold/Bronze */   
             
-            --card-bg: rgba(255, 255, 255, 0.6); 
-            --card-border: 1px solid rgba(255, 255, 255, 0.8);
+            --card-bg: rgba(20, 20, 20, 0.6); 
+            --card-border: 1px solid rgba(212, 175, 55, 0.1);
             --card-hover-border: 1px solid var(--accent-blue);
             --blur: blur(12px);
             
@@ -71,8 +71,8 @@
         body {
             background-color: var(--bg-base);
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(40, 84, 122, 0.08) 0%, transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(78, 112, 67, 0.08) 0%, transparent 25%);
+                radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(100, 100, 100, 0.05) 0%, transparent 25%);
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             line-height: 1.6;
@@ -120,7 +120,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 1rem 1.5rem;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(20, 20, 20, 0.8);
             backdrop-filter: var(--blur);
             -webkit-backdrop-filter: var(--blur);
             border: var(--card-border);
@@ -144,7 +144,7 @@
 
         .role-tag {
             display: inline-block;
-            background: rgba(40, 84, 122, 0.1);
+            background: rgba(212, 175, 55, 0.1);
             color: var(--accent-blue);
             padding: 0.5rem 1rem;
             border-radius: 100px;
@@ -215,22 +215,22 @@
 
         .card:hover {
             border: var(--card-hover-border);
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(30, 30, 30, 0.85);
             transform: translateY(-4px);
             box-shadow: 0 12px 40px rgba(0,0,0,0.04);
         }
 
         .card.featured {
             grid-column: span 2; 
-            background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0.4));
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(20, 20, 20, 0.8));
         }
 
         .card.dark {
-            background-color: var(--text-main);
-            color: #F2EAD3;
+            background-color: var(--accent-blue);
+            color: #000;
         }
-        .card.dark h3, .card.dark p { color: #F2EAD3; }
-        .card.dark .tag { background: rgba(255,255,255,0.1); color: #fff; }
+        .card.dark h3, .card.dark p { color: #000; }
+        .card.dark .tag { background: rgba(0,0,0,0.1); color: #000; }
 
         .card h3 {
             font-size: 1.5rem;
@@ -285,7 +285,7 @@
         .mobile-nav-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(242, 234, 211, 0.95); 
+            background: rgba(10, 10, 10, 0.95); 
             backdrop-filter: blur(10px);
             z-index: 150;
             display: flex;
@@ -415,6 +415,12 @@
         }
         .contact-link:hover { color: var(--accent-blue); border-color: var(--accent-blue); transform: translateY(-3px); }
         .contact-link span { font-size: 0.9rem; font-family: 'Fira Code'; display: block; opacity: 0.6; margin-bottom: 5px; }
+        
+        /* Gold specific adjustments for dark mode readability */
+        ::selection {
+            background: var(--accent-blue);
+            color: #000;
+        }
     </style>
 </head>
 <body>
@@ -424,11 +430,11 @@
     <div class="container">
         
         <nav class="animate-enter" style="animation-delay: 0.1s;">
-            <div class="nav-logo">&lt;JA/&gt;</div>
+            <div class="nav-logo">&lt;CodAureo/&gt;</div>
             <div class="nav-links">
                 <a href="#inicio">&lt;Início/&gt;</a>
-                <a href="#trabalhos">&lt;Trabalhos/&gt;</a>
-                <a href="#sobre">&lt;Sobre/&gt;</a>
+                <a href="#trabalhos">&lt;Projetos/&gt;</a>
+                <a href="#sobre">&lt;Studio/&gt;</a>
                 <a href="#contato">&lt;Contato/&gt;</a>
 
             </div>
@@ -444,8 +450,8 @@
 
         <header id="inicio" class="hero animate-enter" style="animation-delay: 0.2s;">
             <span class="role-tag typing-target"></span>
-            <h1>Construindo sistemas digitais com precisão.</h1>
-            <p>Especializando-me em arquitetura, análise de dados, automação em Python e interfaces web de alta performance.</p>
+            <h1>CodAureo DevStudio. <br>Excelência em Código.</h1>
+            <p>Especialistas em desenvolvimento web premium, automação de processos e soluções digitais sob medida. Onde a lógica encontra o design áureo.</p>
             
             <a href="#" class="btn-primary">Ver Projetos ↓</a>
         </header>
@@ -610,12 +616,11 @@
 
         <section id="sobre" class="page-section animate-enter" style="animation-delay: 0.5s;">
              <div class="section-header">
-                <h2 style="font-family: 'Fira Code'; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;">Sobre Mim</h2>
+                <h2 style="font-family: 'Fira Code'; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;">Sobre o Studio</h2>
             </div>
             <p class="about-text">
-                Olá! Sou <strong></strong>Jordan Araujo</strong>, desenvolvedor fullstack com paixão por criar soluções digitais eficientes e elegantes. 
-                Minha jornada na tecnologia combina a lógica estruturada do Python com a criatividade do frontend moderno, 
-                resultando em projetos que não apenas funcionam, mas encantam.
+                O <strong>CodAureo DevStudio</strong> é a marca de <strong>Jordan Araujo</strong>, focado em criar experiências digitais de alto nível. 
+                Nossa filosofia combina a proporção áurea do design com a robustez da engenharia de software moderna.
             </p>
             <p class="about-text">
                 Ao longo da minha carreira, desenvolvi <strong>7+ projetos completos</strong> nas áreas de educação, tecnologia corporativa e automação. 
@@ -636,15 +641,15 @@
             <div class="contact-grid">
                 <a href="https://instagram.com/" class="contact-link" target="_blank">
                     <span>Instagram</span>
-                    @oprof_jordan
+                    @codaureo.dev
                 </a>
                 <a href="mailto:contato@exemplo.com" class="contact-link">
                     <span>Email</span>
-                    jordan.araujo.im@gmail.com
+                    contato@codaureo.com
                 </a>
-                <a href="https://github.com/Jordanaraujo23" class="contact-link" target="_blank">
+                <a href="https://github.com/CodAureo-DevStudio" class="contact-link" target="_blank">
                     <span>GitHub</span>
-                    @Jordanaraujo23
+                    @CodAureo-DevStudio
                 </a>
                 <a href="https://wa.me/" class="contact-link" target="_blank">
                     <span>WhatsApp</span>
@@ -655,7 +660,7 @@
 
         <footer class="animate-enter" style="animation-delay: 0.6s; margin-top: 5rem; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 2rem; display: flex; justify-content: space-between; color: var(--text-muted);">
             <div style="font-family: 'Fira Code'; font-size: 0.8rem;">
-                © 2025 Jordan Araujo
+                © 2026 CodAureo DevStudio
             </div>
             <div style="font-family: 'Fira Code'; font-size: 0.8rem;">
                 Brasil, AL
