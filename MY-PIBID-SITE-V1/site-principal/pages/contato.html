@@ -1,0 +1,84 @@
+<section class="contato-premium-wrapper">
+    <!-- Cabeçalho da Seção -->
+    <div class="contato-header">
+        <span class="badget-contato">Canais de Atendimento</span>
+        <h2>Entre em <span>Contato</span></h2>
+        <p>Estamos aqui para tirar suas dúvidas e ouvir suas sugestões. Escolha a melhor forma de falar conosco.</p>
+    </div>
+
+    <div class="contato-grid">
+        <!-- Coluna de Informações e Redes -->
+        <div class="contato-info-card">
+            <div class="info-item-premium">
+                <div class="icon-circle"><span class="material-symbols-rounded">location_on</span></div>
+                <div class="info-text">
+                    <h4>Localização</h4>
+                    <p>Polo UAB - Câmara Municipal,</p>
+                    <p>Teotônio Vilela, Alagoas</p>
+                </div>
+            </div>
+
+            <div class="info-item-premium">
+                <div class="icon-circle"><span class="material-symbols-rounded">mail</span></div>
+                <div class="info-text">
+                    <h4>E-mail Oficial</h4>
+                    <p>coord.pibid.mat@ufal.br</p>
+                </div>
+            </div>
+
+            <div class="social-links-premium">
+                <h4>Nossas Redes</h4>
+                <div class="social-btns-flex">
+                    <a href="https://instagram.com/cod.aureo" target="_blank" class="social-pill instagram">
+                        <i class="fab fa-instagram"></i> Instagram Cód.Áureo
+                    </a>
+                    <a href="https://instagram.com/pibidmatufal" target="_blank" class="social-pill instagram">
+                        <i class="fab fa-instagram"></i> Instagram PIBID
+                    </a>
+                    <a href="https://instagram.com/ufaloficial" target="_blank" class="social-pill instagram">
+                        <i class="fab fa-instagram"></i> Instagram UFAL
+                    </a>
+                    <a href="https://instagram.com/universidade.abertadobrasil" target="_blank" class="social-pill instagram">
+                        <i class="fab fa-instagram"></i> Instagram UAB
+                    </a>
+                    <a href="https://youtube.com/@pibidmatufal" target="_blank" class="social-pill youtube">
+                        <i class="fab fa-youtube"></i> YouTube Oficial
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coluna do Formulário -->
+        <div class="contato-form-card">
+            <div class="form-header-premium">
+                <h3>Envie uma Mensagem Direta</h3>
+                <p>O administrador receberá sua mensagem instantaneamente.</p>
+            </div>
+
+            <form id="form-contato" onsubmit="enviarMensagemContato(event)">
+                <div class="input-group-premium">
+                    <input type="text" id="contato-nome" placeholder="Seu nome completo" required>
+                    <span class="material-symbols-rounded">person</span>
+                </div>
+
+                <div class="input-group-premium">
+                    <input type="text" id="contato-metodo" placeholder="Seu WhatsApp (com DDD)" required>
+                    <span class="material-symbols-rounded">phone_iphone</span>
+                </div>
+
+                <div class="input-group-premium textarea-group">
+                    <textarea id="contato-mensagem" rows="6" placeholder="Como podemos ajudar você?" required></textarea>
+                    <span class="material-symbols-rounded">chat_bubble</span>
+                </div>
+
+                <button type="submit" class="btn-enviar-premium" id="btn-enviar-contato">
+                    <span>ENVIAR PARA A COORDENAÇÃO</span>
+                    <span class="material-symbols-rounded">send</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Garantir que o FontAwesome esteja disponível para os ícones de redes sociais se não estiver -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">

@@ -1,0 +1,152 @@
+<div class="layout-inscricao">
+    <div class="coluna-esquerda-wrapper">
+        <div class="bloco-regras">
+            <h3><span class="material-symbols-rounded" style="font-size: 1.3rem; vertical-align: middle; margin-right: 8px;">description</span>Regras Principais</h3>
+            <ul class="regras-lista">
+                <li><strong>Gratuito:</strong> Sem taxas.</li>
+                <li><strong>Vagas:</strong> Limitadas.</li>
+                <li><strong>Documento:</strong> RG/CPF.</li>
+                <li><strong>Certificado:</strong> 75% freq.</li>
+                <li><strong>Chegada:</strong> 30min antes.</li>
+            </ul>
+        </div>
+        <div class="mural-observacoes">
+            <h4>MURAL DE AVISOS</h4>
+            <p><span class="material-symbols-rounded" style="font-size: 1.2rem; vertical-align: middle; margin-right: 5px; color: #f59e0b;">campaign</span><strong>Chegue cedo!</strong><br>Início às 08h.</p>
+            <p style="margin-top: 10px;"><span class="material-symbols-rounded" style="font-size: 1.2rem; vertical-align: middle; margin-right: 5px; color: #06b6d4;">water_drop</span><strong>Hidrate-se:</strong><br>Traga sua garrafa.</p>
+            <p style="margin-top: 10px;"><span class="material-symbols-rounded" style="font-size: 1.2rem; vertical-align: middle; margin-right: 5px; color: #10b981;">accessible</span><strong>Acessibilidade:</strong><br>Rampas no local.</p>
+        </div>
+        
+        <div class="manual-uso-wrapper" style="margin-top: 25px;">
+            <div class="card-manual" style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-left: 5px solid var(--azul-escuro);">
+                <h4 style="color: var(--azul-escuro); margin-bottom: 15px; font-size: 1rem; text-transform: uppercase; border-bottom: 1px dashed #eee; padding-bottom: 8px;">
+                    <span class="material-symbols-rounded" style="vertical-align: middle; margin-right: 5px;">help</span> Precisa de Ajuda?
+                </h4>
+                <div style="font-size: 0.9rem; color: #555;">
+                    <p style="margin-bottom: 15px;">Acesse nosso guia interativo ou baixe o manual.</p>
+                    
+                    <button onclick="window.abrirManual('ouvinte')" style="border: none; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px; background: linear-gradient(135deg, var(--azul-principal), var(--azul-claro)); border-radius: 8px; color: white; font-weight: 600; text-decoration: none; margin-bottom: 10px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(30, 64, 175, 0.2);" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                        <span class="material-symbols-rounded">touch_app</span>
+                        Abrir Guia Interativo
+                    </button>
+                    
+                    <a href="assets/manual_inscricao_2025.pdf" download style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; background: white; border: 1px solid #e2e8f0; border-radius: 8px; color: var(--azul-principal); font-weight: 600; text-decoration: none; transition: 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#fff'">
+                        <span class="material-symbols-rounded" style="color: #ef4444; font-size: 1.1rem;">picture_as_pdf</span>
+                        <span style="font-size: 0.9rem;">Baixar PDF</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="caixa-branca-central">
+        <div class="form-header-premium" style="text-align: left; margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+            <h2 class="titulo-secao" style="margin: 0; font-size: 1.8rem; border: none;">Ficha de Inscrição</h2>
+            <p style="color: #666; margin-top: 5px;">Preencha os campos abaixo corretamente.</p>
+        </div>
+        
+        <form id="form-inscricao" class="form-grid-premium">
+            <div>
+                <label class="label-premium">Nome Completo <span class="tag-required">Obrigatório</span></label>
+                <div class="input-group-premium">
+                    <input type="text" id="inp-nome" placeholder="Digite seu nome completo" onkeyup="verificarFormulario()">
+                    <span class="material-symbols-rounded">person</span>
+                </div>
+            </div>
+
+            <div class="form-row-dupla">
+                <div>
+                    <label class="label-premium">CPF</label>
+                    <div class="input-group-premium">
+                        <input type="text" id="inp-cpf" placeholder="000.000.000-00" onkeyup="verificarFormulario()">
+                        <span class="material-symbols-rounded">id_card</span>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="label-premium">Telefone / WhatsApp <span class="tag-required">Obrigatório</span></label>
+                    <div class="input-group-premium">
+                        <input type="text" id="inp-fone" placeholder="(00) 00000-0000" onkeyup="verificarFormulario()">
+                        <span class="material-symbols-rounded">phone_iphone</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <label class="label-premium">Instituição de Ensino <span class="tag-required">Obrigatório</span></label>
+                <div class="input-group-premium">
+                    <input type="text" id="inp-inst" placeholder="Sua escola ou universidade" onkeyup="verificarFormulario()">
+                    <span class="material-symbols-rounded">school</span>
+                </div>
+            </div>
+
+            <div>
+                <label class="label-premium">Tipo de Participação <span class="tag-required">Obrigatório</span></label>
+                <div class="input-group-premium">
+                    <select id="inp-tipo" onchange="verificarFormulario()">
+                        <option value="">Selecione uma opção...</option>
+                        <option value="Ouvinte">Ouvinte (Apenas assistir)</option>
+                        <option value="Apresentador">Apresentador de Trabalho</option>
+                        <option value="Supervisor">Supervisor de Projeto</option>
+                        <option value="Monitor">Monitor Voluntário</option>
+                    </select>
+                    <span class="material-symbols-rounded select-arrow">expand_more</span>
+                    <span class="material-symbols-rounded">category</span>
+                </div>
+            </div>
+
+            <div id="div-email" style="display: none; animation: fadeIn 0.3s ease;">
+                <label class="label-premium">E-mail <span id="tag-email-req" class="tag-required" style="display:none;">Obrigatório</span> <small>(Para Monitores e Supervisores)</small></label>
+                <div class="input-group-premium">
+                    <input type="email" id="inp-email" placeholder="seuemail@exemplo.com" onkeyup="verificarFormulario()">
+                    <span class="material-symbols-rounded">mail</span>
+                </div>
+            </div>
+
+            <button type="button" id="btn-confirmar-inscricao" class="btn-enviar-premium" style="margin-top: 20px; opacity: 0.5; pointer-events: none; width: 100%; justify-content: center;" onclick="salvarInscricaoNoFirebase()">
+                <span>CONFIRMAR INSCRIÇÃO</span>
+                <span class="material-symbols-rounded">check_circle</span>
+            </button>
+        </form>
+        <p style="text-align: center; color: #999; font-size: 0.8rem; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 5px;">
+            <span class="material-symbols-rounded" style="font-size: 1rem;">lock</span> Seus dados estão seguros.
+        </p>
+    </div>
+    
+    <div class="bloco-submissao bloqueado" id="bloco-submissao">
+        <div class="aviso-bloqueio" id="msg-aviso">🔒 Confirme a inscrição para liberar</div>
+        <h3><span class="material-symbols-rounded" style="font-size: 1.3rem; vertical-align: middle; margin-right: 8px;">upload_file</span>Dados do Trabalho</h3>
+        <p style="font-size: 0.9rem; color: #666; margin-bottom: 20px;">Preencha os dados abaixo para submeter seu trabalho.</p>
+        <form id="form-trabalho" class="form-grid-premium">
+            
+            <div>
+                <label class="label-premium">Título do Trabalho</label>
+                <div class="input-group-premium">
+                    <input type="text" id="inp-titulo-trab" placeholder="Ex: O uso de jogos no ensino...">
+                    <span class="material-symbols-rounded">title</span>
+                </div>
+            </div>
+
+            <div>
+                <label class="label-premium">Tema</label>
+                <div class="input-group-premium">
+                    <input type="text" id="inp-tema-trab" placeholder="Ex: Educação Matemática, Robótica...">
+                    <span class="material-symbols-rounded">topic</span>
+                </div>
+            </div>
+
+            <div>
+                <label class="label-premium">Resumo (Até 500 palavras)</label>
+                <div class="input-group-premium textarea-group">
+                    <textarea id="inp-resumo-trab" rows="8" placeholder="Escreva aqui o resumo do seu trabalho..."></textarea>
+                    <span class="material-symbols-rounded">description</span>
+                </div>
+            </div>
+            
+            <button type="button" class="btn-acao btn-enviar-premium" style="width: 100%; margin-top: 15px; background-color: var(--verde-sucesso); justify-content: center;" onclick="salvarDadosTrabalho()">
+                <span>ENVIAR TRABALHO</span>
+                <span class="material-symbols-rounded">send</span>
+            </button>
+        </form>
+    </div>
+</div>

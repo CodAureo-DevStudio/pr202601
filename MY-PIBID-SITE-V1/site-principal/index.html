@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feira da Matemática - PIBID UFAL</title>
+    
+    <!-- Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <!-- Global Modals -->
+    <div id="modal-global" class="modal-overlay">
+        <div class="modal-box" id="modal-box-style">
+            <span class="material-symbols-rounded modal-icon" id="modal-icon">check_circle</span>
+            <div class="modal-titulo" id="modal-titulo">Título</div>
+            <div class="modal-mensagem" id="modal-msg">Mensagem aqui</div>
+            <div id="modal-protocolo-container" style="display:none;"></div>
+            <button class="modal-btn" onclick="fecharModal()">ENTENDI</button>
+        </div>
+    </div>
+
+    <div id="modal-imagem-overlay" onclick="fecharModalImagem(event)">
+        <span class="material-symbols-rounded btn-fechar-img" onclick="fecharModalImagem(event)">close</span>
+        <div class="img-container-full">
+            <img id="img-ampliada" src="" alt="Imagem ampliada">
+            <div id="caption-ampliada"></div>
+        </div>
+    </div>
+
+    <!-- Modal Manual Flutuante -->
+    <div id="modal-manual" class="modal-overlay" style="z-index: 4000; align-items: flex-start; padding-top: 50px; overflow-y: auto;">
+        <div class="modal-box" style="width: 95%; max-width: 800px; text-align: left; padding: 0; overflow: hidden; height: auto; max-height: 90vh; display: flex; flex-direction: column;">
+            <div style="background: var(--azul-escuro); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0; font-size: 1.2rem;"><span class="material-symbols-rounded" style="vertical-align: bottom; margin-right: 10px;">menu_book</span>Manual de Inscrição</h3>
+                <span class="material-symbols-rounded" onclick="fecharModalManual()" style="cursor: pointer; font-size: 1.5rem;">close</span>
+            </div>
+            
+            <div style="display: flex; flex: 1; overflow: hidden; height: 100%;">
+                <!-- Menu Lateral -->
+                <div style="width: 250px; background: #f8fafc; border-right: 1px solid #e2e8f0; padding: 20px; overflow-y: auto;" class="manual-sidebar">
+                    <ul style="list-style: none; padding: 0;">
+                        <li onclick="mostrarPassoManual('ouvinte')" class="manual-tab active" data-tab="ouvinte" style="padding: 12px; border-radius: 8px; cursor: pointer; margin-bottom: 5px; font-weight: 600; color: var(--azul-escuro); transition: 0.2s; background: #e2e8f0;">
+                            <span class="material-symbols-rounded" style="vertical-align: sub; font-size: 1.1rem; margin-right: 8px;">person</span> Ouvinte
+                        </li>
+                        <li onclick="mostrarPassoManual('apresentador')" class="manual-tab" data-tab="apresentador" style="padding: 12px; border-radius: 8px; cursor: pointer; margin-bottom: 5px; color: #64748b; transition: 0.2s;">
+                            <span class="material-symbols-rounded" style="vertical-align: sub; font-size: 1.1rem; margin-right: 8px;">co_present</span> Apresentador
+                        </li>
+                        <li onclick="mostrarPassoManual('supervisor')" class="manual-tab" data-tab="supervisor" style="padding: 12px; border-radius: 8px; cursor: pointer; margin-bottom: 5px; color: #64748b; transition: 0.2s;">
+                            <span class="material-symbols-rounded" style="vertical-align: sub; font-size: 1.1rem; margin-right: 8px;">supervisor_account</span> Supervisor
+                        </li>
+                        <li onclick="mostrarPassoManual('monitor')" class="manual-tab" data-tab="monitor" style="padding: 12px; border-radius: 8px; cursor: pointer; margin-bottom: 5px; color: #64748b; transition: 0.2s;">
+                            <span class="material-symbols-rounded" style="vertical-align: sub; font-size: 1.1rem; margin-right: 8px;">badge</span> Monitor
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Conteúdo -->
+                <div id="conteudo-manual" style="flex: 1; padding: 30px; overflow-y: auto; background: white;">
+                    <!-- Inserido via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botão Voltar ao Topo -->
+    <button id="backToTop" class="btn-scroll-top" title="Voltar ao início">
+        <span class="material-symbols-rounded">arrow_upward</span>
+    </button>
+
+    <!-- Modern Floating Navigation -->
+    <nav class="nav-floating-container">
+        <div class="nav-logo-area" onclick="navegar('inicio')">
+            <img src="assets/ufal.webp" alt="UFAL" class="nav-logo">
+            <img src="assets/brasaoteotoniovilela.png" alt="Teotônio Vilela" class="nav-logo">
+            <img src="assets/pibid.webp" alt="PIBID" class="nav-logo">
+            <div class="nav-site-title">
+                <span class="main-title">FEIRA DA MATEMÁTICA</span>
+                <span class="sub-title">PIBID - UFAL</span>
+            </div>
+        </div>
+
+        <!-- Menu Toggle (Mobile) -->
+        <button class="menu-toggle" id="menuToggle" onclick="toggleMobileMenu()">
+            <span class="material-symbols-rounded">menu</span>
+        </button>
+        
+        <ul class="nav-links-list" id="navLinks">
+            <li><a onclick="navegar('inicio'); closeMobileMenu()" id="btn-inicio" class="menu-ativo">Início</a></li>
+            <li><a onclick="navegar('a-feira'); closeMobileMenu()" id="btn-a-feira">A Feira</a></li>
+            <li><a onclick="navegar('resultados'); closeMobileMenu()" id="btn-resultados">Resultados & Certificados</a></li>
+            <li><a onclick="navegar('galeria'); closeMobileMenu()" id="btn-galeria">Galeria</a></li>
+
+            <li><a onclick="navegar('contato'); closeMobileMenu()" id="btn-contato">Contato</a></li>
+            <li>
+                <a onclick="navegar('inscricoes'); closeMobileMenu()" class="btn-nav-rocket">
+                    <span class="material-symbols-rounded">rocket_launch</span>
+                    INSCREVA-SE
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+
+
+
+    <!-- Float Instagram Card (Temporário) -->
+    <div id="insta-float" class="insta-float-card">
+        <div class="insta-icon-bg">
+            <span class="material-symbols-rounded">photo_camera</span>
+        </div>
+        <div class="insta-text">
+            <span>Siga o desenvolvedor</span>
+            <strong>@oprof.jordan</strong>
+        </div>
+        <button class="btn-follow" onclick="window.open('https://instagram.com/oprof.jordan', '_blank')">Seguir</button>
+    </div>
+
+    <!-- Content Sections (Loaded Dynamically) -->
+    <div id="inicio" class="pagina-conteudo ativa"></div>
+    <div id="a-feira" class="pagina-conteudo"></div>
+    <div id="resultados" class="pagina-conteudo"></div>
+    <div id="galeria" class="pagina-conteudo"></div>
+    <div id="inscricoes" class="pagina-conteudo"></div>
+
+    <div id="contato" class="pagina-conteudo"></div>
+
+    <footer>
+        <div class="footer-grid">
+            <div><h4>Realização</h4><p>UFAL - Campus A.C. Simões</p></div>
+            <div><h4>Links Rápidos</h4><ul><li><a style="cursor: pointer;" onclick="navegar('inscricoes')">Inscrever-se</a></li><li><a style="cursor: pointer;" onclick="navegar('resultados')">Resultados</a></li></ul></div>
+            <div><h4>Atendimento</h4><p>coord.pibid.mat@ufal.br</p></div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2025 Feira da Matemática - Apoio: Câmara Municipal de Teotônio Vilela e UFAL. <span style="opacity:0.6; margin-left:10px; font-family: monospace;"> | Created for Dev root@J/A:~#</span></p></div>
+    </footer>
+
+    <!-- Logic -->
+    <script type="module" src="scripts/main.js"></script>
+</body>
+</html>

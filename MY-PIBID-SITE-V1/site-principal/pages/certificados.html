@@ -1,0 +1,14 @@
+<div class="container-padrao" style="max-width: 600px; text-align: center;">
+    <h2 class="titulo-secao">Emitir Certificado</h2>
+    <p style="margin-bottom: 25px;">Escolha o método de busca e digite seus dados para verificar se o certificado está disponível.</p>
+    
+    <div class="radio-busca">
+        <label><input type="radio" name="tipo-busca" value="cpf" checked onchange="mudarPlaceholder()"> Buscar por CPF</label>
+        <label><input type="radio" name="tipo-busca" value="nome" onchange="mudarPlaceholder()"> Buscar por Nome</label>
+    </div>
+
+    <input type="text" id="cert-input" placeholder="000.000.000-00" style="margin: 20px 0; text-align: center; font-size: 1.2rem; letter-spacing: 2px;">
+    
+    <button class="btn-acao" id="btn-emitir-cert" onclick="gerarCertificado()">BAIXAR CERTIFICADO PDF</button>
+    <p id="msg-cert" style="margin-top: 15px; font-weight: bold; display: none;"></p>
+</div>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Notícias - Listagem</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="stylesheet" href="noticias-style.css">
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <span>Polo Teotônio Vilela - Universidade Aberta do Brasil</span>
+        <span>Feira da Matemática 2024/2025</span>
+    </div>
+
+    <!-- HEADER PRINCIPAL -->
+    <header>
+        <div class="logo-area">
+            <div class="logos-group">
+                <img src="ufal.webp" alt="Brasão UFAL" class="header-logo">
+                <img src="brasaoteotoniovilela.png" alt="Brasão Teotônio Vilela" class="header-logo" style="height: 55px;">
+                <img src="pibid.webp" alt="Logo PIBID" class="header-logo">
+            </div>
+            <div class="site-title">
+                <h1>Feira da Matemática</h1>
+                <p>PIBID - Universidade Federal de Alagoas</p>
+            </div>
+        </div>
+        <nav class="nav-portal">
+            <a href="index.html" class="btn-voltar-home">
+                <span class="material-symbols-rounded">arrow_back</span> Voltar ao Site
+            </a>
+        </nav>
+    </header>
+
+    <!-- ÁREA DO TÍTULO -->
+    <section class="main-title-section">
+        <h2>Portal de Notícias</h2>
+        <p>Acompanhe as últimas novidades, eventos e comunicados do nosso projeto.</p>
+    </section>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="container">
+        
+        <!-- Lista de Notícias -->
+        <div id="lista-noticias" class="noticias-grid">
+            <!-- Loader Inicial -->
+            <div class="loader">
+                <div class="spinner"></div>
+                <p style="margin-top: 20px;">Carregando notícias...</p>
+            </div>
+        </div>
+
+        <!-- Mensagem de Erro (Oculta por padrão) -->
+        <div id="mensagem-erro" class="erro-msg" style="display: none;">
+            <span class="material-symbols-rounded erro-icon">wifi_off</span>
+            <h2>Ops! Algo deu errado.</h2>
+            <p>Não foi possível carregar as notícias. Verifique sua conexão.</p>
+            <button onclick="carregarNoticias()" class="btn-voltar-home" style="margin: 0 auto; display: inline-flex;">Tentar Novamente</button>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <p>&copy; 2024 PIBID Matemática - Polo Teotônio Vilela. Todos os direitos reservados.</p>
+        <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.6;">Desenvolvido pelo Núcleo de Tecnologia do PIBID</p>
+    </footer>
+
+    <!-- Script para listagem -->
+    <script type="module" src="noticias-script.js"></script>
+</body>
+</html>

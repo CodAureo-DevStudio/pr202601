@@ -1,0 +1,403 @@
+<!-- LAYOUT COM SIDEBARS LATERAIS -->
+<div style="display: grid; grid-template-columns: 250px 1fr 250px; gap: 20px; max-width: 1600px; margin: 0 auto; padding: 20px;">
+    
+    <!-- SIDEBAR ESQUERDA - GALERIA DE FOTOS -->
+    <aside style="align-self: start; position: sticky; top: 20px;">
+        <div style="background: white; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 4px solid var(--azul-principal);">
+            <h4 style="color: var(--azul-escuro); margin-bottom: 15px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
+                <span class="material-symbols-rounded" style="font-size: 1.2rem; color: var(--azul-claro);">photo_library</span>
+                Momentos da Feira
+            </h4>
+            
+            <div id="sidebar-momentos-container" style="display: flex; flex-direction: column; gap: 12px;">
+                <!-- Fotos serão carregadas aqui via JS -->
+                <div style="height: 150px; background: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.8rem;">Carregando...</div>
+            </div>
+
+            <div style="margin-top: 12px;">
+                <!-- Call to Action -->
+                <a href="#galeria" onclick="navegar('galeria')" style="display: block; background: var(--azul-principal); color: white; text-align: center; padding: 10px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-decoration: none; transition: 0.3s;">
+                    <span class="material-symbols-rounded" style="font-size: 1rem; vertical-align: middle; margin-right: 5px;">collections</span>
+                    Ver Galeria Completa
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- CONTEÚDO CENTRAL -->
+    <main>
+        <!-- PROGRAMAÇÃO -->
+        <div style="background: white; padding: 40px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 40px;">
+            <h2 class="titulo-secao" style="margin-top: 0;">Programação do Evento</h2>
+            <div class="programacao-grid">
+                <!-- Coluna Programação -->
+                <div class="card-padrao">
+                    <h3>Atividades do Dia</h3>
+                    <div class="schedule-item"><div class="time">08:00 - 09:00</div><div><strong>Credenciamento e Entrega de Kits</strong><br>Recepção dos participantes no hall.</div></div>
+                    <div class="schedule-item"><div class="time">09:00 - 10:30</div><div><strong>Mesa de Abertura</strong><br>Presença do Reitor da UFAL e autoridades.</div></div>
+                    <div class="schedule-item"><div class="time">10:30 - 12:00</div><div><strong>Palestra Magna</strong><br>Dr. João da Silva (IM/UFAL)</div></div>
+                    <div class="schedule-item"><div class="time">14:00 - 17:00</div><div><strong>Apresentação de Trabalhos</strong><br>Salas temáticas 01 a 10.</div></div>
+                </div>
+                
+                <!-- Coluna Calendário -->
+                <div class="card-padrao" style="padding: 10px;">
+                    <div class="calendar-wrapper">
+                        <header class="calendar-header">
+                            <p class="current-date"></p>
+                            <div class="icons">
+                                <span id="prev" class="material-symbols-rounded">&lt;</span>
+                                <span id="next" class="material-symbols-rounded">&gt;</span>
+                            </div>
+                        </header>
+                        <div class="calendar">
+                            <ul class="weeks"><li>Dom</li> <li>Seg</li> <li>Ter</li> <li>Qua</li> <li>Qui</li> <li>Sex</li> <li>Sab</li></ul>
+                            <ul class="days"></ul>
+                        </div>
+                        <div class="calendar-events-list" style="padding: 0 20px 20px 20px;">
+                            <h4 style="font-size: 1rem; color: var(--azul-principal); margin-bottom: 10px;">Eventos deste Mês</h4>
+                            <div id="lista-eventos-mes" style="min-height: 50px;">
+                                <p style="color: #ccc; font-size: 0.85rem;">Nenhum evento.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TEXTO SOBRE UFAL E PIBID -->
+        <div style="background: white; padding: 40px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+            <h2 class="titulo-secao" style="margin-top: 0;">UFAL e PIBID: Excelência na Formação Docente e Desafios em 2026</h2>
+    
+    <div class="text-content">
+        <p>A <strong>Universidade Federal de Alagoas (UFAL)</strong>, fundada em 1961, consolidou-se como a principal instituição de ensino superior do estado. Sediada no Campus A.C. Simões, em Maceió, a universidade expandiu sua presença estratégica para o interior, com campi em Arapiraca, Delmiro Gouveia (Sertão), Viçosa, Penedo e Santana do Ipanema.</p>
+        
+        <p>É dentro dessa capilaridade e excelência acadêmica que o <strong>Programa Institucional de Bolsa de Iniciação à Docência (PIBID)</strong> encontra um terreno fértil para transformar a educação básica alagoana.</p>
+
+        <h3 style="color: var(--azul-escuro); margin-top: 40px; margin-bottom: 15px; font-size: 1.6rem;">
+            <span class="material-symbols-rounded" style="font-size: 1.8rem; vertical-align: middle; margin-right: 10px; color: var(--azul-claro);">school</span>
+            O Papel do PIBID na Estrutura da UFAL
+        </h3>
+        
+        <p>Como uma instituição que atua fortemente no tripé <strong>ensino, pesquisa e extensão</strong>, a UFAL utiliza o PIBID como uma ferramenta vital para integrar a universidade às redes públicas de ensino. O programa não apenas oferece suporte financeiro aos estudantes, mas fortalece os cursos de licenciatura da instituição (como Pedagogia, Letras, Matemática, entre outros), cumprindo objetivos essenciais:</p>
+
+        <div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 5px solid var(--azul-principal); padding: 25px; border-radius: 10px; margin: 25px 0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h4 style="color: var(--azul-escuro); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                <span class="material-symbols-rounded" style="color: var(--azul-principal);">target</span>
+                Objetivos Estratégicos do PIBID
+            </h4>
+            <ul style="margin-left: 20px; line-height: 1.8;">
+                <li><strong>Imersão na Realidade Escolar:</strong> O PIBID insere os licenciandos da UFAL no cotidiano das escolas públicas de Alagoas desde o início da graduação, permitindo uma formação teórico-prática robusta.</li>
+                <li><strong>Valorização Docente:</strong> O programa combate a evasão nos cursos de licenciatura e incentiva a carreira docente através de bolsas atrativas (R$ 700,00 para estudantes e R$ 1.100,00 para supervisores).</li>
+                <li><strong>Permanência Estudantil:</strong> Em um cenário econômico desafiador, a bolsa do PIBID atua como um mecanismo crucial de manutenção dos estudantes na universidade.</li>
+            </ul>
+        </div>
+
+        <div style="background: #f0fdf4; border: 2px solid #10b981; padding: 20px; border-radius: 10px; margin: 25px 0;">
+            <p style="margin: 0; display: flex; align-items: start; gap: 10px;">
+                <span class="material-symbols-rounded" style="color: #10b981; font-size: 1.5rem; flex-shrink: 0;">verified</span>
+                <span><strong>Importante:</strong> A partir de 2026, com o anúncio da CAPES de que o PIBID se tornou uma <strong>ação permanente</strong>, os estudantes da UFAL ganham a segurança de que não haverá descontinuidade no apoio entre editais, garantindo estabilidade para a formação de novos professores no estado.</span>
+            </p>
+        </div>
+
+        <h3 style="color: var(--azul-escuro); margin-top: 40px; margin-bottom: 15px; font-size: 1.6rem;">
+            <span class="material-symbols-rounded" style="font-size: 1.8rem; vertical-align: middle; margin-right: 10px; color: var(--azul-claro);">calendar_today</span>
+            Cenário Atual (Janeiro de 2026): Excelência Acadêmica em Meio à Crise
+        </h3>
+
+        <p>O início de 2026 marca um momento paradoxal para a UFAL. Por um lado, a instituição demonstra vigor acadêmico e impacto social; por outro, enfrenta severas restrições orçamentárias.</p>
+
+        <h4 style="color: var(--azul-principal); margin-top: 30px; margin-bottom: 15px; font-size: 1.3rem; display: flex; align-items: center; gap: 10px;">
+            <span class="material-symbols-rounded">emoji_events</span>
+            1. Conquistas e Reconhecimento Internacional
+        </h4>
+
+        <p>A UFAL segue provando sua excelência com avanços significativos recentes:</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 25px 0;">
+            <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #3b82f6; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                    <span class="material-symbols-rounded" style="color: #3b82f6; font-size: 1.8rem;">public</span>
+                    <strong style="color: var(--azul-escuro);">Internacionalização</strong>
+                </div>
+                <p style="margin: 0; font-size: 0.95rem; line-height: 1.6;">Integrou o 2º Colóquio Internacional "Repensar a América Latina" em Portugal (16/01/2026) e enviou estudantes para intercâmbios no Japão (08/01/2026).</p>
+            </div>
+
+            <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #10b981; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                    <span class="material-symbols-rounded" style="color: #10b981; font-size: 1.8rem;">lightbulb</span>
+                    <strong style="color: var(--azul-escuro);">Inovação</strong>
+                </div>
+                <p style="margin: 0; font-size: 0.95rem; line-height: 1.6;">O Núcleo de Excelência em Tecnologias Sociais (NEES) recebeu importante certificação internacional em 12/01/2026.</p>
+            </div>
+
+            <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #f59e0b; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                    <span class="material-symbols-rounded" style="color: #f59e0b; font-size: 1.8rem;">handshake</span>
+                    <strong style="color: var(--azul-escuro);">Compromisso Social</strong>
+                </div>
+                <p style="margin: 0; font-size: 0.95rem; line-height: 1.6;">Assinou contratos para compra de alimentos da agricultura familiar (07/01/2026) e selecionou bolsistas para projetos de cultura e bem-estar (19/01/2026).</p>
+            </div>
+        </div>
+
+        <h4 style="color: var(--vermelho-erro); margin-top: 30px; margin-bottom: 15px; font-size: 1.3rem; display: flex; align-items: center; gap: 10px;">
+            <span class="material-symbols-rounded">warning</span>
+            2. O Desafio Financeiro
+        </h4>
+
+        <div style="background: #fef2f2; border: 2px solid var(--vermelho-erro); padding: 20px; border-radius: 10px; margin: 20px 0;">
+            <p style="margin: 0; display: flex; align-items: start; gap: 10px;">
+                <span class="material-symbols-rounded" style="color: var(--vermelho-erro); font-size: 1.5rem; flex-shrink: 0;">error</span>
+                <span>Apesar desses êxitos, reportagens de janeiro de 2026 apontam que a UFAL enfrenta uma <strong>grave crise financeira</strong>. Existe o risco real de interrupção de atividades básicas por falta de recursos de custeio (água, luz, segurança). A reitoria tem se mobilizado junto a outros reitores do Nordeste pleiteando a recomposição orçamentária urgente.</span>
+            </p>
+        </div>
+
+        <h3 style="color: var(--azul-escuro); margin-top: 40px; margin-bottom: 15px; font-size: 1.6rem;">
+            <span class="material-symbols-rounded" style="font-size: 1.8rem; vertical-align: middle; margin-right: 10px; color: var(--verde-sucesso);">shield</span>
+            Conclusão: A Importância da Blindagem do PIBID
+        </h3>
+
+        <p>Neste cenário de incerteza orçamentária da universidade, o <strong>PIBID ganha ainda mais relevância</strong>. Como seus recursos provêm diretamente da CAPES (Governo Federal) e não do orçamento de custeio da universidade, o programa funciona como um <strong>pilar de estabilidade</strong>.</p>
+
+        <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-left: 5px solid var(--verde-sucesso); padding: 25px; border-radius: 10px; margin: 25px 0; box-shadow: 0 4px 10px rgba(16,185,129,0.15);">
+            <p style="margin: 0; font-size: 1.05rem; line-height: 1.7;">
+                <strong style="color: var(--azul-escuro);">Enquanto a UFAL luta para manter suas portas abertas e suas luzes acesas, o PIBID garante que a formação dos futuros professores continue protegida</strong>, assegurando que a ponte entre a excelência acadêmica da universidade e as escolas públicas de Alagoas permaneça sólida.
+            </p>
+        </div>
+
+        <!-- NOVA SEÇÃO: UAB E EDUCAÇÃO A DISTÂNCIA -->
+        <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 15px; padding: 35px; margin: 50px 0; box-shadow: 0 10px 30px rgba(245, 158, 11, 0.2);">
+            <h3 style="color: var(--azul-escuro); margin-bottom: 20px; font-size: 1.8rem; display: flex; align-items: center; gap: 12px;">
+                <span class="material-symbols-rounded" style="font-size: 2rem; color: #f59e0b;">cast_for_education</span>
+                UAB: Levando a UFAL a Todos os Cantos de Alagoas
+            </h3>
+            <p style="margin: 0; font-size: 1.1rem; line-height: 1.7; color: #78350f;">
+                Quando falamos da UFAL, é comum pensarmos nos campi físicos. Mas existe uma <strong>força invisível e poderosa</strong> que rompe as barreiras geográficas: o sistema <strong>UAB (Universidade Aberta do Brasil)</strong>.
+            </p>
+        </div>
+
+        <h3 style="color: var(--azul-escuro); margin-top: 40px; margin-bottom: 15px; font-size: 1.6rem;">
+            <span class="material-symbols-rounded" style="font-size: 1.8rem; vertical-align: middle; margin-right: 10px; color: var(--azul-claro);">public</span>
+            A Força da UAB na UFAL: Democratizando o Ensino
+        </h3>
+
+        <p>A UAB na UFAL não é apenas "aula online". É uma <strong>política pública robusta de interiorização</strong> do ensino superior. Através dos <strong>Polos de Apoio Presencial</strong> espalhados por diversos municípios alagoanos (como São José da Laje, Maragogi, Olho d'Água das Flores, entre outros), a universidade chega onde antes era impossível.</p>
+
+        <div style="background: white; border-radius: 12px; padding: 25px; margin: 25px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 5px solid #06b6d4;">
+            <h4 style="color: var(--azul-escuro); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                <span class="material-symbols-rounded" style="color: #06b6d4;">fact_check</span>
+                Fatos sobre a UAB/UFAL
+            </h4>
+            <ul style="margin-left: 20px; line-height: 1.8;">
+                <li><strong>Alcance:</strong> Permite que moradores do interior tenham acesso à mesma qualidade de ensino da capital sem precisarem abandonar suas cidades e famílias.</li>
+                <li><strong>Inclusão:</strong> Atende um perfil de estudante muitas vezes trabalhador, que precisa da flexibilidade do EAD para conquistar o diploma.</li>
+                <li><strong>Cursos de Licenciatura:</strong> É um dos maiores formadores de professores do estado, oferecendo cursos como Matemática, Pedagogia, Letras, Física e Biologia na modalidade a distância.</li>
+            </ul>
+        </div>
+
+        <h3 style="color: var(--azul-escuro); margin-top: 40px; margin-bottom: 15px; font-size: 1.6rem;">
+            <span class="material-symbols-rounded" style="font-size: 1.8rem; vertical-align: middle; margin-right: 10px; color: var(--azul-principal);">link</span>
+            PIBID e UAB: Por que essa conexão é vital?
+        </h3>
+
+        <p>Muitas vezes, existe o mito de que o aluno EAD estuda "sozinho". É aqui que o <strong>PIBID</strong> entra como um divisor de águas.</p>
+
+        <p style="font-size: 1.05rem; color: var(--azul-principal); font-weight: 600; margin: 20px 0;">A importância do PIBID para o aluno da UAB/UFAL é gigantesca e estratégica:</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 30px 0;">
+            <div style="background: linear-gradient(to bottom right, #eff6ff, #dbeafe); padding: 20px; border-radius: 10px; border-top: 4px solid var(--azul-principal);">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                    <span class="material-symbols-rounded" style="color: var(--azul-principal); font-size: 1.8rem;">groups</span>
+                    <strong style="color: var(--azul-escuro); font-size: 1.1rem;">Quebra do Isolamento</strong>
+                </div>
+                <p style="margin: 0; font-size: 0.95rem; line-height: 1.6;">O PIBID tira o aluno da frente do computador e o coloca dentro da escola pública do seu próprio município. Ele deixa de ser um "aluno virtual" para se tornar um futuro colega de trabalho dos professores locais.</p>
+            </div>
+
+            <div style="background: linear-gradient(to bottom right, #f0fdf4, #dcfce7); padding: 20px; border-radius: 10px; border-top: 4px solid var(--verde-sucesso);">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                    <span class="material-symbols-rounded" style="color: var(--verde-sucesso); font-size: 1.8rem;">home_pin</span>
+                    <strong style="color: var(--azul-escuro); font-size: 1.1rem;">Teoria e Prática em Casa</strong>
+                </div>
+                <p style="margin: 0; font-size: 0.95rem; line-height: 1.6;">O estudante aprende a teoria na plataforma da UFAL e aplica a prática na escola do seu bairro. O conhecimento retorna imediatamente para a comunidade local.</p>
+            </div>
+
+            <div style="background: linear-gradient(to bottom right, #fef3c7, #fde68a); padding: 20px; border-radius: 10px; border-top: 4px solid var(--amarelo-alerta);">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                    <span class="material-symbols-rounded" style="color: var(--amarelo-alerta); font-size: 1.8rem;">badge</span>
+                    <strong style="color: var(--azul-escuro); font-size: 1.1rem;">Pertencimento</strong>
+                </div>
+                <p style="margin: 0; font-size: 0.95rem; line-height: 1.6;">Ao receber a bolsa e o jaleco do PIBID, o aluno da UAB sente na pele que é parte integrante da UFAL, com os mesmos direitos e oportunidades dos alunos do presencial.</p>
+            </div>
+
+            <div style="background: linear-gradient(to bottom right, #fdf2f8, #fce7f3); padding: 20px; border-radius: 10px; border-top: 4px solid #ec4899;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                    <span class="material-symbols-rounded" style="color: #ec4899; font-size: 1.8rem;">paid</span>
+                    <strong style="color: var(--azul-escuro); font-size: 1.1rem;">Apoio Financeiro</strong>
+                </div>
+                <p style="margin: 0; font-size: 0.95rem; line-height: 1.6;">Para o aluno da UAB, que muitas vezes já trabalha para se sustentar, a bolsa de <strong>R$ 700,00</strong> é fundamental para custear internet, materiais e deslocamento até o polo ou a escola.</p>
+            </div>
+
+            <div style="background: linear-gradient(to bottom right, #ede9fe, #ddd6fe); padding: 20px; border-radius: 10px; border-top: 4px solid #8b5cf6;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                    <span class="material-symbols-rounded" style="color: #8b5cf6; font-size: 1.8rem;">auto_stories</span>
+                    <strong style="color: var(--azul-escuro); font-size: 1.1rem;">Formação Continuada</strong>
+                </div>
+                <p style="margin: 0; font-size: 0.95rem; line-height: 1.6;">O PIBID oferece workshops e capacitações exclusivas, garantindo que o bolsista esteja sempre atualizado com as novas metodologias de ensino e tecnologias educacionais.</p>
+            </div>
+
+            <div style="background: linear-gradient(to bottom right, #ffedd5, #fed7aa); padding: 20px; border-radius: 10px; border-top: 4px solid #f97316;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                    <span class="material-symbols-rounded" style="color: #f97316; font-size: 1.8rem;">hub</span>
+                    <strong style="color: var(--azul-escuro); font-size: 1.1rem;">Networking</strong>
+                </div>
+                <p style="margin: 0; font-size: 0.95rem; line-height: 1.6;">Conecte-se com professores experientes e outros acadêmicos de todo o estado. Essa rede de contatos é valiosa para futuras oportunidades profissionais e acadêmicas.</p>
+            </div>
+        </div>
+
+        <div style="background: #fffbeb; border: 2px solid #fbbf24; padding: 25px; border-radius: 10px; margin: 30px 0;">
+            <h4 style="color: var(--azul-escuro); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                <span class="material-symbols-rounded" style="color: #fbbf24; font-size: 1.5rem;">account_balance_wallet</span>
+                Valores das Bolsas (Vigentes em 2026)
+            </h4>
+            <p style="margin-bottom: 15px; font-size: 0.95rem;">Seja no presencial ou na UAB, os valores são os mesmos. <strong>A isonomia é garantida:</strong></p>
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+                <thead>
+                    <tr style="background: #fef3c7;">
+                        <th style="padding: 12px; text-align: left; border: 1px solid #fbbf24; color: var(--azul-escuro);">Categoria</th>
+                        <th style="padding: 12px; text-align: right; border: 1px solid #fbbf24; color: var(--azul-escuro);">Valor Mensal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid #fde68a;">🎓 <strong>Bolsista (Licenciando EAD/Presencial)</strong></td>
+                        <td style="padding: 12px; border: 1px solid #fde68a; text-align: right; font-weight: bold; color: var(--verde-sucesso);">R$ 700,00</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid #fde68a;">🏫 <strong>Supervisor (Professor da Escola)</strong></td>
+                        <td style="padding: 12px; border: 1px solid #fde68a; text-align: right; font-weight: bold; color: var(--verde-sucesso);">R$ 1.100,00</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid #fde68a;">📚 <strong>Coordenador de Área</strong></td>
+                        <td style="padding: 12px; border: 1px solid #fde68a; text-align: right; font-weight: bold; color: var(--verde-sucesso);">R$ 2.000,00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 style="color: var(--azul-escuro); margin-top: 40px; margin-bottom: 15px; font-size: 1.6rem;">
+            <span class="material-symbols-rounded" style="font-size: 1.8rem; vertical-align: middle; margin-right: 10px; color: var(--verde-sucesso);">verified_user</span>
+            Cenário 2026: Resistência e Permanência
+        </h3>
+
+        <p>Como vimos, a UFAL enfrenta uma crise orçamentária severa neste início de 2026. No entanto, o sistema <strong>UAB e o PIBID</strong> possuem financiamento da <strong>CAPES</strong>, o que oferece uma camada extra de proteção a esses programas.</p>
+
+        <div style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border-left: 5px solid var(--azul-principal); padding: 25px; border-radius: 10px; margin: 25px 0; box-shadow: 0 4px 10px rgba(30,64,175,0.15);">
+            <p style="margin: 0; font-size: 1.05rem; line-height: 1.7; color: #1e293b;">
+                <strong>A transformação do PIBID em uma ação permanente de Estado é uma victory dupla para o aluno EAD:</strong> garante que a formação de professores no interior de Alagoas não será interrompida por falta de editais.
+            </p>
+        </div>
+
+        <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 3px solid var(--verde-sucesso); padding: 30px; border-radius: 15px; margin: 35px 0; box-shadow: 0 6px 20px rgba(16,185,129,0.2); text-align: center;">
+            <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--verde-sucesso); display: block; margin-bottom: 15px;">school</span>
+            <h4 style="color: var(--azul-escuro); margin-bottom: 15px; font-size: 1.5rem;">
+                A UAB/UFAL Prova que Distância Física ≠ Distância do Conhecimento
+            </h4>
+            <p style="margin: 0; font-size: 1.1rem; line-height: 1.6; color: #065f46;">
+                Se você é aluno da UAB, saiba: <strong style="font-size: 1.15rem;">a universidade é você, onde você estiver.</strong><br>
+                E o chão da escola pública espera pela sua contribuição.
+            </p>
+        </div>
+
+        <hr style="border: none; border-top: 2px solid #e5e7eb; margin: 40px 0;">
+
+        <h3 style="color: var(--azul-escuro); margin-top: 30px; margin-bottom: 15px;">
+            <span class="material-symbols-rounded" style="font-size: 1.3rem; vertical-align: middle; margin-right: 8px;">celebration</span>
+            Sobre a Feira da Matemática
+        </h3>
+        
+        <p>A <strong>Feira da Matemática</strong> é um evento acadêmico e cultural promovido pelo Programa Institucional de Bolsa de Iniciação à Docência (PIBID) da Universidade Federal de Alagoas (UFAL).</p>
+        <p>Realizada em parceria com a Câmara Municipal de Teotônio Vilela, a feira busca integrar a universidade com a comunidade escolar da rede pública.</p>
+        
+        <h4 style="color: var(--azul-escuro); margin-top: 30px; margin-bottom: 15px;">Objetivos do Evento</h4>
+        <ul class="objectives-list">
+            <li>Estimular o interesse pela matemática através de atividades lúdicas e práticas.</li>
+            <li>Divulgar os trabalhos desenvolvidos pelos bolsistas do PIBID nas escolas parceiras.</li>
+            <li>Promover a formação continuada de professores da rede municipal.</li>
+            <li>Incentivar a produção científica e acadêmica na área de Educação Matemática.</li>
+        </ul>
+    </div>
+        </div>
+    </main>
+
+    <!-- SIDEBAR DIREITA - INFORMAÇÕES E FOTOS -->
+    <aside style="align-self: start; position: sticky; top: 20px;">
+        <div style="background: white; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 4px solid var(--verde-sucesso); margin-bottom: 20px;">
+            <h4 style="color: var(--azul-escuro); margin-bottom: 15px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
+                <span class="material-symbols-rounded" style="font-size: 1.2rem; color: var(--verde-sucesso);">info</span>
+                Informações Rápidas
+            </h4>
+            
+            <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.85rem;">
+                <div style="display: flex; align-items: start; gap: 8px;">
+                    <span class="material-symbols-rounded" style="font-size: 1.1rem; color: var(--azul-claro);">calendar_today</span>
+                    <div>
+                        <strong style="display: block; color: var(--azul-escuro);">Data</strong>
+                        <span style="color: #666;">Janeiro 2026</span>
+                    </div>
+                </div>
+                
+                <div style="display: flex; align-items: start; gap: 8px;">
+                    <span class="material-symbols-rounded" style="font-size: 1.1rem; color: var(--azul-claro);">location_on</span>
+                    <div>
+                        <strong style="display: block; color: var(--azul-escuro);">Local</strong>
+                        <span style="color: #666;">Campus UFAL</span>
+                    </div>
+                </div>
+                
+                <div style="display: flex; align-items: start; gap: 8px;">
+                    <span class="material-symbols-rounded" style="font-size: 1.1rem; color: var(--azul-claro);">group</span>
+                    <div>
+                        <strong style="display: block; color: var(--azul-escuro);">Participantes</strong>
+                        <span style="color: #666;">Bolsistas PIBID</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Estatísticas Dinâmicas -->
+        <div style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 4px solid var(--amarelo-alerta);">
+            <h4 style="color: var(--azul-escuro); margin-bottom: 20px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
+                <span class="material-symbols-rounded" style="font-size: 1.2rem; color: var(--amarelo-alerta);">monitoring</span>
+                Estatísticas em Tempo Real
+            </h4>
+            
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <!-- Card Inscritos -->
+                <div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-radius: 10px; padding: 15px; display: flex; align-items: center; gap: 15px;">
+                    <div style="background: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                        <span class="material-symbols-rounded" style="color: var(--azul-principal); font-size: 1.5rem;">groups</span>
+                    </div>
+                    <div>
+                        <strong id="stat-total-inscritos" style="font-size: 1.4rem; color: var(--azul-escuro); line-height: 1;">...</strong>
+                        <span style="display: block; font-size: 0.8rem; color: #64748b; margin-top: 2px;">Total de Inscritos</span>
+                    </div>
+                </div>
+
+                <!-- Card Projetos -->
+                <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-radius: 10px; padding: 15px; display: flex; align-items: center; gap: 15px;">
+                    <div style="background: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                        <span class="material-symbols-rounded" style="color: var(--verde-sucesso); font-size: 1.5rem;">emoji_objects</span>
+                    </div>
+                    <div>
+                        <strong id="stat-total-projetos" style="font-size: 1.4rem; color: var(--azul-escuro); line-height: 1;">...</strong>
+                        <span style="display: block; font-size: 0.8rem; color: #64748b; margin-top: 2px;">Projetos Enviados</span>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 10px;">
+                    <p style="font-size: 0.75rem; color: #999;">Dados atualizados automaticamente.</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+</div>

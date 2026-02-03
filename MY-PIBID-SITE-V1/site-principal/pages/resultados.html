@@ -1,0 +1,52 @@
+<div class="container-padrao" style="max-width: 1200px;">
+    <!-- Seção de Certificados (Destaque Topo) -->
+    <div class="certificado-hero" style="background: linear-gradient(135deg, var(--azul-fundo), #fff); padding: 40px; border-radius: 12px; margin-bottom: 60px; border: 1px solid #dbeafe; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 4px 15px rgba(30, 64, 175, 0.05);">
+        <div style="background: var(--azul-claro); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: white;">
+            <span class="material-symbols-rounded" style="font-size: 32px;">verified</span>
+        </div>
+        <h2 style="color: var(--azul-principal); margin-bottom: 15px; font-size: 1.8rem;">Emissão de Certificados</h2>
+        <p style="color: #555; max-width: 600px; margin-bottom: 30px;">
+            Participou da Feira? Digite seus dados abaixo para verificar e baixar seu certificado oficial de participação.
+        </p>
+        
+        <div class="area-busca-cert" style="width: 100%; max-width: 500px;">
+            <div class="radio-busca" style="justify-content: center; margin-bottom: 20px;">
+                <label style="background: white; padding: 8px 15px; border-radius: 20px; border: 1px solid #eee;">
+                    <input type="radio" name="tipo-busca" value="cpf" checked onchange="mudarPlaceholder()"> 
+                    <span style="margin-left: 5px;">Buscar por CPF</span>
+                </label>
+                <label style="background: white; padding: 8px 15px; border-radius: 20px; border: 1px solid #eee;">
+                    <input type="radio" name="tipo-busca" value="nome" onchange="mudarPlaceholder()"> 
+                    <span style="margin-left: 5px;">Buscar por Nome</span>
+                </label>
+            </div>
+
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <input type="text" id="cert-input" placeholder="000.000.000-00" style="flex: 1; padding: 15px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; text-align: center; outline: none; transition: 0.3s;">
+                <button class="btn-acao" id="btn-emitir-cert" onclick="gerarCertificado()" style="background: var(--azul-principal); color: white; border: none; padding: 15px 30px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; white-space: nowrap;">
+                    BAIXAR PDF
+                </button>
+            </div>
+            <p id="msg-cert" style="margin-top: 15px; font-weight: bold; display: none; color: var(--azul-principal);"></p>
+        </div>
+    </div>
+
+    <!-- Seção de Galeria de Resultados -->
+    <div class="resultados-section">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h2 class="titulo-secao" style="display: inline-block;">Galeria de Campeões</h2>
+            <p style="color: #666; margin-top: 15px; font-size: 1.1rem;">
+                Conheça os projetos e equipes que fizeram história na Feira da Matemática.
+            </p>
+        </div>
+
+        <div id="loading-vencedores" style="text-align: center; display: none;">
+            <div class="loader"></div>
+            <p>Carregando destaques...</p>
+        </div>
+
+        <div id="grid-vencedores" class="grid-vencedores" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+            <!-- Cards injetados via JS -->
+        </div>
+    </div>
+</div>

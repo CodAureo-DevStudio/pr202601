@@ -1,0 +1,56 @@
+Uri: https://cdn.gpteng.co/mcp-widgets/v1/fonts/CameraPlainVariable.woff2
+File Name: C:\Downloaded Web Sites\grupoedumo.com.br\mcp-widgets\v1\fonts\CameraPlainVariable.woff2
+Content Type: font/woff2
+
+Uri: https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap
+File Name: C:\Downloaded Web Sites\grupoedumo.com.br\css2
+Content Type: text/css
+
+Uri: https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuBWYMZg.ttf
+File Name: C:\Downloaded Web Sites\grupoedumo.com.br\s\inter\v20\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuBWYMZg.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuDyYMZg.ttf
+File Name: C:\Downloaded Web Sites\grupoedumo.com.br\s\inter\v20\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuDyYMZg.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf
+File Name: C:\Downloaded Web Sites\grupoedumo.com.br\s\inter\v20\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZg.ttf
+File Name: C:\Downloaded Web Sites\grupoedumo.com.br\s\inter\v20\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZg.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg.ttf
+File Name: C:\Downloaded Web Sites\grupoedumo.com.br\s\inter\v20\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf
+File Name: C:\Downloaded Web Sites\grupoedumo.com.br\s\inter\v20\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuOKfMZg.ttf
+File Name: C:\Downloaded Web Sites\grupoedumo.com.br\s\inter\v20\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuOKfMZg.ttf
+Content Type: font/ttf
+
+Uri: https://grupoedumo.com.br/
+File Name: C:\Downloaded Web Sites\grupoedumo.com.br\index.htm
+Content Type: text/html
+
+Uri: https://grupoedumo.com.br/assets/index-BGPBc5ln.js
+File Name: C:\Downloaded Web Sites\grupoedumo.com.br\assets\index-BGPBc5ln.js
+Content Type: text/javascript
+
+Uri: https://grupoedumo.com.br/assets/index-BhWJwF5I.css
+File Name: C:\Downloaded Web Sites\grupoedumo.com.br\assets\index-BhWJwF5I.css
+Content Type: text/css
+
+Uri: https://grupoedumo.com.br/~flock.js
+File Name: C:\Downloaded Web Sites\grupoedumo.com.br\~flock.js
+Content Type: text/javascript
+
+Uri: https://storage.googleapis.com/gpt-engineer-file-uploads/1vETA0x68DbRJQUSn7DpjAhz01s1/uploads/1763038479005-ICONE ROXO E CINZA EDUMO-09 (1).png
+File Name: C:\Downloaded Web Sites\grupoedumo.com.br\gpt-engineer-file-uploads\1vETA0x68DbRJQUSn7DpjAhz01s1\uploads\1763038479005-ICONE ROXO E CINZA EDUMO-09 (1).png
+Content Type: image/png
+

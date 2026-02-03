@@ -3,745 +3,443 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodAureo DevStudio | Portfolio</title>
-    <meta name="description" content="Portfólio de CodAureo DevStudio - Especialista em Desenvolvimento Web Premium, Automação e Soluções Digitais.">
-    <meta property="og:title" content="CodAureo DevStudio | Portfolio">
-    <meta property="og:description" content="Transformando ideias em código áureo. Desenvolvimento Premium & Automação.">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630.png?text=Jordan+Portfolio">
-    <meta property="og:type" content="website">
+    <title>CodAureo DevStudio | Engineering & Design</title>
+    <meta name="description" content="High-end software engineering and digital architecture by CodAureo DevStudio.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
-
-    <!-- PWA Meta Tags -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#F2EAD3">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="CodAureo">
-    <link rel="apple-touch-icon" href="icon-180.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     
-    <!-- Mobile Optimization -->
-    <meta name="format-detection" content="telephone=yes">
-    <meta name="HandheldFriendly" content="true">
-
     <style>
         :root {
-            --bg-base: #0a0a0a;
-            --bg-gradient: #141414;
+            --bg-color: #080808;
+            --text-primary: #f2f2f2;
+            --text-secondary: #808080;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --accent-gold: #c3a343;
+            --accent-white: #ffffff;
             
-            --text-main: #f0f0f0;       
-            --text-muted: #a0a0a0;      
-            --accent-blue: #D4AF37; /* Gold */    
-            --accent-green: #C5A028; /* Darker Gold/Bronze */   
-            
-            --card-bg: rgba(20, 20, 20, 0.6); 
-            --card-border: 1px solid rgba(212, 175, 55, 0.1);
-            --card-hover-border: 1px solid var(--accent-blue);
-            --blur: blur(12px);
-            
-            --radius-lg: 24px;
-            --radius-sm: 12px;
+            --font-sans: 'Inter', sans-serif;
+            --font-display: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
         }
-
-
-
-        .typing-cursor::after {
-            content: '|';
-            animation: blink 1s step-start infinite;
-        }
-        @keyframes blink { 50% { opacity: 0; } }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease;
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-base);
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(100, 100, 100, 0.05) 0%, transparent 25%);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-weight: 300;
             line-height: 1.6;
-            padding-bottom: 5rem;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
-        html { scroll-behavior: smooth; }
-
-        .grain-overlay {
+        /* Subtle Noise Texture Overlay */
+        body::before {
+            content: "";
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.03;
             pointer-events: none;
             z-index: 9999;
-            opacity: 0.05;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
-
-        .card {
-            transform-style: preserve-3d;
-            transform: perspective(1000px);
-        }
-        
-        .card-content {
-            transform: translateZ(20px); 
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .animate-enter {
-            animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-            opacity: 0; 
         }
 
         .container {
-            max-width: 1100px; 
+            max-width: 1300px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 0 4rem;
         }
 
+        @media(max-width: 768px) {
+            .container { padding: 0 1.5rem; }
+        }
+
+        .mono {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        /* Navigation */
         nav {
+            padding: 3rem 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 1.5rem;
-            background: rgba(20, 20, 20, 0.8);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
-            border: var(--card-border);
-            border-radius: 100px; 
-            margin-bottom: 4rem;
-            position: sticky;
-            top: 2rem;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .nav-logo { font-family: 'Fira Code', monospace; font-weight: 600; color: var(--text-main); }
-        .nav-links { display: flex; gap: 2rem; }
-        .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.9rem; transition: 0.2s; }
-        .nav-links a:hover { color: var(--accent-blue); }
-
-        .hero {
-            margin-bottom: 5rem;
-            max-width: 800px;
-        }
-
-        .role-tag {
-            display: inline-block;
-            background: rgba(212, 175, 55, 0.1);
-            color: var(--accent-blue);
-            padding: 0.5rem 1rem;
-            border-radius: 100px;
-            font-size: 0.85rem;
+        .brand-text {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
             font-weight: 600;
-            margin-bottom: 1.5rem;
-            font-family: 'Fira Code', monospace;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+        
+        .brand-text span { color: var(--text-secondary); font-weight: 300; }
+
+        .nav-links { display: flex; gap: 3rem; }
+        .nav-links a { 
+            text-decoration: none; 
+            color: var(--text-secondary); 
+            font-size: 0.85rem; 
+            transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 0;
+            width: 0; height: 1px;
+            background: var(--accent-white);
+            transition: 0.4s;
+        }
+        .nav-links a:hover { color: var(--accent-white); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* Hero */
+        .hero {
+            padding: 12rem 0;
+            max-width: 900px;
         }
 
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 4rem;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em; 
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 400;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            margin-bottom: 3rem;
+            color: var(--text-primary);
+            animation: reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes reveal {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .hero p {
             font-size: 1.25rem;
-            color: var(--text-muted);
+            color: var(--text-secondary);
             max-width: 600px;
-            margin-bottom: 2rem;
+            margin-bottom: 4rem;
+            line-height: 1.5;
         }
 
-        .btn-primary {
+        .status-pill {
             display: inline-flex;
             align-items: center;
-            background-color: var(--text-main);
-            color: #fff;
-            padding: 1rem 2rem;
+            gap: 0.7rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
             border-radius: 100px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: transform 0.2s;
+            margin-bottom: 2.5rem;
+        }
+        
+        .dot-blink {
+            width: 6px; height: 6px;
+            background: #4ade80;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+            animation: pulse 2s infinite;
         }
 
-        .btn-primary:hover { transform: translateY(-2px); background-color: #000; }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 1; }
+        }
 
-        .section-header {
+        /* Work Grid */
+        .section-tag {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
+            margin-bottom: 10rem;
+        }
+
+        .project-card {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: 0.4s;
+        }
+
+        .gallery-container {
+            aspect-ratio: 4/3;
+            background: #111;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .gallery-container img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0.85;
+        }
+
+        .project-card:hover img {
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        .project-title {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary);
+        }
+
+        /* Tech Arsenal (The Legacy Stack) */
+        .tech-arsenal {
+            padding: 8rem 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .tech-grid {
+            margin-top: 3rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            max-width: 800px;
+        }
+
+        .tech-tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            transition: 0.3s;
+            cursor: default;
+        }
+
+        .tech-tag:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--text-secondary);
+            transform: translateY(-2px);
+        }
+
+        /* Capabilities (Mapping) */
+        .capabilities {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            padding: 8rem 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .cap-col h4 {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .cap-col ul {
+            list-style: none;
+            display: grid; gap: 0.8rem;
+        }
+
+        .cap-col li {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 5rem 0;
+            border-top: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding-bottom: 1rem;
         }
 
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); 
-            grid-template-rows: repeat(2, auto);
-            gap: 1.5rem;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: var(--card-border);
-            border-radius: var(--radius-lg);
-            padding: 2rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 280px;
-        }
-
-        .card:hover {
-            border: var(--card-hover-border);
-            background: rgba(30, 30, 30, 0.85);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.04);
-        }
-
-        .card.featured {
-            grid-column: span 2; 
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(20, 20, 20, 0.8));
-        }
-
-        .card.dark {
-            background-color: var(--accent-blue);
-            color: #000;
-        }
-        .card.dark h3, .card.dark p { color: #000; }
-        .card.dark .tag { background: rgba(0,0,0,0.1); color: #000; }
-
-        .card h3 {
-            font-size: 1.5rem;
-            font-family: 'Playfair Display', serif;
-            margin-bottom: 0.5rem;
-        }
-
-        .card p {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-        }
-
-        .tags-wrapper {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-top: auto; 
-        }
-
-        .tag {
-            font-size: 0.75rem;
-            font-family: 'Fira Code', monospace;
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
-            background: rgba(0,0,0,0.04);
-            color: var(--text-main);
-            text-transform: uppercase;
-        }
-
-        .icon-box {
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            background: var(--bg-base);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-
-        .mobile-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--text-main);
-            cursor: pointer;
-            z-index: 200;
-        }
-
-        .mobile-nav-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10, 10, 10, 0.95); 
-            backdrop-filter: blur(10px);
-            z-index: 150;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.3s ease;
-        }
-
-        .mobile-nav-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .mobile-nav-overlay a {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            color: var(--text-main);
-            text-decoration: none;
-            transition: 0.2s;
-        }
-
-        .mobile-nav-overlay a:hover { color: var(--accent-blue); }
-
-        /* MOBILE OPTIMIZATIONS */
-        @media (max-width: 768px) {
-            /* Performance - Disable heavy animations */
-            .card {
-                transform: none !important;
-                transform-style: initial !important;
-            }
-            
-            .grain-overlay {
-                display: none; /* Save GPU on mobile */
-            }
-            
-            .card-content {
-                transform: none !important;
-            }
-            
-            /* Layout adjustments */
-            h1 { font-size: 2.8rem; line-height: 1.15; }
-            
-            .hero p { font-size: 1.1rem; }
-            
-            .bento-grid { 
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            } 
-            
-            .card {
-                min-height: auto;
-                padding: 1.5rem;
-            }
-            
-            .card.featured { grid-column: span 1; }
-            
-            nav { 
-                display: flex; 
-                padding: 0.8rem 1.2rem;
-            }
-            
-            .nav-links { display: none; } 
-            .mobile-toggle { display: block; } 
-            
-            /* Touch-friendly sizing */
-            .btn-primary,
-            .contact-link,
-            .nav-links a {
-                min-height: 44px;
-                display: inline-flex;
-                align-items: center;
-            }
-            
-            /* Reduce motion for better performance */
-            .reveal {
-                transition: opacity 0.3s ease;
-                transform: none !important;
-            }
-        }
-
-        /* Extra small devices */
-        @media (max-width: 480px) {
-            h1 { font-size: 2.2rem; }
-            
-            .card {
-                padding: 1.2rem;
-            }
-            
-            .icon-box {
-                width: 36px;
-                height: 36px;
-                font-size: 1rem;
-            }
-            
-            .tag {
-                font-size: 0.7rem;
-                padding: 0.3rem 0.6rem;
-            }
-        }
-
-        .page-section { margin-top: 8rem; margin-bottom: 4rem; }
-        
-        .about-text {
-            font-size: 1.1rem; 
-            max-width: 700px; 
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-        }
-
-        .contact-grid {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-        .contact-link {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            color: var(--text-main);
-            text-decoration: none;
-            border-bottom: 1px solid var(--text-muted);
-            padding-bottom: 5px;
-            transition: 0.3s;
-        }
-        .contact-link:hover { color: var(--accent-blue); border-color: var(--accent-blue); transform: translateY(-3px); }
-        .contact-link span { font-size: 0.9rem; font-family: 'Fira Code'; display: block; opacity: 0.6; margin-bottom: 5px; }
-        
-        /* Gold specific adjustments for dark mode readability */
-        ::selection {
-            background: var(--accent-blue);
-            color: #000;
+        @media(max-width: 900px) {
+            .work-grid, .capabilities { grid-template-columns: 1fr; }
+            footer { flex-direction: column; align-items: flex-start; gap: 2rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="grain-overlay"></div>
-
     <div class="container">
-        
-        <nav class="animate-enter" style="animation-delay: 0.1s;">
-            <div class="nav-logo">&lt;CodAureo/&gt;</div>
-            <div class="nav-links">
-                <a href="#inicio">&lt;Início/&gt;</a>
-                <a href="#trabalhos">&lt;Projetos/&gt;</a>
-                <a href="#sobre">&lt;Studio/&gt;</a>
-                <a href="#contato">&lt;Contato/&gt;</a>
-
+        <nav>
+            <div class="brand-text">CodAureo <span>// DevStudio</span></div>
+            <div class="nav-links mono">
+                <a href="#work">Projects</a>
+                <a href="#stack">Stack</a>
+                <a href="mailto:contato@codaureo.com">Contact</a>
             </div>
-            <button class="mobile-toggle" onclick="toggleMenu()">☰</button>
         </nav>
 
-        <div class="mobile-nav-overlay" id="mobileOverlay">
-            <a href="#inicio" onclick="toggleMenu()">Início</a>
-            <a href="#trabalhos" onclick="toggleMenu()">Trabalhos</a>
-            <a href="#sobre" onclick="toggleMenu()">Sobre</a>
-            <a href="#contato" onclick="toggleMenu()">Contato</a>
+        <section class="hero">
+            <div class="status-pill mono">
+                <span class="dot-blink"></span>
+                Accepting new commissions
+            </div>
+            <h1>Ecossistemas digitais construídos com <span style="color: var(--text-secondary)">precisão cirúrgica.</span></h1>
+            <p>Especialistas em automação de alta performance e arquitetura de software sob medida. Onde a lógica matemática encontra a estética editorial.</p>
+        </section>
+
+        <div id="work" class="section-tag">
+            <span class="mono">/ Selected Pieces</span>
+            <span class="mono">2024—2026</span>
         </div>
 
-        <header id="inicio" class="hero animate-enter" style="animation-delay: 0.2s;">
-            <span class="role-tag typing-target"></span>
-            <h1>CodAureo DevStudio. <br>Excelência em Código.</h1>
-            <p>Especialistas em desenvolvimento web premium, automação de processos e soluções digitais sob medida. Onde a lógica encontra o design áureo.</p>
-            
-            <a href="#" class="btn-primary">Ver Projetos ↓</a>
-        </header>
+        <div class="work-grid">
+            <a href="#" class="project-card">
+                <div class="gallery-container">
+                    <img src="assets/project1/1.png" alt="Alpha Studio Primary">
+                    <img src="assets/project1/2.png" alt="Alpha Studio Detail" style="display:none;">
+                </div>
+                <h3 class="project-title">Alpha Studio V3</h3>
+                <div class="project-meta mono">
+                    <span>Fullstack CMS</span>
+                    <span>2025</span>
+                </div>
+            </a>
 
-        <section id="trabalhos" class="animate-enter" style="animation-delay: 0.4s;">
-            <div class="section-header">
-                <h2 style="font-family: 'Fira Code'; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;">Portfólio Completo</h2>
-                <span style="font-size: 0.85rem; color: var(--text-muted); font-family: 'Fira Code';">7 projetos desenvolvidos</span>
-            </div>
+            <a href="#" class="project-card">
+                <div class="gallery-container">
+                    <img src="assets/project2/1.png" alt="Letreiro Digital Primary">
+                    <img src="assets/project2/2.png" alt="Letreiro Detail" style="display:none;">
+                </div>
+                <h3 class="project-title">Letreiro Digital System</h3>
+                <div class="project-meta mono">
+                    <span>Python Automation</span>
+                    <span>2026</span>
+                </div>
+            </a>
 
-            <div class="bento-grid">
-                
-                <!-- Alpha Studio V3 - Featured -->
-                <article class="card featured">
-                     <div class="card-content">
-                        <div class="icon-box">🌐</div>
-                        <div>
-                            <h3>Alpha Studio V3</h3>
-                            <p>Versão avançada do portfólio Alpha Studios com design premium, CMS personalizado e experiência visual aprimorada. Sistema completo de gestão de conteúdo dinâmico com Firebase.</p>
-                        </div>
-                        <div class="tags-wrapper">
-                            <span class="tag">Frontend</span>
-                            <span class="tag">Firebase</span>
-                            <span class="tag">CMS</span>
-                            <span class="tag">Premium</span>
-                        </div>
-                    </div>
-                </article>
+            <a href="#" class="project-card">
+                <div class="gallery-container">
+                    <img src="assets/project3/1.png" alt="Aurum Tech Primary">
+                    <img src="assets/project3/2.png" alt="Aurum Detail" style="display:none;">
+                </div>
+                <h3 class="project-title">Aurum Technologies</h3>
+                <div class="project-meta mono">
+                    <span>Corporate WebGL</span>
+                    <span>2025</span>
+                </div>
+            </a>
 
-                <!-- PIBID UFAL -->
-                <article class="card">
-                     <div class="card-content">
-                        <div class="icon-box">🎓</div>
-                        <div>
-                            <h3>PIBID UFAL</h3>
-                            <p>Sistema de gestão acadêmica para o Programa Institucional de Bolsas. Controle de inscritos, geração automática de certificados e painel administrativo completo.</p>
-                        </div>
-                        <div class="tags-wrapper">
-                            <span class="tag">Firebase</span>
-                            <span class="tag">Admin Panel</span>
-                            <span class="tag">PDF</span>
-                        </div>
-                    </div>
-                </article>
+            <a href="#" class="project-card">
+                <div class="gallery-container">
+                    <img src="assets/project4/1.png" alt="PIBID Management Primary">
+                    <img src="assets/project4/2.png" alt="PIBID Detail" style="display:none;">
+                </div>
+                <h3 class="project-title">Academic Architecture</h3>
+                <div class="project-meta mono">
+                    <span>Data Systems</span>
+                    <span>2024</span>
+                </div>
+            </a>
+        </div>
 
-                <!-- Empresa de Ensino - Site -->
-                <article class="card">
-                     <div class="card-content">
-                        <div class="icon-box">📚</div>
-                        <div>
-                            <h3>Plataforma Educacional</h3>
-                            <p>Site institucional completo para empresa de ensino gamificado. Interface interativa com calculadora ROI, depoimentos em carrossel, FAQ accordion e recursos multimídia.</p>
-                        </div>
-                        <div class="tags-wrapper">
-                            <span class="tag">Frontend</span>
-                            <span class="tag">Interactive</span>
-                            <span class="tag">Education</span>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Empresa de Tecnologia - Site Corporativo -->
-                <article class="card">
-                     <div class="card-content">
-                        <div class="icon-box">💼</div>
-                        <div>
-                            <h3>Site Corporativo Tech</h3>
-                            <p>Website corporativo multi-página para empresa de tecnologia. Design profissional com navegação fluida, seções de produtos, sobre e contato otimizadas para conversão.</p>
-                        </div>
-                        <div class="tags-wrapper">
-                            <span class="tag">Corporate</span>
-                            <span class="tag">Multi-page</span>
-                            <span class="tag">SEO</span>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Letreiro Digital -->
-                <article class="card">
-                     <div class="card-content">
-                        <div class="icon-box">📺</div>
-                        <div>
-                            <h3>Letreiro Digital</h3>
-                            <p>Aplicação desktop em Python para gestão de sinalização em eventos. Sistema de cronometragem precisa, exibição de mensagens em tempo real e suporte multi-telas.</p>
-                        </div>
-                        <div class="tags-wrapper">
-                            <span class="tag">Python</span>
-                            <span class="tag">Tkinter</span>
-                            <span class="tag">Desktop</span>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Apresentação Corporativa -->
-                <article class="card">
-                     <div class="card-content">
-                        <div class="icon-box">📊</div>
-                        <div>
-                            <h3>Apresentação Corporativa</h3>
-                            <p>Apresentação institucional interativa desenvolvida para demonstração de serviços e portfólio corporativo. Design moderno com navegação fluida.</p>
-                        </div>
-                        <div class="tags-wrapper">
-                            <span class="tag">Presentation</span>
-                            <span class="tag">Interactive</span>
-                            <span class="tag">Corporate</span>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Alpha Studio V1 -->
-                <article class="card">
-                     <div class="card-content">
-                        <div class="icon-box">🌱</div>
-                        <div>
-                            <h3>Alpha Studio V1</h3>
-                            <p>Primeira versão do portfólio Alpha Studios. Base inicial do projeto com design minimalista, sistema de galeria e formulário de contato funcional com Firebase.</p>
-                        </div>
-                        <div class="tags-wrapper">
-                            <span class="tag">V1</span>
-                            <span class="tag">Portfolio</span>
-                            <span class="tag">Firebase</span>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Tech Stack Card -->
-                <article class="card dark">
-                     <div class="card-content">
-                        <div>
-                            <div style="font-family: 'Fira Code'; margin-bottom: 1rem; opacity: 0.7;">&lt;Stack /&gt;</div>
-                            <h3 style="margin-bottom: 1.5rem;">Tech Arsenal</h3>
-                            <div class="tags-wrapper">
-                                <span class="tag">Python</span>
-                                <span class="tag">JavaScript</span>
-                                <span class="tag">HTML5</span>
-                                <span class="tag">CSS3</span>
-                                <span class="tag">Firebase</span>
-                                <span class="tag">Firestore</span>
-                                <span class="tag">Pandas</span>
-                                <span class="tag">Selenium</span>
-                                <span class="tag">Git</span>
-                                <span class="tag">GitHub</span>
-                                <span class="tag">Tkinter</span>
-                                <span class="tag">RPA</span>
-                                <span class="tag">Web Scraping</span>
-                                <span class="tag">API REST</span>
-                                <span class="tag">Data Viz</span>
-                                <span class="tag">Bootstrap</span>
-                                <span class="tag">Responsive</span>
-                                <span class="tag">SEO</span>
-                                <span class="tag">PDF Gen</span>
-                                <span class="tag">Analytics</span>
-                                <span class="tag">VS Code</span>
-                                <span class="tag">Figma</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
+        <section id="stack" class="tech-arsenal">
+            <span class="mono">&lt;Stack /&gt;</span>
+            <h2 class="project-title" style="font-size: 2.5rem; margin-top: 1rem;">Tech Arsenal</h2>
+            <div class="tech-grid">
+                <div class="tech-tag">PYTHON</div>
+                <div class="tech-tag">JAVASCRIPT</div>
+                <div class="tech-tag">HTML5</div>
+                <div class="tech-tag">CSS3</div>
+                <div class="tech-tag">FIREBASE</div>
+                <div class="tech-tag">FIRESTORE</div>
+                <div class="tech-tag">PANDAS</div>
+                <div class="tech-tag">SELENIUM</div>
+                <div class="tech-tag">GIT</div>
+                <div class="tech-tag">GITHUB</div>
+                <div class="tech-tag">TKINTER</div>
+                <div class="tech-tag">RPA</div>
+                <div class="tech-tag">WEB SCRAPING</div>
+                <div class="tech-tag">API REST</div>
+                <div class="tech-tag">DATA VIZ</div>
+                <div class="tech-tag">BOOTSTRAP</div>
+                <div class="tech-tag">RESPONSIVE</div>
+                <div class="tech-tag">SEO</div>
+                <div class="tech-tag">PDF GEN</div>
+                <div class="tech-tag">ANALYTICS</div>
+                <div class="tech-tag">VS CODE</div>
+                <div class="tech-tag">FIGMA</div>
             </div>
         </section>
 
-        <section id="sobre" class="page-section animate-enter" style="animation-delay: 0.5s;">
-             <div class="section-header">
-                <h2 style="font-family: 'Fira Code'; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;">Sobre o Studio</h2>
+        <section class="capabilities">
+            <div class="cap-col">
+                <span class="mono" style="display:block; margin-bottom:1.5rem;">01 // DEVELOPMENT</span>
+                <ul>
+                    <li>Engenharia de Software de alta fidelidade</li>
+                    <li>Sistemas educacionais escaláveis (i-Educar)</li>
+                    <li>Desenvolvimento Web Moderno (PHP, JS, Python)</li>
+                    <li>Documentação técnica de alto nível (LaTeX)</li>
+                </ul>
             </div>
-            <p class="about-text">
-                O <strong>CodAureo DevStudio</strong> é a marca de <strong>Jordan Araujo</strong>, focado em criar experiências digitais de alto nível. 
-                Nossa filosofia combina a proporção áurea do design com a robustez da engenharia de software moderna.
-            </p>
-            <p class="about-text">
-                Ao longo da minha carreira, desenvolvi <strong>7+ projetos completos</strong> nas áreas de educação, tecnologia corporativa e automação. 
-                Especializo-me em <strong>Python para automação e análise de dados</strong>, desenvolvimento web com <strong>JavaScript e HTML/CSS</strong>, 
-                integração com <strong>Firebase</strong> para backend escalável, e criação de dashboards interativos e sistemas administrativos.
-            </p>
-            <p class="about-text">
-                Minha expertise inclui desde aplicações desktop com Python/Tkinter até plataformas web completas com CMS personalizado. 
-                Cada projeto é uma oportunidade de aplicar as melhores práticas de UI/UX, performance e código limpo. 
-                Atualmente focado em soluções de <strong>RPA (Robotic Process Automation)</strong> e desenvolvimento de sistemas web modernos.
-            </p>
-        </section>
-
-        <section id="contato" class="page-section animate-enter" style="animation-delay: 0.6s;">
-            <div class="section-header">
-                <h2 style="font-family: 'Fira Code'; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;">Vamos conectar?</h2>
+            <div class="cap-col">
+                <span class="mono" style="display:block; margin-bottom:1.5rem;">02 // STRATEGY</span>
+                <ul>
+                    <li>Arquitetura de Dados em Cloud (Firebase)</li>
+                    <li>Segurança Ofensiva & Testes (Kali Linux)</li>
+                    <li>Automação de Processos Industriais (RPA)</li>
+                    <li>Consultoria em Branding Digital Profissional</li>
+                </ul>
             </div>
-            <div class="contact-grid">
-                <a href="https://instagram.com/" class="contact-link" target="_blank">
-                    <span>Instagram</span>
-                    @codaureo.dev
-                </a>
-                <a href="mailto:contato@exemplo.com" class="contact-link">
-                    <span>Email</span>
-                    contato@codaureo.com
-                </a>
-                <a href="https://github.com/CodAureo-DevStudio" class="contact-link" target="_blank">
-                    <span>GitHub</span>
-                    @CodAureo-DevStudio
-                </a>
-                <a href="https://wa.me/" class="contact-link" target="_blank">
-                    <span>WhatsApp</span>
-                    (82) 99133-0232
-                </a>
+            <div class="cap-col">
+                <span class="mono" style="display:block; margin-bottom:1.5rem;">03 // BACKGROUND</span>
+                <ul>
+                    <li>Matemática Aplicada (UFAL)</li>
+                    <li>Análise de Sistemas Acadêmicos (PIBID)</li>
+                    <li>Suporte Técnico Especializado</li>
+                    <li>Jordanaraujo23 @ GitHub</li>
+                </ul>
             </div>
         </section>
 
-        <footer class="animate-enter" style="animation-delay: 0.6s; margin-top: 5rem; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 2rem; display: flex; justify-content: space-between; color: var(--text-muted);">
-            <div style="font-family: 'Fira Code'; font-size: 0.8rem;">
-                © 2026 CodAureo DevStudio
+        <footer>
+            <div>
+                <div class="brand-text">CodAureo // <span>2026</span></div>
+                <p class="mono" style="margin-top: 1rem;">Brazil / Remote Available</p>
             </div>
-            <div style="font-family: 'Fira Code'; font-size: 0.8rem;">
-                Brasil, AL
+            <div class="nav-links mono">
+                <a href="mailto:contato@codaureo.com">Email</a>
+                <a href="https://github.com/Jordanaraujo23" target="_blank">GitHub</a>
+                <a href="#">Instagram</a>
             </div>
         </footer>
-
     </div>
 
-    <script>
-        // Mobile detection
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
-        
-        function toggleMenu() {
-            const overlay = document.getElementById('mobileOverlay');
-            const btns = document.querySelector('.mobile-toggle');
-            
-            if (overlay.classList.contains('active')) {
-                overlay.classList.remove('active');
-                btns.innerHTML = "☰";
-                document.body.style.overflow = "auto";
-            } else {
-                overlay.classList.add('active');
-                btns.innerHTML = "✕";
-                document.body.style.overflow = "hidden";
-            }
-        }
-
-        // Only apply 3D card animation on desktop for performance
-        if (!isMobile) {
-            document.querySelectorAll('.card').forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const xPct = x / rect.width;
-                    const yPct = y / rect.height;
-                    
-                    const xRot = (yPct - 0.5) * 10; 
-                    const yRot = (xPct - 0.5) * -10;
-                    
-                    card.style.transform = `perspective(1000px) rotateX(${xRot}deg) rotateY(${yRot}deg)`;
-                });
-                
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
-                });
-            });
-        }
-
-        const textToType = "Fullstack Developer & Automation";
-        const typeTarget = document.querySelector('.typing-target');
-        let typeIndex = 0;
-
-        function typeWriter() {
-            if (typeIndex < textToType.length) {
-                typeTarget.innerHTML += textToType.charAt(typeIndex);
-                if(typeIndex === textToType.length - 1) typeTarget.classList.add('typing-cursor');
-                typeIndex++;
-                setTimeout(typeWriter, 50); 
-            }
-        }
-        setTimeout(typeWriter, 1000);
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('section, .card').forEach(el => {
-            el.classList.add('reveal');
-            observer.observe(el);
-        });
-
-        // Force scroll to top on load
-        window.onbeforeunload = function () {
-            window.scrollTo(0, 0);
-        }
-    </script>
 </body>
 </html>

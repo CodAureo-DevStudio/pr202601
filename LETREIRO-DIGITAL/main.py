@@ -370,7 +370,14 @@ class MarqueeApp:
         
         # Standard Scroll
         if not self.tv_mode_active:
-            self.x_pos -= 2
+            # ===== AJUSTE DE VELOCIDADE (Modo Padrão) =====
+            # Velocidade variável controlada pelo slider
+            speed = 2 # fallback
+            if hasattr(self, 'control_panel'):
+                speed = self.control_panel.var_speed.get()
+            
+            self.x_pos -= speed
+            # ==============================================
             text_width = self.label.winfo_reqwidth()
             if self.x_pos < -text_width:
                 self.x_pos = self.monitor_width 
@@ -380,7 +387,14 @@ class MarqueeApp:
             # Sync TV Clock here (lazy way)
             self.update_tv_clock()
             
-            self.tv_ticker_x -= 2
+            # ===== AJUSTE DE VELOCIDADE (Modo TV) =====
+            # Velocidade variável controlada pelo slider
+            speed = 2 # fallback
+            if hasattr(self, 'control_panel'):
+                speed = self.control_panel.var_speed.get()
+            
+            self.tv_ticker_x -= speed
+            # ==========================================
             lbl_w = self.tv_ticker_label.winfo_reqwidth()
             
             # Simple infinite scroll logic
@@ -389,6 +403,8 @@ class MarqueeApp:
                  
             self.tv_ticker_label.place(x=self.tv_ticker_x, y=5)
             
+        # ===== SUVIDADE DA ANIMAÇÃO (FPS) =====
+        # 20ms = ~50 quadros por segundo. Diminuir para 10 acelera, aumentar para 30 desacelera.
         self.root.after(20, self.scroll)
 
     def start_countdown(self, duration_seconds):
@@ -869,7 +885,36 @@ class ControlPanel:
     def __init__(self, root):
         self.root = root
         self.root.title("Painel de Controle - Lagoinha Digital")
-        self.root.geometry("1280x900") 
+        # ===== DETECÇÃO AUTOMÁTICA DE RESOLUÇÃO =====
+        # Adapta o tamanho da janela baseado na resolução da tela
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+        
+        # Calcular tamanhos proporcionais baseados na resolução
+        # Para telas Full HD (1920x1080) ou menores
+        if screen_width <= 1920:
+            window_width = 1280
+            window_height = 900
+            self.preview_width = 900
+            self.preview_height = 550
+        # Para telas QHD (2560x1440)
+        elif screen_width <= 2560:
+            window_width = 1600
+            window_height = 1000
+            self.preview_width = 1200
+            self.preview_height = 700
+        # Para telas 4K (3840x2160) ou maiores
+        else:
+            window_width = 2000
+            window_height = 1200
+            self.preview_width = 1600
+            self.preview_height = 900
+        
+        # ===== AJUSTE DE TAMANHO DA JANELA PRINCIPAL =====
+        # Para alterar o tamanho da janela do painel de controle, modifique os valores abaixo:
+        # Formato: "LARGURAxALTURA" (exemplo: "1600x1000")
+        self.root.geometry(f"{window_width}x{window_height}") 
+        # ==================================================
         self.root.configure(bg="#121212")
 
         
@@ -904,6 +949,13 @@ class ControlPanel:
         # TV Mode Specific Font Vars
         self.var_tv_headline_size = tk.IntVar(value=22)
         self.var_tv_ticker_size = tk.IntVar(value=14)
+        
+        # TV Mode Specific Font Vars
+        self.var_tv_headline_size = tk.IntVar(value=22)
+        self.var_tv_ticker_size = tk.IntVar(value=14)
+        
+        # Velocidade do Letreiro
+        self.var_speed = tk.IntVar(value=2)
         
         # Background Preview Vars
         self.var_show_bg = tk.BooleanVar(value=False)
@@ -1445,7 +1497,12 @@ class ControlPanel:
         create_slider(self.standard_clock_frame, "Fundo Relógio:", self.var_clock_window_scale, 0.5, 3.0, self.change_clock_window_scale, 0.1)
         
         # General Banner height (Controls TV total height too)
+        # General Banner height (Controls TV total height too)
         create_slider(self.cb_frame, "Alt. Letreiro:", self.var_banner_height, 50, 300, self.change_banner_height)
+        
+        # Speed Slider
+        # Faixa de 1 a 20 (padrão é 2).
+        create_slider(self.cb_frame, "Velocidade:", self.var_speed, 1, 20, lambda _: None)
 
         # --- TV MODE SPECIFIC CONTROLS ---
         self.tv_font_frame = tk.Frame(self.cb_frame, bg=PANEL_BG)
@@ -1496,8 +1553,53 @@ class ControlPanel:
     def bg_capture_loop(self):
         while self.live_bg_active:
             try:
-                # Capture (without optimize parameter)
+                # Capture screenshot
                 img = ImageGrab.grab(all_screens=True)
+                
+                # Draw cursor on the image
+                try:
+                    # Get cursor position
+                    cursor_pos = wintypes.POINT()
+                    ctypes.windll.user32.GetCursorPos(ctypes.byref(cursor_pos))
+                    
+                    # Get cursor info
+                    class CURSORINFO(ctypes.Structure):
+                        _fields_ = [
+                            ("cbSize", wintypes.DWORD),
+                            ("flags", wintypes.DWORD),
+                            ("hCursor", wintypes.HANDLE),
+                            ("ptScreenPos", wintypes.POINT)
+                        ]
+                    
+                    cursor_info = CURSORINFO()
+                    cursor_info.cbSize = ctypes.sizeof(CURSORINFO)
+                    
+                    if ctypes.windll.user32.GetCursorInfo(ctypes.byref(cursor_info)):
+                        if cursor_info.flags == 1:  # CURSOR_SHOWING
+                            # Draw a simple cursor indicator (cross or circle)
+                            draw = ImageDraw.Draw(img)
+                            x, y = cursor_pos.x, cursor_pos.y
+                            
+                            # Draw a cross-hair cursor (simple representation)
+                            cursor_size = 20
+                            cursor_color = "white"
+                            outline_color = "black"
+                            
+                            # Draw outline
+                            draw.line([(x-cursor_size, y), (x+cursor_size, y)], fill=outline_color, width=3)
+                            draw.line([(x, y-cursor_size), (x, y+cursor_size)], fill=outline_color, width=3)
+                            
+                            # Draw inner line
+                            draw.line([(x-cursor_size, y), (x+cursor_size, y)], fill=cursor_color, width=1)
+                            draw.line([(x, y-cursor_size), (x, y+cursor_size)], fill=cursor_color, width=1)
+                            
+                            # Draw center dot
+                            draw.ellipse([(x-3, y-3), (x+3, y+3)], fill=cursor_color, outline=outline_color)
+                            
+                except Exception as cursor_error:
+                    print(f"Cursor draw error: {cursor_error}")
+                    # Continue without cursor if there's an error
+                
                 # Put in queue (overwrite if full to avoid lag?) 
                 # Better: clean queue first
                 while not self.bg_queue.empty():
@@ -1505,8 +1607,11 @@ class ControlPanel:
                 self.bg_queue.put(img)
                 print(f"[BG Thread] Captured image: {img.size}")  # Debug
                 
-                # Throttle to ~10 FPS to save CPU
-                time.sleep(0.1)
+                # ===== VELOCIDADE DE ATUALIZAÇÃO DA CAPTURA =====
+                # Aumentado para ~30 FPS (0.033s) para preview mais fluido
+                # Para diminuir: aumentar o valor (ex: 0.1 = 10 FPS)
+                # Para aumentar: diminuir o valor (ex: 0.02 = 50 FPS, pode usar mais CPU)
+                time.sleep(0.033)
             except Exception as e:
                 print(f"BG Capture error: {e}")
                 break
@@ -1523,8 +1628,10 @@ class ControlPanel:
         except queue.Empty:
             pass
         
+        # ===== VELOCIDADE DE ATUALIZAÇÃO DO PREVIEW =====
+        # Sincronizado com captura: 33ms = ~30 FPS
         # Schedule next check
-        self.root.after(100, self.check_bg_queue)
+        self.root.after(33, self.check_bg_queue)
 
     def capture_background(self):
         # Legacy / Snapshot One-off (if needed, but now replaced by live toggle)
@@ -1543,9 +1650,12 @@ class ControlPanel:
         total_w = max_x - min_x
         total_h = max_y - min_y
         
-        # 2. Calculate Scale to fit in (Larger: 800x550)
-        max_preview_w = 800 
-        max_preview_h = 550 
+        # ===== AJUSTE DE TAMANHO DO PREVIEW (DEMONSTRAÇÃO EM TEMPO REAL) =====
+        # Tamanhos ajustados automaticamente baseados na resolução da tela
+        # Valores detectados na inicialização (veja __init__)
+        max_preview_w = self.preview_width
+        max_preview_h = self.preview_height
+        # ======================================================================
         
         scale_w = max_preview_w / total_w
         scale_h = max_preview_h / total_h
@@ -1558,7 +1668,17 @@ class ControlPanel:
         canvas_w = int(total_w * scale)
         canvas_h = int(total_h * scale)
         
-        self.preview_canvas.config(width=canvas_w+20, height=canvas_h+20) # Add padding
+        # Calcular padding para centralizar os monitores no canvas
+        # Se o canvas escalado for menor que o máximo, adicionar padding para centralizar
+        pad_x = max(0, (max_preview_w - canvas_w) // 2)
+        pad_y = max(0, (max_preview_h - canvas_h) // 2)
+        
+        # Usar padding de 10 ou o calculado (o que for maior) para melhor centralização
+        self.preview_pad_x = max(10, pad_x)
+        self.preview_pad_y = max(10, pad_y)
+        
+        # Configurar canvas com tamanho fixo para centralização consistente
+        self.preview_canvas.config(width=max_preview_w, height=max_preview_h)
         self.preview_canvas.delete("all")
         
         # 3. Draw Background Image FIRST (so monitors go on top)
@@ -1567,8 +1687,8 @@ class ControlPanel:
                  img_resized = self.preview_bg_original.resize((canvas_w, canvas_h), Image.Resampling.LANCZOS)
                  self.preview_bg_image_tk = ImageTk.PhotoImage(img_resized)
                  
-                 # Position at 10,10 (padding offset)
-                 self.preview_canvas.create_image(10, 10, image=self.preview_bg_image_tk, anchor="nw", tags="background")
+                 # Position with calculated padding for centering
+                 self.preview_canvas.create_image(self.preview_pad_x, self.preview_pad_y, image=self.preview_bg_image_tk, anchor="nw", tags="background")
                  print(f"[Preview] Drew background image {canvas_w}x{canvas_h}")  # Debug
              except Exception as e:
                  print(f"Error drawing bg: {e}")
@@ -1577,8 +1697,8 @@ class ControlPanel:
         
         # 4. Draw Monitor Rectangles (transparent if BG is on)
         for i, m in enumerate(self.monitors):
-            mx = (m.x - min_x) * scale + 10 # +10 padding
-            my = (m.y - min_y) * scale + 10
+            mx = (m.x - min_x) * scale + self.preview_pad_x
+            my = (m.y - min_y) * scale + self.preview_pad_y
             mw = m.width * scale
             mh = m.height * scale
             
@@ -1609,8 +1729,8 @@ class ControlPanel:
              real_bw = self.app.monitor_width 
              real_bh = self.var_banner_height.get()
              
-             bx = (real_bx - min_x) * scale + 10
-             by = (real_by - min_y) * scale + 10
+             bx = (real_bx - min_x) * scale + self.preview_pad_x
+             by = (real_by - min_y) * scale + self.preview_pad_y
              bw = real_bw * scale
              bh = real_bh * scale
              
@@ -1651,8 +1771,8 @@ class ControlPanel:
                       real_cx = 0
                       real_cy = 0
              
-             cx = (real_cx - min_x) * scale + 10
-             cy = (real_cy - min_y) * scale + 10
+             cx = (real_cx - min_x) * scale + self.preview_pad_x
+             cy = (real_cy - min_y) * scale + self.preview_pad_y
              cw = real_cw * scale
              ch = real_ch * scale
              
@@ -1682,8 +1802,8 @@ class ControlPanel:
                       real_sx = 50
                       real_sy = 150
              
-             sx = (real_sx - min_x) * scale + 10
-             sy = (real_sy - min_y) * scale + 10
+             sx = (real_sx - min_x) * scale + self.preview_pad_x
+             sy = (real_sy - min_y) * scale + self.preview_pad_y
              sw = real_sw * scale
              sh = real_sh * scale
              
